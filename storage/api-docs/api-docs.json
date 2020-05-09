@@ -1,0 +1,263 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Hotel-PMS API",
+        "description": "Hotel PMS API Endpoints",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "API Login",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "API Authentification Success"
+                    }
+                },
+                "security": [
+                    {
+                        "x-api-key": []
+                    }
+                ]
+            }
+        },
+        "/me": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "API Me",
+                "responses": {
+                    "200": {
+                        "description": "API Get Authenticated User Success"
+                    }
+                },
+                "security": [
+                    {
+                        "api_token": []
+                    }
+                ]
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "API Logout",
+                "responses": {
+                    "200": {
+                        "description": "API Logout Success"
+                    }
+                },
+                "security": [
+                    {
+                        "api_token": []
+                    }
+                ]
+            }
+        },
+        "/refresh": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "API Refresh",
+                "responses": {
+                    "200": {
+                        "description": "API Token Refresh Success"
+                    }
+                },
+                "security": [
+                    {
+                        "api_token": []
+                    }
+                ]
+            }
+        },
+        "/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "API Register",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "API Registeration Success"
+                    }
+                },
+                "security": [
+                    {
+                        "x-api-key": []
+                    }
+                ]
+            }
+        },
+        "/verify": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "API Verify",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "activation_token": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "API Registeration Success"
+                    }
+                },
+                "security": [
+                    {
+                        "x-api-key": []
+                    }
+                ]
+            }
+        },
+        "/reset-password-token": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "API Reset Password Token",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "API Reset Password Token Success"
+                    }
+                },
+                "security": [
+                    {
+                        "x-api-key": []
+                    }
+                ]
+            }
+        },
+        "/reset-password": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "API Reset Password",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string"
+                                    },
+                                    "token": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "API Reset Password Success"
+                    }
+                },
+                "security": [
+                    {
+                        "x-api-key": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "api_token": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header"
+            },
+            "x-api-key": {
+                "type": "apiKey",
+                "name": "x-api-key",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Auth API"
+        },
+        {
+            "name": "Hotels",
+            "description": "Hotels API"
+        }
+    ]
+}
