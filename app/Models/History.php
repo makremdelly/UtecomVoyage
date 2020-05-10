@@ -16,7 +16,7 @@ class History extends Model
         return $this->belongsTo('App\Models\Hotel');
     }
 
-    public function subscription()
+    public function reservation()
     {
         // return $this->belongsTo('App\Models\Subscription');
         return $this->belongsTo('App\Models\Reservation');

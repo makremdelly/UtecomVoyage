@@ -251,7 +251,7 @@
                         $r1 = parse_url(URL::current());
                         $endofurl1 = substr($r1['path'], strrpos($r1['path'], '/')+1);
                         ?>
-                          <h1> Abonnement du hotelier N°:{{$endofurl1}}</h1>
+                          <h1> Historiques du client N°:{{$endofurl1}}</h1>
                           @elseif (Route::is('programme'))
                           <?php
                         $r2 = parse_url(URL::current());

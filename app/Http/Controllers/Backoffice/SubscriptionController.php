@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Reservation;
 use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 
 
 class SubscriptionController extends Controller
@@ -22,10 +23,14 @@ class SubscriptionController extends Controller
             [
                 'reservations.*',
                 'payments.amount',
-
+                'users.name as user_name',
+                'users.email as user_email',
+                'users.id as user_id',
+                'users.phone', 
             ]
         )
             ->join('reservations', 'payments.id', '=', 'reservations.payment_id')
+            ->join('users', 'users.id', '=', 'reservations.user_id')
             ->get()->toArray();
 
         return $reservations;
@@ -37,12 +42,12 @@ class SubscriptionController extends Controller
     }
 
     public function getReservation($id)
-	{
-		$reservations = DB::table('reservations')
-			->where('id', '=', $id)
-			->get();
-		return datatables($reservations)->toJson();
-	}
+    {
+        $reservations = DB::table('reservations')
+            ->where('id', '=', $id)
+            ->get();
+        return datatables($reservations)->toJson();
+    }
 
 
     /**       
@@ -119,26 +124,67 @@ class SubscriptionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    // public function show($id)
+    // {
+    //     //    $histories = History::all()->where('histories.subscription_id',$id);
+    //     $histories = History::select(
+    //         [
+    //             'histories.*',
+    //             'hotels.name as hotel_name',
+    //             'users.name as user_name',
+    //             'users.id as user_id',
+    //             'users.email as user_email',
+    //         ]
+    //     )
+    //         ->where('histories.user_id', $id)
+    //         ->leftJoin('hotels', 'hotels.id', '=', 'histories.hotel_id')
+    //         ->join('users', 'users.id', '=', 'histories.user_id')
+    //         ->get()->toArray();
+    //     // dd($histories);
+
+    //     return view('Subscription-show')->with(['histories' => $histories]);
+    // }
+
+
+
+
+    public function show(Request $request, $user_id)
     {
-        //    $histories = History::all()->where('histories.subscription_id',$id);
-        $histories = History::select(
+        $res = $this->getReservation($user_id);
+
+        $histories =Reservation::select(
             [
-                'histories.*',
+                'reservations.*',
+                'payments.amount',
                 'hotels.name as hotel_name',
                 'users.name as user_name',
                 'users.id as user_id',
                 'users.email as user_email',
             ]
         )
-            ->where('histories.reservation_id', $id)
-            ->leftJoin('hotels', 'hotels.id', '=', 'histories.hotel_id')
-            ->leftJoin('users', 'users.id', '=', 'histories.user_id')
+            ->where('users.id', $user_id)
+            ->leftJoin('hotels', 'hotels.id', '=', 'reservations.hotel_id')
+            ->join('users', 'users.id', '=', 'reservations.user_id')
+            ->join('payments', 'payments.id', '=', 'reservations.payment_id')
             ->get()->toArray();
         // dd($histories);
 
         return view('Subscription-show')->with(['histories' => $histories]);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -163,7 +209,7 @@ class SubscriptionController extends Controller
         // $subscription = Subscription::find($id);
         // $subscription->status = 'paye';
         // $subscription->save();
-        $amount= $request->amount_a_payer;
+        $amount = $request->amount_a_payer;
         // dd($amount);
 
         $res = Payment::select(

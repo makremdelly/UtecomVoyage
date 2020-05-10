@@ -13,8 +13,14 @@ class HistoriesTableSeeder extends Seeder
     public function run()
     {
 
-        
-        factory(App\Models\History::class, 50)->create();
+        // // factory(App\Models\History::class, 25)->create();
+        // factory(App\Models\History::class, 25)->create()->each(function($history){
+        //     for ($i=0; $i < 8 ; $i++) { 
+        //         $history->users()->attach(App\Models\User::all()->except(1)->random());
+        //     }
+        // });
+
+     
 
 
 

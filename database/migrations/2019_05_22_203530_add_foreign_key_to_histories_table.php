@@ -16,7 +16,7 @@ class AddForeignKeyToHistoriesTable extends Migration
         Schema::table('histories', function (Blueprint $table) {
             $table->foreign('hotel_id', 'fk_histories_hotels')->references('id')->on('hotels')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign('user_id', 'fk_histories_users')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-			// $table->foreign('subscription_id', 'fk_histories_subscriptions')->references('id')->on('subscriptions')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('reservation_id', 'fk_histories_reservations')->references('id')->on('reservations')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 
         });
     }
@@ -31,7 +31,7 @@ class AddForeignKeyToHistoriesTable extends Migration
         Schema::table('histories', function (Blueprint $table) {
             $table->dropForeign('fk_histories_hotels');
             $table->dropForeign('fk_histories_users');
-            // $table->dropForeign('fk_histories_subscriptions');
+            $table->dropForeign('fk_histories_reservations');
         });
     }
 }

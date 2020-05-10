@@ -27,11 +27,16 @@ class ReservationController extends Controller
             [
                 'reservations.*', 
                 'payments.amount',
-                'hotels.name',
+                'hotels.name as hotel_name',
+                'users.name as user_name',
+                'users.email as user_email',
+                'users.id as user_id',
+                'users.phone',   
             ]
         )
         ->join('reservations', 'payments.id', '=', 'reservations.payment_id')
         ->join('hotels', 'reservations.hotel_id', '=', 'hotels.id')
+        ->join('users', 'users.id', '=', 'reservations.user_id')
         ->get()->toArray();
         // dd($reservations);
         return datatables($reservations)->toJson();
@@ -82,9 +87,14 @@ class ReservationController extends Controller
             [
                 'reservations.*',
                 'payments.amount',
+                'users.name as user_name',
+                'users.email as user_email',
+                'users.id as user_id',
+                'users.phone',  
             ]
         )
         ->join('payments', 'payments.id', '=','reservations.payment_id')
+        ->join('users', 'users.id', '=', 'reservations.user_id')
         ->where('reservations.id',$resid)
         ->get()->toArray();
         //get current hotel 

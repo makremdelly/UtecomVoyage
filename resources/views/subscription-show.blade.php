@@ -17,7 +17,7 @@
                             <th scope="col">Email</th>
                             <th scope="col">Dérnier paiement</th>
                             <th scope="col">Montant payé</th>
-                            </tr>
+                            </tr>   
                         </thead>
                         <tbody>
                             <tr>

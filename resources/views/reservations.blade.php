@@ -90,7 +90,7 @@
               { data: 'id', name: 'id'},
               { data: 'user_name', name: 'user_name'},
               { data: 'user_email', name: 'user_email'},
-              { data: 'name', name: 'name'},
+              { data: 'hotel_name', name: 'hotel_name'},
               { 
                 "render": function (data, type, row, meta){
                  return ('<div class="buttons"><b data-toggle="tooltip" title="" data-original-title="'+moment(row.created_at).format('LL')+'">'+moment(row.created_at, "YYYYMMDD").fromNow()+'</b></div>');

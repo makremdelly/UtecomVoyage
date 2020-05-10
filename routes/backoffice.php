@@ -38,7 +38,7 @@ Route::middleware(['web'])->group(function () {
         Route::get('/reservations', 'ReservationController@index')->name('reservation.index');
         Route::get('/subscriptions', 'SubscriptionController@index')->name('get.subscription');
         Route::get('/subscriptions/allsubscriptions', 'SubscriptionController@allsubscriptions')->name('get.subscriptions');
-        Route::get('/subscriptions/{id}', 'SubscriptionController@show')->name('subscription.show');
+        Route::get('/history/{id}', 'SubscriptionController@show')->name('subscription.show');
         Route::match(['put', 'patch'], '/subscriptions/activate/{id}', 'SubscriptionController@update')->name('subscription.update');//
         Route::get('/subscriptions/sendreminder/{id}', 'SubscriptionController@sendReminder');
         Route::get('/subscriptions/print/{id}', 'SubscriptionController@print');

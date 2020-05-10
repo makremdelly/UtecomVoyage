@@ -18,7 +18,7 @@ class CreateHistoriesTable extends Migration
             $table->integer('user_id')->index('fk_histories_user_idx')->nullable();
             $table->integer('hotel_id')->index('fk_histories_hotel_idx')->nullable();
             // $table->integer('subscription_id');
-            $table->integer('reservation_id')->index('fk_histories_reservations_idx')->nullable();
+            $table->integer('reservation_id')->index('histories_reservations_idx');
             $table->string('payment_method');
             $table->float('amount');
             $table->timestamps();
