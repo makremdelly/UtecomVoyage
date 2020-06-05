@@ -647,7 +647,8 @@ Contacter sur +216 99 455 055
 
 
             } else {
-              return ('<div class="btn-group"><a href="/history/' + row.user_id + '" class="btn btn-icon icon-left btn-outline-primary"><i class="fas fa-eye"></i>Voir</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><button href="#modal" class="dropdown-item btn btn-icon icon-left btn-info" style="width:100px;position: inherit;left: 51px;" type="submit" style="cursor:grab;" value="' + row.id + '"><i class="fas fa-edit"></i> Éditer</button></div>');
+              // return ('<div class="btn-group"><a href="/history/' + row.user_id + '" class="btn btn-icon icon-left btn-outline-primary"><i class="fas fa-eye"></i>Voir</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><button href="#modal" class="dropdown-item btn btn-icon icon-left btn-info" style="width:100px;position: inherit;left: 51px;" type="submit" style="cursor:grab;" value="' + row.id + '"><i class="fas fa-edit"></i> Éditer</button></div>');
+              return('<a href="/history/' + row.user_id + '" class="btn btn-icon icon-left btn-outline-primary" style="width:100px;position: inherit;left: 51px;" value="'+row.id+'"><i class="fas fa-eye"></i>Voir</a>');
 
             }
           }
