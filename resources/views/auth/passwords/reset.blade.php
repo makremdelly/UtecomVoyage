@@ -28,7 +28,7 @@
 
 
                         <div class="form-group">
-                            <label for="email">{{ __('Password') }}</label>
+                            <label for="email">{{ __('New Password') }}</label>
                             <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
                             @if ($errors->has('password'))
                                     <span class="invalid-feedback" role="alert">

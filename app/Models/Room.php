@@ -9,7 +9,7 @@ class Room extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'total', 'vue', 'persons', 'surface', 'description'];
+    protected $fillable = ['name', 'total', 'vue', 'persons', 'surface', 'description', 'type'];
 
     public function hotel()
     {

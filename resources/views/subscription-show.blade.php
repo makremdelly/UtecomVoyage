@@ -12,10 +12,10 @@
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                            <th scope="col">Proprietaire</th>
+                            <th scope="col">Client</th>
                             <th scope="col">Hotel</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Dérnier paiement</th>
+                            <th scope="col">Date reservation</th>
                             <th scope="col">Montant payé</th>
                             </tr>   
                         </thead>

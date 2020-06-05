@@ -33,16 +33,17 @@ class ForgotPasswordController extends Controller
      */
     public function __construct(Request $request)
     {
-        $email = $request->input('email');
-        $user = User::where('email',$email)->first();
-        if($user->hasRole('Administrator')){
+                $this->middleware('guest');
+    //     $email = $request->input('email');
+    //     $user = User::where('email',$email)->first();
+    //     if($user->hasRole('Administrator')){
             
-        $this->middleware('guest');
+    //     $this->middleware('guest');
 
-        }else{
-            \Session::flush();
-            abort(403);
-    }
+    //     }else{
+    //         \Session::flush();
+    //         abort(403);
+    // }
 }}
 
 

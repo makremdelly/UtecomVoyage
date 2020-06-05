@@ -114,9 +114,12 @@ class HotelController extends Controller
 			[
 				'reservations.*',
 				'payments.amount',
+				'users.name as user_name',//
+                'users.email as user_email',//
 			]
 		)
 			->join('reservations', 'payments.id', '=', 'reservations.payment_id')
+			->join('users', 'users.id', '=', 'reservations.user_id')//
 			->where('hotel_id', $hotel->id)
 			->get()->toArray();
 		return datatables($reservations)->toJson();
@@ -239,10 +242,7 @@ class HotelController extends Controller
 	{
 		return view('addhotel');
 	}
-	function room()
-	{
-		return view('room');
-	}
+	
 	function voyage()
 	{
 		return view('voyage');

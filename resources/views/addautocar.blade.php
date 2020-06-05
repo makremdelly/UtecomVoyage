@@ -26,7 +26,7 @@
                     <td colspan="3" align="right">&nbsp;</td>
                     <td>
                   @csrf
-                  <input type="submit" name="save" id="save" class="btn btn-primary" value="Save" />
+                  <input type="submit" name="save" id="save" class="btn btn-primary" value="Enregistrer" />
                  </td>
                 </tr>
                </tfoot>
@@ -94,15 +94,26 @@ $(document).ready(function(){
                     {
                         error_html += '<p>'+data.error[count]+'</p>';
                     }
-                    $('#result').html('<div class="alert alert-danger">'+error_html+'</div>');
-                }
-                else
-                {
-                    dynamic_field(1);
-                    $('#result').html('<div class="alert alert-success">'+data.success+'</div>');
-                }
-                $('#save').attr('disabled', false);
-            }
+                    swal({
+              title: "veuillez renseigner tous les champs",
+              icon: "warning",
+            });
+            console.log('warning');                }
+                else{
+                setTimeout(function() {
+                  window.location.href= "/autocars";
+                }, 3000);
+                let text2 = "Bien ,votre autocar a été ajouté avec succès"
+                swal({
+                  title: "Termié",
+                  icon: "success",
+                  text: text2,
+                  timer: 4000,
+                  buttons: false,
+                  closeOnEsc: false,
+                  closeOnClickOutside: false,
+                });
+            }}
         })
  });
 

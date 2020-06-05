@@ -14,12 +14,13 @@ class CreateAutocarsTable extends Migration
     public function up()
     {
         Schema::create('autocars', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            // $table->bigIncrements('id');
+            $table->integer('id',true);
             $table->string('type')->nullable();
             $table->string('NbPlace')->nullable();
             $table->string('Matricule')->nullable();
-            $table->string('status');
-            $table->integer('voyage_id')->index('fk_autocars_voyages_idx')->nullable();
+            $table->string('status')->nullable();
+            // $table->integer('voyage_id')->index('fk_autocars_voyages_idx')->nullable();
             $table->timestamps();
         });
     }

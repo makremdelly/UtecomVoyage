@@ -96,62 +96,196 @@
           </a>
         </nav>
         <div class="tab-content">
+
+
           <div class="tab-pane active" id="Informations">
-            <blockquote style="font-family: monospace;height: 60px;font-size: unset;font-style: unset;">
-              Créé le {{Str::limit($voyage->created_at,10,(''))}}
-            </blockquote>
-            <h2 style="text-align:center; font-family: serif;">{{$voyage->type}}</h2>
-            <h4 style="text-align:center; font-family: serif;">Du {{$voyage->startDate}} au {{$voyage->endDate}} </h4></br></br>
-            <div class="row">
-              <div class="col-12 col-md-8 col-lg-8" style="word-spacing: 5px;line-height: 26pt;">
-                <div class="row">
-                  <div class="form-group col-md-6 col-12">
-                    <h5 style="color: #383d5f;">Ce voyage comprend </h5>
+            <br>
+            <div class="text-center">
+              <h3>{{$voyage->type}}</h3>
+              <h4>Du {{$voyage->startDate}} au {{$voyage->endDate}}</h4>
+            </div>
+            <br>
+
+
+            <div class="row" style="padding: 15px;">
+              <div class="col-4">
+                <div class="activities">
+                  <div class="activity">
+                    <div class="activity-icon bg-primary text-white shadow-primary">
+                      <i class="fas fa-comment-alt"></i>
+                    </div>
                     @if ($voyage->type=='Voyages organisés')
-                    <li><strong>Vol Aller: {{$voyage->villeD}} - {{$voyage->depart}}</strong></li>
-                    <li><strong>Vol Retour: {{$voyage->depart}} - {{$voyage->villeD}}</strong></li>
-                    <li><strong>Transferts: Aéroport / Hôtels / Aéroport</strong></li>
-                    @else
-                    <strong> <i class="fas fa-exclamation-triangle"></i> </strong><br>
-                    @endif
-                    <br>
-                    <h5 style="color: #383d5f;"> Note Importante </h5>
-
-                    <div class="invoice-print">
-                    {!! $voyage['description'] !!}
-                </div>
-
+                    <div class="activity-detail">
+                      <div class="mb-2">
+                        <span class="text-job text-primary">2 min ago</span>
+                        <span class="bullet"></span>
+                        <a class="text-job" href="#">View</a>
+                        <div class="float-right dropdown">
+                          <a href="#" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
+                          <div class="dropdown-menu">
+                            <div class="dropdown-title">Options</div>
+                            <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i> View</a>
+                            <a href="#" class="dropdown-item has-icon"><i class="fas fa-list"></i> Detail</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item has-icon text-danger trigger--fire-modal-1" data-confirm="Wait, wait, wait...|This action can't be undone. Want to take risks?" data-confirm-text-yes="Yes, IDC"><i class="fas fa-trash-alt"></i> Archive</a>
+                          </div>
+                        </div>
+                      </div>
+                      <p>Have commented on the task of "<a href="#">Responsive design</a>".</p>
+                    </div>
                   </div>
-                  <div class="form-group col-md-6 col-12">
-                    <h5 style="color: #383d5f;"> Départs</h5>
-                    <li><strong>{{$voyage->villeD}} (Parc de l'agence) le {{$voyage->startDate}}</strong></li>
+                  <div class="activity">
+                    <div class="activity-icon bg-primary text-white shadow-primary">
+                      <i class="fas fa-comment-alt"></i>
+                    </div>
+                    <div class="activity-detail">
+                      <div class="mb-2">
+                        <span class="text-job text-primary">2 min ago</span>
+                        <span class="bullet"></span>
+                        <a class="text-job" href="#">View</a>
+                        <div class="float-right dropdown">
+                          <a href="#" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
+                          <div class="dropdown-menu">
+                            <div class="dropdown-title">Options</div>
+                            <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i> View</a>
+                            <a href="#" class="dropdown-item has-icon"><i class="fas fa-list"></i> Detail</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item has-icon text-danger trigger--fire-modal-1" data-confirm="Wait, wait, wait...|This action can't be undone. Want to take risks?" data-confirm-text-yes="Yes, IDC"><i class="fas fa-trash-alt"></i> Archive</a>
+                          </div>
+                        </div>
+                      </div>
+                      <p>Have commented on the task of "<a href="#">Responsive design</a>".</p>
+                    </div>
+                  </div>
+                  <div class="activity">
+                    <div class="activity-icon bg-primary text-white shadow-primary">
+                      <i class="fas fa-comment-alt"></i>
+                    </div>
+                    <div class="activity-detail">
+                      <div class="mb-2">
+                        <span class="text-job text-primary">2 min ago</span>
+                        <span class="bullet"></span>
+                        <a class="text-job" href="#">View</a>
+                        <div class="float-right dropdown">
+                          <a href="#" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
+                          <div class="dropdown-menu">
+                            <div class="dropdown-title">Options</div>
+                            <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i> View</a>
+                            <a href="#" class="dropdown-item has-icon"><i class="fas fa-list"></i> Detail</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item has-icon text-danger trigger--fire-modal-1" data-confirm="Wait, wait, wait...|This action can't be undone. Want to take risks?" data-confirm-text-yes="Yes, IDC"><i class="fas fa-trash-alt"></i> Archive</a>
+                          </div>
+                        </div>
+                      </div>
+                      <p>Have commented on the task of "<a href="#">Responsive design</a>".</p>
+                    </div>
+                    @endif
                   </div>
                 </div>
               </div>
-              <div class="col-12 col-md-4 col-lg-4">
-                <div class="pricing">
-                  <div class="badges">
-                    <span class="badge badge-info "> à partir de {{$voyage->prix}} Dt</span>
+
+              <div class="col-4">
+                <div>
+                  <div class="card-header">
+                    <h4 class="text-danger mb-2" style="text-transform: uppercase;">Note Importante</h4>
                   </div>
-                  <div class="pricing-title">
-                    Ce prix comprend :
+                  <div class="card-body">
+                    {!! $voyage['description'] !!}
                   </div>
-                  <div class="pricing-padding" style="padding: 15px;">
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="pricing pricing-highlight">
+                  <!-- <div class="pricing-title"> -->
+                  <div class="pricing-padding " style="padding: 15px;">
+                    <!-- <span class="badge badge-info "> à partir de {{$voyage->prix}} Dt</span> -->
+
+
+                    CE PRIX COMPREND :
+                  </div>
+                  <div class="pricing-padding">
                     <div class="pricing-details">
                       <div class="pricing-item">
-                        <i style="font-size: 20px;"></i>
-                        <div class="pricing-item-label" data-toggle="tooltip" title="" style="padding-left: 8px;cursor: help;">
-                          @if ($voyage->type=='Voyages organisés' || $voyage->type=='عمرة')
-                          <li><strong>Transferts Aéroport / Hôtels / Aéroport.</strong></li>
-                          @endif
-                          <li><strong>Visites selon programme,</strong></li>
-                          <li><strong>Mise à la disposition de bus et guide selon programme</strong></li>
-                          <li><strong>Hébergement {{$numberDay}} Nuits à 3* ou similaire,</strong></li>
-                        </div>
+                        <div class="pricing-item-icon"><i class="fas fa-check"></i></div>
+                        <div class="pricing-item-label">Aéroport / Hôtels / Aéroport.</div>
+                      </div>
+                      <div class="pricing-item">
+                        <div class="pricing-item-icon"><i class="fas fa-check"></i></div>
+                        <div class="pricing-item-label">Visites selon programme.</div>
+                      </div>
+                      <div class="pricing-item">
+                        <div class="pricing-item-icon"><i class="fas fa-check"></i></div>
+                        <div class="pricing-item-label">Mise à la disposition de bus</div>
                       </div>
                     </div>
                   </div>
+                  <div class="pricing-cta">
+                    <!-- <a href="#" style="padding: 10px !important;">à partir de {{$voyage->prix}} Dt</a> -->
+                    <div class="badge badge-info " style="padding: 10px !important;"> à partir de {{$voyage->prix}} Dt</div>
+
+                  </div>
                 </div>
+              </div>
+              <!-- <blockquote style="font-family: monospace;height: 60px;font-size: unset;font-style: unset;">
+                Créé le {{Str::limit($voyage->created_at,10,(''))}}
+              </blockquote>
+              <h2 style="text-align:center; font-family: serif;">{{$voyage->type}}</h2>
+              <h4 style="text-align:center; font-family: serif;">Du {{$voyage->startDate}} au {{$voyage->endDate}} </h4></br></br>
+              <div class="row">
+                <div class="col-12 col-md-8 col-lg-8" style="word-spacing: 5px;line-height: 26pt;">
+                  <div class="row">
+                    <div class="form-group col-md-6 col-12"> -->
+              <!-- <h5 style="color: #383d5f;">Ce voyage comprend </h5>
+                      @if ($voyage->type=='Voyages organisés')
+                      <li><strong>Vol Aller: {{$voyage->villeD}} - {{$voyage->depart}}</strong></li>
+                      <li><strong>Vol Retour: {{$voyage->depart}} - {{$voyage->villeD}}</strong></li>
+                      <li><strong>Transferts: Aéroport / Hôtels / Aéroport</strong></li>
+                      @else
+                      <strong> <i class="fas fa-exclamation-triangle"></i> </strong><br>
+                      @endif
+                      <br> -->
+              <!-- <h5 style="color: #383d5f;"> Note Importante </h5>
+
+                      <div class="invoice-print">
+                        {!! $voyage['description'] !!}
+                      </div> -->
+
+              <!-- </div>
+                    <div class="form-group col-md-6 col-12">
+                      <h5 style="color: #383d5f;"> Départs</h5>
+                      <li><strong>{{$voyage->villeD}} (Parc de l'agence) le {{$voyage->startDate}}</strong></li>
+                    </div>
+                  </div>
+                </div> -->
+              <!-- <div class="col-12 col-md-4 col-lg-4">
+                  <div class="pricing">
+                    <div class="badges">
+                      <span class="badge badge-info "> à partir de {{$voyage->prix}} Dt</span>
+                    </div>
+                    <div class="pricing-title">
+                      Ce prix comprend :
+                    </div> -->
+              <!-- <div class="pricing-padding" style="padding: 15px;">
+                      <div class="pricing-details">
+                        <div class="pricing-item">
+                          <i style="font-size: 20px;"></i>
+                          <div class="pricing-item-label" data-toggle="tooltip" title="" style="padding-left: 8px;cursor: help;">
+                            @if ($voyage->type=='Voyages organisés' || $voyage->type=='عمرة')
+                            <li><strong>Transferts Aéroport / Hôtels / Aéroport.</strong></li>
+                            @endif
+                            <li><strong>Visites selon programme,</strong></li>
+                            <li><strong>Mise à la disposition de bus et guide selon programme</strong></li>
+                            <li><strong>Hébergement {{$numberDay}} Nuits à 3* ou similaire,</strong></li>
+                          </div> -->
+              <!-- </div>
+                      </div>
+                    </div> -->
+              <!-- </div> -->
+              <!-- </div> -->
+            </div>
+            <div class="hero bg-dark text-white" style="margin: 10px 0 10px 0;padding: 20px !important;">
+              <div class="hero-inner">
+                <p class="lead text-center" style="text-transform: uppercase;"><i class="fa fa-info-circle" style="font-size: x-large;"></i> DEPART : {{$voyage->villeD}} (Parc de l'agence) le {{$voyage->startDate}}</p>
               </div>
             </div>
           </div>

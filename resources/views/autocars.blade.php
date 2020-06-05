@@ -6,8 +6,12 @@
 		<div class="col-12">
 			<div class="card">
 				<div class="card-body">
-        <div class="breadcrumb-item active"><a href="/addautocar/"><i class="fas fa-plus" style="font-size: smaller;"></i><b>   Nouvel Autocar</b></a></div></br>
-					<div class="table-responsive">
+        <!-- <div class="breadcrumb-item active"><a href="/addautocar/"><i class="fas fa-plus" style="font-size: smaller;"></i><b>   Nouvel Autocar</b></a></div></br> -->
+          <div class="table-responsive">
+          <div align="right">
+              <div class="buttons"><b data-toggle="tooltip" data-original-title="Cliquez ici pour ajouter un autocar"><button type="button" class="btn btn-danger"><a href="/addautocar/"><i class="fas fa-plus" style="font-size: smaller;"></i></a></button></b></div>
+            </div>
+            </br>
             {{-- <div class="section-title mt-0">text here </div> --}}
             <table id="autocars" class="table table-hover table-responsive-sm" style="width:100%">
               <thead>
@@ -17,7 +21,7 @@
                   <th class="me">type</th>
                   <th class="me">nbplace</th>
                   <th class="me">matricule</th>
-                  <th class="me">voyage</th>
+                  <!-- <th class="me">voyage</th> -->
                   <th></th>
                 </tr>
               </thead>
@@ -99,7 +103,7 @@
                }
              });
              
-          let text ="Voyage Numero : " +id+" va être supprimé !";
+          let text ="Autocar Numero : " +id+" va être supprimé !";
                 swal({
                   title: "Êtes-vous sûr ?",
                   text: text,
@@ -114,13 +118,13 @@
                         }); 
                   $.ajax({
                     method: 'DELETE', // Type of response and matches what we said in the route
-                    url: '/voyage/destroy/'+id,// This is the url we gave in the route
+                    url: '/autocars/destroy/'+id,// This is the url we gave in the route
                     data: {'willDelete' : willDelete}, // a JSON object to send back
                     success: function(response){ // What to do if we succeed
                         console.log('done');
                     }
                   });
-                  let text1 ="Voyage Numero : " +id+" est supprimé avec succès"
+                  let text1 ="autocar Numero : " +id+" est supprimé avec succès"
                   swal({
                     title: "Termié", 
                     icon: "success",
@@ -134,7 +138,7 @@
                     e.preventDefault();
                     swal({
                       title: "ANNULÉ",
-                      text: "vous avez annulé la suppression de cet hôtel",
+                      text: "vous avez annulé la suppression de cet autocar",
                       icon: "error",
                     });
                     console.log('cancel deleting');
@@ -173,15 +177,15 @@
               {data:'type',name:'type'},
               {data:'NbPlace',name:'NbPlace'},
               {data:'Matricule',name:'Matricule'},
-              {data:'titre',name:'titre',
-                "render":function(data,type,row,meta){
-                  if (row.voyage_id == null) {
-                    return ('<div style="color:green;">pas de voyage</div>');
-                  }else{
-                    return ('<div style="color:#e60a0a;">'+row.depart+'</div>');
-                  }
-                }
-               },
+              // {data:'status',name:'status',
+              //   "render":function(data,type,row,meta){
+              //     if (row.status == 'disponiblé') {
+              //       return ('<div>pas de voyage</div>');
+              //     }else{
+              //       return ('<div>'+row.voyage_depart+'</div>');
+              //     }
+              //   }
+              //  },
 
 
               {

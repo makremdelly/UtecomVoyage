@@ -67,24 +67,24 @@ class SubscriptionController extends Controller
         });
     }
 
-    public function print(Request $request, $id)
-    {
-        $histories = History::select(
-            [
-                'histories.*',
-                'hotels.name as hotel_name',
-                'users.name as user_name',
-                'users.id as user_id',
-                'users.email as user_email',
-            ]
-        )
-            ->where('histories.reservation_id', $id)
-            ->leftJoin('hotels', 'hotels.id', '=', 'histories.hotel_id')
-            ->leftJoin('users', 'users.id', '=', 'histories.user_id')
-            ->get()->toArray();
-        $size = sizeof($histories);
-        return $histories[$size - 1];
-    }
+    // public function print(Request $request, $id)
+    // {
+    //     $histories = History::select(
+    //         [
+    //             'histories.*',
+    //             'hotels.name as hotel_name',
+    //             'users.name as user_name',
+    //             'users.id as user_id',
+    //             'users.email as user_email',
+    //         ]
+    //     )
+    //         ->where('histories.reservation_id', $id)
+    //         ->leftJoin('hotels', 'hotels.id', '=', 'histories.hotel_id')
+    //         ->leftJoin('users', 'users.id', '=', 'histories.user_id')
+    //         ->get()->toArray();
+    //     $size = sizeof($histories);
+    //     return $histories[$size - 1];
+    // }
 
     /**
      * Display a listing of the resource.

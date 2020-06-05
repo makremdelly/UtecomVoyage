@@ -44,16 +44,21 @@
                       </div>
                       <input type="text" class="form-control phone-number" pattern="^\+?\s*(\d+\s?){8,}$" name="phone">
                     </div>
-                    <div class="form-group">
-                      <label>Adresse</label>
+                    <!-- <div class="form-group">
+                    <label class="form-label">Adresse</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
                           <div class="input-group-text">
                             <i class="fas fa-map-marker-alt"></i>
                           </div>
-                        </div>
-                        <input type="text" class="form-control" name="address" />
+                        </div> -->
+                        <!-- <input type="text" class="form-control" name="address" /> -->
+                        <!-- <input type="search" id="address" name="address" />
                       </div>
+                    </div> -->
+                    <div class="form-group">
+                      <label>Adresse</label>
+                      <input type="search" id="address" name="address" />
                     </div>
                     <div class="form-group">
                       <label class="form-label">Service</label>
@@ -316,4 +321,11 @@
     });
   });
 </script>
+<script>
+var placesAutocomplete = places({
+    appId: 'plCZUMZQD4ER',
+    apiKey: 'de73017c39b308492fe22873f2b059ad',
+    container: document.querySelector('#address')
+  });
+  </script>
 @endsection

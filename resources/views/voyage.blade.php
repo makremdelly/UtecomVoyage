@@ -26,7 +26,7 @@
                     <div class="row">
                       <div class="form-group col-md-6 col-12">
                         <label>Type</label>
-                        <select class="form-control" name="type">
+                        <select class="form-control" name="type" required>
                           <option value='0'>Voyages</option>
                           <option value="Voyages organisés">Voyages organisés</option>
                           <option value="carte">Voyage à la carte</option>
@@ -42,7 +42,7 @@
                       </div>
                       <div class="form-group col-md-6 col-12">
                         <label>Nombre des places</label>
-                        <input type="text" class="form-control" name="nbplace">
+                        <input type="text" class="form-control" name="nbplace" required>
                         <div class="invalid-feedback">
                           veuillez saisir le nombre du place
                         </div>
@@ -51,9 +51,11 @@
                     <div class="row">
                       <div class="form-group col-md-6 col-12">
                         <label>Ville de départ</label>
-                        <select type="text" class="form-control" name="villeD">
+                        <input type="search" id="villeD" placeholder="Ville de départ?" name="villeD" required />
+
+                        <!-- <select type="text" class="form-control" name="villeD">
                           <option value="Tunis">Tunis</option>
-                        </select>
+                        </select> -->
                         <div class="invalid-feedback">
                           veuillez choisir votre ville de depart
                         </div>
@@ -62,8 +64,9 @@
                         <div class="row">
                           <div class="form-group col-md-6 col-12">
                             <label>Destination</label>
+                            <input type="search" id="address-input" placeholder="Destination?" name="depart"required />
 
-                            <select type="text" class="form-control" name="depart">
+                            <!-- <select type="text" class="form-control" name="depart">
                               <option value="France" selected="selected">France </option>
                               <option value="Afrique_Centrale">Afrique_Centrale </option>
                               <option value="Afrique_du_sud">Afrique_du_Sud </option>
@@ -115,14 +118,16 @@
                               <option value="Thailande">Thailande </option>
                               <option value="Tunisie">Tunisie </option>
                               <option value="Turquie">Turquie </option>
-                            </select>
+                            </select> -->
                             <div class="invalid-feedback">
                               veuillez choisir votre destination
                             </div>
                           </div>
                           <div class="form-group col-md-6 col-12">
                             <label>Ville de arrivée</label>
-                            <input type="text" class="form-control" name="retour" />
+                            <input type="search" id="retour1" placeholder="Ville de arrivée?" name="retour" required />
+
+                            <!-- <input type="text" class="form-control" name="retour" /> -->
                           </div>
                         </div>
                       </div>
@@ -136,11 +141,11 @@
                           </div> -->
 
                           <div class="md-form">
-                          <input placeholder="Selected date" type="text" name="startDate" id="date-picker-example" class="form-control datepicker">
+                          <input placeholder="Selected date" type="text" name="startDate" id="date-picker-example" class="form-control datepicker" required>
                           </div>
 
                           <div class="md-form">
-                          <input placeholder="Selected date" type="text" name="endDate" id="date-picker-example" class="form-control datepicker">
+                          <input placeholder="Selected date" type="text" name="endDate" id="date-picker-example" class="form-control datepicker" required>
                           </div>
 
                           <!-- <div class="form-group col-md-6 col-12">
@@ -154,7 +159,7 @@
                           <div class="input-group-prepend">
                             <span class="input-group-text">Dt</span>
                           </div>
-                          <input type="text" class="form-control" name="prix" aria-label="Amount (to the nearest dollar)">
+                          <input type="text" class="form-control" name="prix" aria-label="Amount (to the nearest dollar)" required>
                           <div class="input-group-append">
                             <span class="input-group-text">.00</span>
                           </div>
@@ -186,7 +191,7 @@
                       </div>
                       <div class="form-group col-md-6 col-12">
                         <label>Photo</label>
-                        <input type="file" class="form-control" name="photo[]" multiple>
+                        <input type="file" class="form-control" name="photo[]" multiple required>
                         <div class="invalid-feedback">
                           veuillez saisir la description
                         </div>
@@ -194,7 +199,7 @@
                     </div>
                     <div class="form-group">
                       <label>Note important</label>
-                      <textarea class="summernote" name="description" rows="5"></textarea>
+                      <textarea class="summernote" name="description" rows="5" required></textarea>
                     </div>
                   </div>
                   <div class="modal-footer">
@@ -261,9 +266,10 @@
                     <div class="row">
                       <div class="form-group col-md-6 col-12">
                         <label>Ville de départ</label>
-                        <select class="form-control" id="villeD" name="villeD">
+                        <input type="search" id="ville" name="villeD" />
+                        <!-- <select class="form-control" id="villeD" name="villeD">
                           <option value="Tunis">Tunis</option>
-                        </select>
+                        </select> -->
                         <div class="invalid-feedback">
                           veuillez choisir votre ville de depart
                         </div>
@@ -272,8 +278,9 @@
                         <div class="row">
                           <div class="form-group col-md-6 col-12">
                             <label>Destination</label>
+                            <input type="search" id="address" name="depart" />
 
-                            <select class="form-control" id="depart" name="depart">
+                            <!-- <select class="form-control" id="depart" name="depart">
                               <option value="France" selected="selected">France </option>
                               <option value="Afrique_Centrale">Afrique_Centrale </option>
                               <option value="Afrique_du_sud">Afrique_du_Sud </option>
@@ -325,14 +332,16 @@
                               <option value="Thailande">Thailande </option>
                               <option value="Tunisie">Tunisie </option>
                               <option value="Turquie">Turquie </option>
-                            </select>
+                            </select> -->
                             <div class="invalid-feedback">
                               veuillez choisir votre destination
                             </div>
                           </div>
                           <div class="form-group col-md-6 col-12">
                             <label>Ville de arrivée</label>
-                            <input type="text" class="form-control" id="retour" name="retour" />
+                            <input type="search" id="retour" name="retour" />
+
+                            <!-- <input type="text" class="form-control" id="retour" name="retour" /> -->
                           </div>
                         </div>
                       </div>
@@ -382,9 +391,9 @@
                         <select type="text" class="form-control" id="autocar" name="autocar">
                           <option value='0'>Tous les autocars disponibles</option>
                           @php
-                          $autocar = \App\Models\Autocar::all();
+                          $autocars = \App\Models\Autocar::all();
                           @endphp
-                          @foreach ($autocar as $autocar)
+                          @foreach ($autocars as $autocar)
 
                           @if ($autocar->status == 'disponiblé')
                           <option value="{{$autocar->id}}">{{$autocar->Matricule}}</option>
@@ -561,9 +570,7 @@
               }
             });
         })
-
-
-        $(document).ready(function() {
+        
           // Update Data
 
           $.ajaxSetup({
@@ -573,33 +580,29 @@
           });
 
 
-          $(document).ready(function() {
-  $('.summernote').summernote('code');
-});
+
+          $('.summernote').summernote('code');
 
           function getVoyage(id) {
             $.ajax({
               url: 'http://utecom.test/voyage/' + id,
               method: 'GET',
               success: function(data) {
-                console.log(data.data);
-                //$('#type option[value='+data.dat+').attr('selected','selected');
-
-                $("#voyageId").val(data.data[0].id);
-                $("#nbplace").val(data.data[0].NbPlace);
-                $("#type").val(data.data[0].type).change();
-                $("#villeD").val(data.data[0].villeD);
-                $("#depart").val(data.data[0].depart).change();
-                $("#retour").val(data.data[0].retour);
-                $("#autocar_id").val(data.data[0].autocar_id);
-                $("#prix").val(data.data[0].prix);
-                $("#startDate").val(data.data[0].startDate);
-                $("#endDate").val(data.data[0].endDate);
-                $("#photo").val(data.data[0].photo);
-                // $("#description").val(data.data[0].description);
-                $('#description').summernote("code",data.data[0].description);
-                console.log("code",data.data[0].description);
-
+                console.log(' typpeof ', typeof data)
+                data = JSON.parse(data);
+                console.log(' typpeof2 ', typeof data)
+                $("#voyageId").val(data[0].id);
+                $("#nbplace").val(data[0].NbPlace);
+                $("#type").val(data[0].type).change();
+                $("#ville").val(data[0].villeD);
+                $("#address").val(data[0].depart).change();
+                $("#retour").val(data[0].retour);
+                $("#autocar").val(data[0].autocar_id).change();
+                $("#prix").val(data[0].prix);
+                $("#startDate").val(data[0].startDate);
+                $("#endDate").val(data[0].endDate);
+                $("#photo").val(data[0].photo);  
+                $('#description').summernote("code",data[0].description);
 
 
               }
@@ -648,7 +651,7 @@
             });
           });
 
-        });
+
 
       },
 
@@ -704,5 +707,38 @@
       ],
     });
   });
+
+  var placesAutocomplete = places({
+    appId: 'plCZUMZQD4ER',
+    apiKey: 'de73017c39b308492fe22873f2b059ad',
+    container: document.querySelector('#address-input')
+  });
+
+  var placesAutocomplete = places({
+    appId: 'plCZUMZQD4ER',
+    apiKey: 'de73017c39b308492fe22873f2b059ad',
+    container: document.querySelector('#address')
+  });
+  var placesAutocomplete = places({
+    appId: 'plCZUMZQD4ER',
+    apiKey: 'de73017c39b308492fe22873f2b059ad',
+    container: document.querySelector('#villeD')
+  });
+  var placesAutocomplete = places({
+    appId: 'plCZUMZQD4ER',
+    apiKey: 'de73017c39b308492fe22873f2b059ad',
+    container: document.querySelector('#ville')
+  });
+  var placesAutocomplete = places({
+    appId: 'plCZUMZQD4ER',
+    apiKey: 'de73017c39b308492fe22873f2b059ad',
+    container: document.querySelector('#retour1')
+  });
+  var placesAutocomplete = places({
+    appId: 'plCZUMZQD4ER',
+    apiKey: 'de73017c39b308492fe22873f2b059ad',
+    container: document.querySelector('#retour')
+  });
+
 </script>
 @endsection

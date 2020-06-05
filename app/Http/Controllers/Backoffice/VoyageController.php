@@ -90,7 +90,7 @@ class VoyageController extends Controller
 				->toMediaCollection(); //finishing method
 		}
 
-		Autocar::where('id', $voyage->autocar_id)->update(['voyage_id' => $voyage->id, 'status' => 'non disponible']);
+		Autocar::where('id', $voyage->autocar_id)->update(['status' => 'non disponible']);
 
 		SWAL::message('Bien', 'votre voyage a été ajouté avec succès', 'success', ['timer' => 4000]);
 		return redirect('/voyages');
@@ -114,9 +114,9 @@ class VoyageController extends Controller
 
 		$voyages = DB::table('voyages')
 			->where('id', '=', $id)
-
 			->get();
-		return datatables($voyages)->toJson();
+			echo json_encode($voyages);
+			// return datatables($voyages)->toJson();
 	}
 	public function allvoyages()
 	{
@@ -169,7 +169,7 @@ class VoyageController extends Controller
 		//count voyages
 		$count = Voyage::all()->count();
 
-			//get all pictures for this voyage 
+		//get all pictures for this voyage 
 		$newsItem = $voyage;
 		$newsItem->getMedia('images')->toArray();
 		$pics = $newsItem['media']->toArray();
@@ -244,7 +244,7 @@ class VoyageController extends Controller
 
 		$file = array();
 		$files = request()->file();
-		
+
 		foreach ($files as $file) {
 			// get File name with extension 
 			$filenameWithExt = $file->getClientOriginalName();
@@ -262,13 +262,18 @@ class VoyageController extends Controller
 		}
 		SWAL::message('Bien', 'votre photo a été ajouté avec succès', 'success', ['timer' => 4000]);
 		return redirect('voyages/' . $voyage->id);
-		
 	}
 
 
 	public function update(Request $request, $id)
 
-	{	//$id = $request->voyageId;
+	{	
+		// request()->validate([
+		// 	'autocar' => 'required',
+		// ]);
+		// $Autocar = request()->autocar;
+
+		//$id = $request->voyageId;
 		$voyages = Voyage::find($id);
 
 		$voyages = Voyage::where('id', '=', $id)->first(); // where id is method param from url or request object
@@ -280,7 +285,7 @@ class VoyageController extends Controller
 		$voyages->villeD = $request->input('villeD');
 		$voyages->depart = $request->input('depart');
 		$voyages->retour = $request->input('retour');
-		$voyages->autocar_id = $request->input('autocar_id');
+		$voyages->autocar_id = $request->input('autocar');
 		$voyages->prix = $request->input('prix');
 		$voyages->startDate = $request->input('startDate');
 		$voyages->endDate = $request->input('endDate');
@@ -288,24 +293,29 @@ class VoyageController extends Controller
 		$voyages->description = $request->input('description');
 
 		$voyages->save();
+		Autocar::where('id', $voyages->autocar_id)->update(['status' => 'non disponible']);
+		// Autocar::where('id',$Autocar)->update(['status' => ' disponible']);
+
+
+		
 		//    return response()->json($name);
 
 	}
 
 	function CheckImage(Request $request)
-    {
-        $pic_id_array = $request->input('id');
-        $pict = Media::whereIn('id', $pic_id_array);
-        if($pict->delete())
-        {
-            echo 'Data Deleted';
-        }
-    }
+	{
+		$pic_id_array = $request->input('id');
+		$pict = Media::whereIn('id', $pic_id_array);
+		if ($pict->delete()) {
+			echo 'Data Deleted';
+		}
+	}
 
 
 	public function destroy(Request $request, Voyage $voyage)
 	{
 		Programme::where('voyage_id', $voyage->id)->delete();
+		Autocar::where('id', $voyage->autocar_id)->update(['status' => 'disponiblé']);
 		\Spatie\MediaLibrary\Models\Media::where('model_id', $voyage->id)->update(['deleted_at' => now()]);
 		$voyage->delete();
 	}
@@ -428,24 +438,3 @@ class VoyageController extends Controller
 	// 		\Spatie\MediaLibrary\Models\Media::findOrFail($id)->delete();
 	// 	}
 	// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

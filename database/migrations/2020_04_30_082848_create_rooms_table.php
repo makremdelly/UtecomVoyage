@@ -19,6 +19,7 @@ class CreateRoomsTable extends Migration {
 			$table->string('vue')->nullable();
 			$table->integer('total')->nullable();
 			$table->integer('persons')->nullable();
+			$table->string('type')->nullable();
 			$table->double('surface', 3, 2)->nullable();
 			$table->longText('description')->nullable();
 			$table->boolean('availibility')->nullable();

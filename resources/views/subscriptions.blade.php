@@ -187,7 +187,7 @@ Contacter sur +216 99 455 055
               if (willSend) {
                 let dataa = $('.tarea').val()
                 $.ajax({
-                  url: '/subscriptions/sendreminder/' + id,
+                  url: '/paiements/sendreminder/' + id,
                   data: {
                     mytext: dataa,
                     myemail: email
@@ -220,7 +220,7 @@ Contacter sur +216 99 455 055
 
         function getReservation(id) {
           $.ajax({
-            url: 'http://utecom.test/subscription/' + id,
+            url: 'http://utecom.test/paiements/' + id,
             method: 'GET',
             success: function(data) {
               console.log(data.data);
@@ -401,7 +401,7 @@ Contacter sur +216 99 455 055
 
                 $.ajax({
                   method: 'put',
-                  url: '/subscriptions/activate/' + id,
+                  url: '/paiements/activate/' + id,
                   data: {
                     amount_a_payer: amount_a_payer
                   },
@@ -442,6 +442,106 @@ Contacter sur +216 99 455 055
 
 
 
+        $('button[href="#modal"]').click(function(e) {
+          e.preventDefault();
+          var id = $(this).val();
+          var amount_a_payer = $(this).val();
+          getReservation(amount_a_payer);
+          getReservation(id);
+          console.log(id);
+
+
+          $.ajaxSetup({
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+          });
+          var span = document.createElement("span");
+          span.innerHTML =
+            `
+<div class="card-body">
+<form method="post" id="editForm" class="signup-form" enctype="multipart/form-data">
+          @method('PATCH')
+          @csrf     
+             <div class="form-group floating-addon">
+            <label>Le montant à payer </label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                </div>
+                <input id="prix" type="text" class="form-control" name="prix" placeholder="` + amount_a_payer + `" required>
+            </div>
+            <small style="color: #3154a5;float: left;font-style: italic;padding-top: 5px;"> *vous pouvez modifier Le montant à payer</small>
+
+        </div>
+    </form>
+</div>
+`;
+          swal({
+              content: span,
+              buttons: ["Annuler", "Modifier!"],
+              className: "modal-sizee",
+              closeOnEsc: false,
+              closeOnClickOutside: false,
+            })
+            .then((willSend) => {
+              if (willSend) {
+                // let amount_a_payer = $('.amount_a_payer').val()
+                let amount_a_payer = $("#prix").val();
+
+
+                $.ajax({
+                  method: 'put',
+                  url: '/paiements/activate/' + id,
+                  data: {
+                    amount_a_payer: amount_a_payer
+                  },
+                  success: function(response) {
+                    setTimeout(function() {
+                      window.location = window.location
+                    }, 1300);
+                  },
+                });
+                swal({
+                  title: "Modifié",
+                  icon: "success",
+                  text: 'Bien ,votre modification a été effectuée avec succès',
+                  timer: 1300,
+                  buttons: false,
+                  closeOnEsc: false,
+                  closeOnClickOutside: false,
+                });
+              } else {
+                e.preventDefault();
+                swal({
+                  title: "ANNULÉ",
+                  text: "vous avez annulé la modification",
+                  icon: "error",
+                });
+                console.log('cancel reminder');
+              }
+            });
+        })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -463,7 +563,7 @@ Contacter sur +216 99 455 055
           });
           $.ajax({
             method: 'get', // Type of response and matches what we said in the route
-            url: '/subscriptions/print/' + id, // This is the url we gave in the route
+            url: '/paiements/print/' + id, // This is the url we gave in the route
             success: function(data) {
               console.log(data)
               var newWin = window.open('', 'Print-Window');
@@ -543,11 +643,11 @@ Contacter sur +216 99 455 055
               // return ('<div class="badge badge-danger">Non payé</div>')
 
 
-              return ('<div class="btn-group"><a href="/history/' + row.user_id+ '" class="btn btn-icon icon-left btn-outline-primary"><i class="fas fa-eye"></i>Voir</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu"  x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><div class="btn-group-vertical" style="width:100px;position: inherit;left: 51px;" role="group" aria-label="Basic example"><button href="#myModal" class="dropdown-item btn btn-icon icon-left btn-success" data-toggle="modal" data-target=".bd-example-modal-lg" value="' + row.id + '"><i class="far fa-check-circle"></i> Activer</button><button class="dropdown-item btn btn-icon icon-left btn-info brappelle"  value="' + row.id + ',' + row.user_email + '|' + row.user_name + '" ><i class="fas fa-stopwatch"></i> Rappel</button></div></div></div>');
+              return ('<div class="btn-group"><a href="/history/' + row.user_id + '" class="btn btn-icon icon-left btn-outline-primary"><i class="fas fa-eye"></i>Voir</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu"  x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><div class="btn-group-vertical" style="width:100px;position: inherit;left: 51px;" role="group" aria-label="Basic example"><button href="#myModal" class="dropdown-item btn btn-icon icon-left btn-success" data-toggle="modal" data-target=".bd-example-modal-lg" value="' + row.id + '"><i class="far fa-check-circle"></i> Activer</button><button class="dropdown-item btn btn-icon icon-left btn-warning brappelle"  value="' + row.id + ',' + row.user_email + '|' + row.user_name + '" ><i class="fas fa-stopwatch"></i> Rappel</button></div></div></div>');
 
 
             } else {
-              return ('<div class="btn-group"><a href="/history/' + row.user_id + '" class="btn btn-icon icon-left btn-outline-primary"><i class="fas fa-eye"></i>Voir</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><button class="dropdown-item btn btn-icon icon-left btn-warning print" style="width:100px;position: inherit;left: 51px;" type="submit" style="cursor:grab;" value="' + row.id + '"><i class="fas fa-print"></i> Facture</button></div>');
+              return ('<div class="btn-group"><a href="/history/' + row.user_id + '" class="btn btn-icon icon-left btn-outline-primary"><i class="fas fa-eye"></i>Voir</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><button href="#modal" class="dropdown-item btn btn-icon icon-left btn-info" style="width:100px;position: inherit;left: 51px;" type="submit" style="cursor:grab;" value="' + row.id + '"><i class="fas fa-edit"></i> Éditer</button></div>');
 
             }
           }

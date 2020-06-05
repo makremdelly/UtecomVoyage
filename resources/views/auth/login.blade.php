@@ -25,11 +25,11 @@
                         <div class="form-group">
                             <div class="d-block">
                                 <label for="password" class="control-label">{{ __('Password') }}</label>
-                                {{-- <div class="float-right">
-                            <a href="auth-forgot-password.html" class="text-small">
+                                <div class="float-right">
+                            <a href="{{route('password.forgot')}}" class="text-small">
                                 Forgot Password?
                             </a>
-                            </div> --}}
+                            </div> 
                                 <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required autofocus>
                                 @if ($errors->has('password'))
                                 <span class="invalid-feedback" role="alert">
@@ -48,14 +48,14 @@
                         </div>
 
                         <!-- start-Forgot -->
-                        <div class="form-group">
-                            <label class="label-agree-term">
+                        <!-- <div class="form-group">
+                            <label class="label-agree-term"> -->
                                 <!-- <a data-toggle="modal" data-target=".bd-example-modal-lg">Forgot password</a> -->
                                 <!-- <div class="breadcrumb-item active"> <a class="breadcrumb-item active" data-toggle="modal" data-target=".bd-example-modal-lg"><b>Forgot password</b></a></div> -->
-                                <a class="reset_pass" href="{{route('password.forgot')}}" data-toggle="modal" data-target=".bd-example-modal-lg">Lost your password?</a>
-
-                            </label>
-                        </div>
+                                <!-- <a class="reset_pass" href="{{route('password.forgot')}}" data-toggle="modal" data-target=".bd-example-modal-lg">Lost your password?</a> -->
+                                <!-- <a class="reset_pass" href="{{route('password.forgot')}}">Lost your password?</a> -->
+                            <!-- </label>
+                        </div> -->
                         <!-- end-Forgot -->
 
                         <div class="form-group">
@@ -78,7 +78,7 @@
 
 
 <!-- start-modal -->
-<div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<!-- <div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header">
@@ -124,7 +124,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- end-modal -->
 

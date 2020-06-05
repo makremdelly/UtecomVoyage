@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 class Voyage extends Model implements HasMedia
 {
 
-    use  HasMediaTrait;
+    use  HasMediaTrait; 
 
     protected $table = 'voyages';
     protected $primaryKey = 'id';
@@ -19,8 +19,12 @@ class Voyage extends Model implements HasMedia
     public function hotel(){
         return $this->hasMany('models/Hotel');
     }
-    public function autocar(){
-        return $this->hasMany('models/Autocar');
+    // public function autocar(){
+    //     return $this->hasMany('models/Autocar');
+    // }
+    public function autocar()
+    {
+        return $this->hasOne('App\Models\Autocar');
     }
 
 }

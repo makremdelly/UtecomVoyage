@@ -132,12 +132,6 @@ class ProgrammeController extends Controller
     }
 
 
-
-
-
-
-
-
   function update_data(Request $request)
   {
     if ($request->ajax()) {
