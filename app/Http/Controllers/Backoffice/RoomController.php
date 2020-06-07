@@ -16,33 +16,33 @@ class RoomController extends Controller
 
 	public function allrooms()
 	{
+		$arr = array();
 
-
-		// $editeurs = DB::table('reservations_has_rooms')->get();
-		// foreach ($editeurs as $editeur) {
-		// 	echo $editeur->room_id;
-		// }
 		$rooms = Room::select(
 			[
 				'rooms.*',
 				'hotels.name as hotel_name',
-				'reservations_has_rooms.room_id as exist'
-
 			]
 		)
 			->leftJoin('hotels', 'hotels.id', '=', 'rooms.hotel_id')
-			->leftJoin('reservations_has_rooms', 'reservations_has_rooms.room_id', '=', 'rooms.id')
 			->get()->toArray();
 
-		// dd($rooms);
+
+		$rooms_has_resa = DB::table('reservations_has_rooms')
+			->select('room_id')
+			->groupBy('room_id')
+			->get();
+		foreach ($rooms_has_resa as $room_res) {
+			array_push($arr, $room_res->room_id);
+		}
+
+		foreach ($rooms as $index => $room) {
+			if (in_array($room['id'], $arr)) {
+				$rooms[$index]['disponibility'] = 1;
+			} else {
+				$rooms[$index]['disponibility'] = 0;
+			}
+		}
 		return datatables($rooms)->toJson();
-
-		// 		<?php
-		// $editeurs = DB::table('editeurs')->get();
-		// foreach ($editeurs as $editeur) {
-		//     echo $editeur->nom, '<br>';
-		// }
-
-
 	}
 }

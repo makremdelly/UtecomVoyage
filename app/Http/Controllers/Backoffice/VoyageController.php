@@ -35,7 +35,6 @@ class VoyageController extends Controller
 			'endDate' => 'required',
 			'prix' => 'required',
 			'photo.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,jfif|max:2048',
-			'autocar' => 'required',
 			'description' => 'required',
 		]);
 
@@ -67,7 +66,12 @@ class VoyageController extends Controller
 		$voyage->startDate = $startdata;
 		$voyage->endDate = $enddate;
 		$voyage->description = $description;
-		$voyage->autocar_id = $Autocar;
+		if (empty($Autocar)) {
+			$voyage->autocar_id = null;
+		}else{
+			$voyage->autocar_id = $Autocar;
+		}
+		
 		$voyage->prix = $Prix;
 		// $voyage->photo = $Photo;
 		$voyage->save();

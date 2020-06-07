@@ -15,8 +15,8 @@ class AddForeignKeyToVoyagesTable extends Migration
     {
         Schema::table('voyages', function (Blueprint $table) 
         {
-            $table->foreign('hotel_id','fk_voyages_hotel')->references('id')->on('hotels')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign('autocar_id','fk_voyages_autocars')->references('id')->on('autocars')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign('hotel_id','fk_voyages_hotel')->references('id')->on('hotels')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 
@@ -28,8 +28,9 @@ class AddForeignKeyToVoyagesTable extends Migration
     public function down()
     {
         Schema::table('voyages', function (Blueprint $table) {
-            $table->dropForeign('fk_voyages_hotel');
             $table->dropForeign('fk_voyages_autocars');
+            $table->dropForeign('fk_voyages_hotel');
+            
         });
     }
 }

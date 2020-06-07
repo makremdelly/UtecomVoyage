@@ -52,8 +52,8 @@
                             <i class="fas fa-map-marker-alt"></i>
                           </div>
                         </div> -->
-                        <!-- <input type="text" class="form-control" name="address" /> -->
-                        <!-- <input type="search" id="address" name="address" />
+                    <!-- <input type="text" class="form-control" name="address" /> -->
+                    <!-- <input type="search" id="address" name="address" />
                       </div>
                     </div> -->
                     <div class="form-group">
@@ -116,14 +116,14 @@
           </div>
           <!-- End Add Model -->
           <?php
-// $livres = App\Livre::
-// select('editeur_id', DB::raw('count(id) as livre_count'))
-// ->groupBy('editeur_id')
-// ->get();
-// foreach ($livres as $livre) {
-//     echo $livre->editeur_id . ' => ' . $livre->livre_count, '<br>';
-// }
-?>
+          // $livres = App\Livre::
+          // select('editeur_id', DB::raw('count(id) as livre_count'))
+          // ->groupBy('editeur_id')
+          // ->get();
+          // foreach ($livres as $livre) {
+          //     echo $livre->editeur_id . ' => ' . $livre->livre_count, '<br>';
+          // }
+          ?>
           <div class="table-responsive">
             <div align="right">
               <div class="buttons"><b data-toggle="tooltip" data-original-title="Cliquez ici pour ajouter un hôtel"><button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-plus" style="font-size: smaller;"></i></button></b></div>
@@ -132,7 +132,7 @@
             <table id="rooms" class="table table-hover table-responsive-sm" style="width:100%">
               <thead>
                 <tr>
-                <th class="mee">Disponibilité</th>
+                  <th class="mee">Disponibilité</th>
                   <th class="mee" style="width:75px;">#</th>
                   <th class="mee">Nom</th>
                   <th class="mee">Vue</th>
@@ -167,8 +167,8 @@
       });
     });
 
-   
-   
+
+
 
     var table = $('#rooms').DataTable({
       "language": {
@@ -261,22 +261,18 @@
       autoheight: true,
 
       columns: [
-        
-        //     {
-        //   data: 'id',
-        //   name: 'id'
-        // },
-        { data: 'exist', name: 'exist' ,
-                "render":function(data,type,row,meta){
-                  if('exist'== null){
-                      return ('<div class="badge badge-success">Disponible</div>');
-                  }
-                  else{
-                      return ('<div class="badge badge-danger">Non disponible</div>');
-                   
-                   
-                  }
-                }},
+
+        {
+
+          "render": function(data, type, row, meta) {
+            if (row.disponibility) {
+              return ('<span class="disponibility">disponible</span>');
+            }else{
+              return ('<span class="disponibility">non disponible</span>');
+            }
+          }
+        },
+
         {
           data: 'id',
           name: 'id'
@@ -285,7 +281,7 @@
           data: 'name',
           name: 'name'
         },
-       
+
         {
           data: 'vue',
           name: 'vue'
@@ -301,7 +297,7 @@
         },
         {
           "render": function(data, type, row, meta) {
-            return ('<div class="btn-group"><a href="/hotels/' + row.id + '" class="btn btn-icon icon-left btn-primary"><i class="fas fa-eye"></i>Voir</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><form method="post" action="/hotels/destroy/' + row.id + '">{{ method_field('DELETE ') }}<input type="hidden" name="_token" value="{{ csrf_token() }}"><div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><button class="dropdown-item btn btn-icon icon-left btn-danger delete-row" style="width:100px;position: inherit;left: 51px;" type="submit" value="' + row.id + '"><i class="far fa-trash-alt"></i> Supprimer</button></div></form></div>');
+            return ('<div class="btn-group"><a href="/hotels/' + row.id + '" class="btn btn-icon icon-left btn-primary"><i class="fas fa-eye"></i>Voir</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><form method="post" action="/hotels/destroy/' + row.id + '">{{ method_field('DELETE') }}<input type="hidden" name="_token" value="{{ csrf_token() }}"><div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><button class="dropdown-item btn btn-icon icon-left btn-danger delete-row" style="width:100px;position: inherit;left: 51px;" type="submit" value="' + row.id + '"><i class="far fa-trash-alt"></i> Supprimer</button></div></form></div>');
           },
         }
       ],
@@ -309,10 +305,10 @@
   });
 </script>
 <script>
-var placesAutocomplete = places({
+  var placesAutocomplete = places({
     appId: 'plCZUMZQD4ER',
     apiKey: 'de73017c39b308492fe22873f2b059ad',
     container: document.querySelector('#address')
   });
-  </script>
+</script>
 @endsection

@@ -67,10 +67,10 @@ class AutocarController extends Controller
         $autocars = Autocar::select(
             [
                 'autocars.*',
-                'voyages.depart',
+                // 'voyages.depart',
             ]
             )
-            ->LeftJoin('voyages', 'voyages.id', '=', 'autocars.voyage_id')
+            // ->LeftJoin('voyages', 'voyages.id', '=', 'autocars.voyage_id')
 
             ->get()->toArray();
         
