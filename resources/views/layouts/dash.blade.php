@@ -150,7 +150,7 @@
             <a href="/">ADMIN Utecom</a>
           </div>
           <div class="sidebar-brand sidebar-brand-sm">
-            <a href="/">UTECOM</a>
+            <a href="/">UTE</a>
           </div>
           <ul class="sidebar-menu">
 
@@ -166,7 +166,7 @@
               <a href="{{ route('hotels.index') }}" class="nav-link"><i class="fas fa-hotel"></i><span>Hôtels</span></a>
             </li>
 
-            <li class="{{  (Route::is('room.show')) ? 'active' : ''  }}">
+            <li class="{{  (Route::is('room.show')) || (Route::is('room1.show')) ? 'active' : ''  }}">
               <a href="{{ route('room.show') }}" class="nav-link"><i class="fas fa-bed"></i><span>Chambres</span></a>
             </li>
 
@@ -248,12 +248,16 @@
             $endofurl3 = substr($r3['path'], strrpos($r3['path'], '/') + 1);
             ?>
             <h1> Modifier le voyage N°:{{$endofurl3}}</h1>
+          
+
+            @elseif (Route::is('room1.show'))
+            <h1>Chambre numero {{$room->id}}</h1>
+
 
             @elseif (Route::is('hotel.show'))
             <h1>Hôtel numero {{$hotel->id}}</h1>
+
             @elseif (Route::is('reservation.show'))
-
-
             <?php
             $r = parse_url(URL::current());
             $endofurl = substr($r['path'], strrpos($r['path'], '/') + 1);

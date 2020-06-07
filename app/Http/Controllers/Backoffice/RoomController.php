@@ -45,7 +45,13 @@ class RoomController extends Controller
 		}
 		return datatables($rooms)->toJson();
 	}
-
+	public function show(Request $request, Room $room)
+	{
+		return view('roomshow')
+			->with([
+				'room'     => $room,
+			]);
+	}
 	public function destroy(Request $request, Room $room)
 	{
 
