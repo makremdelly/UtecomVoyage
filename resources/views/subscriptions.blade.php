@@ -12,7 +12,7 @@
               <thead>
                 <tr>
                   <!-- <th class="me" style="width: 40px;">#</th> -->
-                  <th class="me" id="notmee" style="width:130px;">Status</th>
+                  <th class="me" id="notmee" style="width:100 px;">Status</th>
                   <th class="me">Client</th>
                   <th class="me">Email</th>
                   <th class="me">Numéro de téléphone</th>

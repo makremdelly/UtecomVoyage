@@ -45,4 +45,10 @@ class RoomController extends Controller
 		}
 		return datatables($rooms)->toJson();
 	}
+
+	public function destroy(Request $request, Room $room)
+	{
+
+		$room->delete();
+	}
 }

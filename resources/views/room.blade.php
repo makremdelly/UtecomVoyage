@@ -44,18 +44,6 @@
                       </div>
                       <input type="text" class="form-control phone-number" pattern="^\+?\s*(\d+\s?){8,}$" name="phone">
                     </div>
-                    <!-- <div class="form-group">
-                    <label class="form-label">Adresse</label>
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <div class="input-group-text">
-                            <i class="fas fa-map-marker-alt"></i>
-                          </div>
-                        </div> -->
-                    <!-- <input type="text" class="form-control" name="address" /> -->
-                    <!-- <input type="search" id="address" name="address" />
-                      </div>
-                    </div> -->
                     <div class="form-group">
                       <label>Adresse</label>
                       <input type="search" id="address" name="address" />
@@ -115,15 +103,7 @@
             </div>
           </div>
           <!-- End Add Model -->
-          <?php
-          // $livres = App\Livre::
-          // select('editeur_id', DB::raw('count(id) as livre_count'))
-          // ->groupBy('editeur_id')
-          // ->get();
-          // foreach ($livres as $livre) {
-          //     echo $livre->editeur_id . ' => ' . $livre->livre_count, '<br>';
-          // }
-          ?>
+  
           <div class="table-responsive">
             <div align="right">
               <div class="buttons"><b data-toggle="tooltip" data-original-title="Cliquez ici pour ajouter un hôtel"><button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-plus" style="font-size: smaller;"></i></button></b></div>
@@ -132,7 +112,7 @@
             <table id="rooms" class="table table-hover table-responsive-sm" style="width:100%">
               <thead>
                 <tr>
-                  <th class="mee">Disponibilité</th>
+                  <th class="mee" id="notmee" style="width:100px;">Disponibilité</th>
                   <th class="mee" style="width:75px;">#</th>
                   <th class="mee">Nom</th>
                   <th class="mee">Vue</th>
@@ -167,6 +147,23 @@
       });
     });
 
+    $('#rooms thead tr:eq(0) th#notmee.mee ').html(`<select class="form-control" id="dispo">
+        <option value="">Tous</option>
+        <option value="0">Non réservé</option>
+        <option value="1">Réservé</option>
+      </select>`);
+    $('#dispo').on('keyup change', function() {
+      if (this.value == null) {
+        table.clear();
+      } else
+      if (table.column(2).search() !== this.value) {
+        table
+          .column(2)
+          .search(this.value)
+          .draw();
+      }
+
+    });
 
 
 
@@ -202,7 +199,7 @@
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
           });
-          let text = "L'hôtel Numero : " + id + " va être supprimé !";
+          let text = "La chambre Numero : " + id + " va être supprimé !";
           swal({
               title: "Êtes-vous sûr ?",
               text: text,
@@ -217,7 +214,7 @@
                 });
                 $.ajax({
                   method: 'DELETE', // Type of response and matches what we said in the route
-                  url: '/hotels/destroy/' + id, // This is the url we gave in the route
+                  url: '/rooms/destroy/' + id, // This is the url we gave in the route
                   data: {
                     'willDelete': willDelete
                   }, // a JSON object to send back
@@ -225,7 +222,7 @@
                     console.log('done');
                   }
                 });
-                let text1 = "L'hôtel Numero : " + id + " est supprimé avec succès"
+                let text1 = "La chambre Numero : " + id + " est supprimé avec succès"
                 swal({
                   title: "Termié",
                   icon: "success",
@@ -239,7 +236,7 @@
                 e.preventDefault();
                 swal({
                   title: "ANNULÉ",
-                  text: "vous avez annulé la suppression de cet hôtel",
+                  text: "vous avez annulé la suppression de cet chambre",
                   icon: "error",
                 });
                 console.log('cancel deleting');
@@ -263,12 +260,13 @@
       columns: [
 
         {
-
           "render": function(data, type, row, meta) {
             if (row.disponibility) {
-              return ('<span class="disponibility">disponible</span>');
+              // return ('<span class="disponibility">non disponible</span>');
+              return ('<div class="badge badge-danger">Réservé</div>');
             }else{
-              return ('<span class="disponibility">non disponible</span>');
+              // return ('<span class="disponibility"> disponible</span>');
+              return ('<div class="badge badge-success">Non réservé</div>');
             }
           }
         },
@@ -297,7 +295,7 @@
         },
         {
           "render": function(data, type, row, meta) {
-            return ('<div class="btn-group"><a href="/hotels/' + row.id + '" class="btn btn-icon icon-left btn-primary"><i class="fas fa-eye"></i>Voir</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><form method="post" action="/hotels/destroy/' + row.id + '">{{ method_field('DELETE') }}<input type="hidden" name="_token" value="{{ csrf_token() }}"><div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><button class="dropdown-item btn btn-icon icon-left btn-danger delete-row" style="width:100px;position: inherit;left: 51px;" type="submit" value="' + row.id + '"><i class="far fa-trash-alt"></i> Supprimer</button></div></form></div>');
+            return ('<div class="btn-group"><a href="/hotels/' + row.id + '" class="btn btn-icon icon-left btn-primary"><i class="fas fa-eye"></i>Voir</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><form method="post" action="/rooms/destroy/' + row.id + '">{{ method_field('DELETE') }}<input type="hidden" name="_token" value="{{ csrf_token() }}"><div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><button class="dropdown-item btn btn-icon icon-left btn-danger delete-row" style="width:100px;position: inherit;left: 51px;" type="submit" value="' + row.id + '"><i class="far fa-trash-alt"></i> Supprimer</button></div></form></div>');
           },
         }
       ],
