@@ -98,6 +98,9 @@ Route::middleware(['web'])->group(function () {
         Route::get('/rooms/allrooms', 'RoomController@allrooms')->name('get.room');// get all rooms
         Route::delete('/rooms/destroy/{room}', 'RoomController@destroy')->name('room.destroy');
         Route::get('/room/{room}', 'RoomController@show')->name('room1.show');
+        Route::get('/room/{room}/reservationcollection', 'RoomController@getreservations')->name('get.reservationRoom');
+        Route::get('/room/{room}/reservation/{payment}', 'ReservationController@show')->name('reservation.show');
+
 
 
         // Route::get('googlemap', 'MapController@map');
