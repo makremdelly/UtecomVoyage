@@ -203,10 +203,10 @@ class AuthController extends Controller
         $user->activation_token = $activation_token;
         $user->save();
 
-        $subject = "Hotel PMS - Confirmation de compte";
+        $subject = "Utecom voyage - Confirmation de compte";
         Mail::send('email.verify', ['name' => $name, 'activation_token' => $activation_token],
             function($mail) use ($email, $name, $subject){
-                $mail->from(getenv('FROM_EMAIL_ADDRESS'), 'admin@pms.fr');
+                $mail->from(getenv('FROM_EMAIL_ADDRESS'), 'admin@utecom.fr');
                 $mail->to($email, $name);
                 $mail->subject($subject);
             });
@@ -307,7 +307,7 @@ class AuthController extends Controller
         $passwordReset->email = $email;
         $passwordReset->token = $token;
         $passwordReset->save();
-        $subject = "Hotel PMS - Réinitialisation Mot de Passe";
+        $subject = "Utecom voyage - Réinitialisation Mot de Passe";
         Mail::send('email.reset', ['name' => $name, 'token' => $token],
             function($mail) use ($email, $name, $subject){
                 $mail->from(getenv('FROM_EMAIL_ADDRESS'), 'admin@pms.fr');

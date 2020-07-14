@@ -15,6 +15,8 @@ class AddForeignKeysToOffersTable extends Migration
     {
         Schema::table('offers', function (Blueprint $table) {
             $table->foreign('room_id', 'fk_offers_rooms')->references('id')->on('rooms')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign('voyage_id', 'fk_offers_voyages')->references('id')->on('voyages')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign('hotel_id', 'fk_offers_hotels')->references('id')->on('hotels')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 
@@ -27,6 +29,8 @@ class AddForeignKeysToOffersTable extends Migration
     {
         Schema::table('offers', function (Blueprint $table) {
             $table->dropForeign('fk_offers_rooms');
+            $table->dropForeign('fk_offers_voyages'); 
+            $table->dropForeign('fk_offers_hotels');
         });
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Traits\Role;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
@@ -18,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','phone',
+        'name','last_name','email', 'password','phone','picture',
     ];
 
     /**
@@ -52,5 +53,10 @@ class User extends Authenticatable
     public function reservations()
     {
         return $this->hasMany('App\Models\Reservation');
+    }
+
+    public function role()
+    {
+        return $this->belongsTo('App\Role'); // apply your namespace accordingly
     }
 }

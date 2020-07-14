@@ -25,7 +25,11 @@
                             <td>{{$histories[$i]['hotel_name']}}</td>
                             <td>{{$histories[$i]['user_email']}}</td>
                             <td>{{$histories[$i]['created_at']}}</td>
+                            @if($histories[$i]['amount'] == null)
+                            <td>Non payé</td>
+                            @else
                             <td>{{$histories[$i]['amount']}}</td>
+                            @endif
                             </tr>
                         </tbody>
                     </table>

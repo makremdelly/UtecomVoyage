@@ -13,6 +13,7 @@
                 <tr>
                   <!-- <th class="me" style="width: 40px;">#</th> -->
                   <th class="me" id="notmee" style="width:100 px;">Status</th>
+                  <th class="me" style="width: 40px;">#</th>
                   <th class="me">Client</th>
                   <th class="me">Email</th>
                   <th class="me">Numéro de téléphone</th>
@@ -80,25 +81,23 @@
         }
       });
     });
-
-    $('#subscriptions thead tr:eq(0) th#notmee.me ').html(`<select class="form-control" id="statut">
-        <option value="">Tous</option>
-        <option value !="Non payé" >Payé</option>
-        <option value="Non payé">Non payé</option>
-      </select>`);
-    $('#statut').on('keyup change', function() {
-      if (this.value == null) {
-        table.clear();
-      } else
-      if (table.column(0).search() !== this.value) {
-        table
-          .column(0)
-          .search(this.value)
-          .draw();
-        console.log(this.value);
-      }
-
-    });
+    // $('#subscriptions thead tr:eq(0) th#notmee.me ').html(`<select class="form-control" id="statut">
+    //     <option value="">Tous</option>
+    //     <option value ="paye" >Payé</option>
+    //     <option value="Non payé">Non payé</option>
+    //   </select>`);
+    // $('#statut').on('keyup change', function() {
+    //   if (this.value == null) {
+    //     table.clear();
+    //   } else
+    //   if (table.column(0).search() !== this.value) {
+    //     table
+    //       .column(0)
+    //       .search(this.value)
+    //       .draw();
+    //     console.log(this.value);
+    //   }
+    // });
     var table = $('#subscriptions').DataTable({
       "language": {
         "lengthMenu": "Afficher _MENU_ élements",
@@ -167,7 +166,7 @@
 
                       <div class="form-group">
                         <label>Message</label>
-                        <textarea class="summernote form-control tarea" placeholder="Tapez votre message" data-height="200" style="height: 200px !important;resize: none;" name="tareaa">TEST:Retard de paiement chére client ` + name + ` , merci de proceder au reglement de votre facture avant le 20/06/2019.
+                        <textarea class="summernote form-control tarea" placeholder="Tapez votre message" data-height="200" style="height: 200px !important;resize: none;" name="tareaa">TEST:Retard de paiement chére client ` + name + ` , merci de proceder au reglement de votre facture avant le 20/07/2020.
 Cordinalement UtecomVoyages.
 Contacter sur +216 99 455 055  
                         </textarea>
@@ -285,70 +284,6 @@ Contacter sur +216 99 455 055
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         $('button[href="#myModal"]').click(function(e) {
           e.preventDefault();
           var id = $(this).val();
@@ -380,7 +315,6 @@ Contacter sur +216 99 455 055
                 </div>
                 <input id="prix" type="text" class="form-control" name="prix" placeholder="` + amount_a_payer + `" required disabled>
             </div>
-            <small style="color: #3154a5;float: left;font-style: italic;padding-top: 5px;"> *vous pouvez modifier Le montant à payer</small>
 
         </div>
     </form>
@@ -405,14 +339,9 @@ Contacter sur +216 99 455 055
                   data: {
                     amount_a_payer: amount_a_payer
                   },
-                  success: function(response) {
-                    setTimeout(function() {
-                      window.location = window.location
-                    }, 1300);
-                  },
                 });
                 swal({
-                  title: "Envoyé",
+                  title: "Activé",
                   icon: "success",
                   text: 'Paiement effectué avec succès',
                   timer: 1300,
@@ -420,6 +349,7 @@ Contacter sur +216 99 455 055
                   closeOnEsc: false,
                   closeOnClickOutside: false,
                 });
+                table.ajax.reload();
               } else {
                 e.preventDefault();
                 swal({
@@ -431,12 +361,6 @@ Contacter sur +216 99 455 055
               }
             });
         })
-
-
-
-
-
-
 
 
 
@@ -529,30 +453,6 @@ Contacter sur +216 99 455 055
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         $('.print').click(function(e) {
           e.preventDefault();
           let id = $(this).val();
@@ -611,12 +511,19 @@ Contacter sur +216 99 455 055
           name: 'amount',
           "render": function(data, type, row, meta) {
 
-            if (row.amount == 'Non payé') {
+            if (row.amount == null) {
               return ('<div class="badge badge-danger">Non payé</div>');
             } else {
               return ('<div class="badge badge-success">Payé</div>');
             }
           }
+        },
+        {
+          data: 'id',
+          name: 'id',
+          "render": function(data, type, row, meta) {
+                return ('<div class="text-primary" style="font-family: monospace;font-size: large;">Réf00'+ row.id +'</div>');
+            }
         },
         {
           data: 'user_name',
@@ -639,17 +546,12 @@ Contacter sur +216 99 455 055
         {
           "render": function(data, type, row, meta) {
 
-            if (row.amount == 'Non payé') {
+            if (row.amount == null) {
               // return ('<div class="badge badge-danger">Non payé</div>')
-
-
-              return ('<div class="btn-group"><a href="/history/' + row.user_id + '" class="btn btn-icon icon-left btn-outline-primary"><i class="fas fa-eye"></i>Voir</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu"  x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><div class="btn-group-vertical" style="width:100px;position: inherit;left: 51px;" role="group" aria-label="Basic example"><button href="#myModal" class="dropdown-item btn btn-icon icon-left btn-success" data-toggle="modal" data-target=".bd-example-modal-lg" value="' + row.id + '"><i class="far fa-check-circle"></i> Activer</button><button class="dropdown-item btn btn-icon icon-left btn-warning brappelle"  value="' + row.id + ',' + row.user_email + '|' + row.user_name + '" ><i class="fas fa-stopwatch"></i> Rappel</button></div></div></div>');
-
-
+              return ('<div class="btn-group"><a href="/history/' + row.user_id + '" class="btn btn-icon icon-left btn-outline-primary">Détail</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu"  x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><div class="btn-group-vertical" style="width:96px;position: inherit;left: 56px;" role="group" aria-label="Basic example"><button href="#myModal" class="dropdown-item btn btn-icon icon-left btn-success" data-toggle="modal" data-target=".bd-example-modal-lg" value="' + row.id + '"><i class="far fa-check-circle"></i> Activer</button><button class="dropdown-item btn btn-icon icon-left btn-warning brappelle"  value="' + row.id + ',' + row.user_email + '|' + row.user_name + '" ><i class="fas fa-stopwatch"></i> Rappel</button></div></div></div>');
             } else {
               // return ('<div class="btn-group"><a href="/history/' + row.user_id + '" class="btn btn-icon icon-left btn-outline-primary"><i class="fas fa-eye"></i>Voir</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><button href="#modal" class="dropdown-item btn btn-icon icon-left btn-info" style="width:100px;position: inherit;left: 51px;" type="submit" style="cursor:grab;" value="' + row.id + '"><i class="fas fa-edit"></i> Éditer</button></div>');
-              return('<a href="/history/' + row.user_id + '" class="btn btn-icon icon-left btn-outline-primary" style="width:100px;position: inherit;left: 51px;" value="'+row.id+'"><i class="fas fa-eye"></i>Voir</a>');
-
+              return('<a href="/history/' + row.user_id + '" class="btn btn-icon icon-left btn-outline-primary" style="width:96px;position: inherit;left: 53px;" value="'+row.id+'">Détail</a>');
             }
           }
         },

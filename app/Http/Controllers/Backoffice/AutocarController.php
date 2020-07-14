@@ -14,6 +14,12 @@ use Softon\SweetAlert\Facades\SWAL;
 
 class AutocarController extends Controller
 {
+
+
+  function index()
+	{
+		return view('autocars');
+	}
     
     function AddAutocar(Request $request)
     {
@@ -88,5 +94,11 @@ class AutocarController extends Controller
 	{
 		return view('addautocar');
 	}
+
+  public function destroy(Request $request, Autocar $autocar)
+  {
+    $autocar->delete();
+
+  }
 
 }

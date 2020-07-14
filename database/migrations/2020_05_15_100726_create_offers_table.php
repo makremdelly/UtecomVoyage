@@ -15,10 +15,11 @@ class CreateOffersTable extends Migration
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->double('price', 5, 2)->nullable();
-            $table->double('discount', 2, 2)->nullable();
-            $table->integer('hotel_id');
-            $table->integer('room_id');
+            $table->double('price')->nullable();
+            $table->double('discount')->nullable();
+            $table->integer('hotel_id')->index('k_offers_hotel_idx')->nullable();
+            $table->integer('room_id')->index('fk_offers_room_idx')->nullable();
+            $table->integer('voyage_id')->index('fk_offers_voyage_idx')->nullable();
             $table->timestamps();
         });
     }

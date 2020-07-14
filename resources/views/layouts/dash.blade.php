@@ -128,8 +128,10 @@
               @endif
               <div class="d-sm-none d-lg-inline-block">Bonjour {{ Auth::user()->name }}</div></a>
             <div class="dropdown-menu dropdown-menu-right">
+              @hasrole('Super-administrator')
               <div class="dropdown-title">Votre Profile<a href="{{ url('parametre') }}"><i class="fas fa-user-edit float-right"></i></a></div>
               <div class="dropdown-divider"></div>
+              @endhasrole
               <h6 class="text-center"><small class="font-weight-bold">Nom:</small> <span class="font-weight-light"> {{ Auth::user()->name }}</span></h6>
               <h6 class="text-center"><small class="font-weight-bold">Prénom:</small> <span class="font-weight-light"> {{ Auth::user()->last_name }}</span></h6>
               <h6 class="text-center"><small class="font-weight-bold">Email:</small> <span class="font-weight-light"> {{ Auth::user()->email }}</span></h6>
@@ -200,9 +202,12 @@
               <a href="{{ route('get.subscription') }}" class="nav-link"><i class="fas fa-money-bill"></i><span>Paiements</span></a>
             </li>
 
+            @hasrole('Super-administrator')
             <li class="{{ Route::is('get.setting') ? 'active' : ''  }}">
               <a href="{{ url('parametre') }}" class="nav-link"><i class="far fa-user"></i><span>Paramètre</span></a>
             </li>
+            @endhasrole
+
           </ul>
 
         </aside>
@@ -248,7 +253,7 @@
             $endofurl3 = substr($r3['path'], strrpos($r3['path'], '/') + 1);
             ?>
             <h1> Modifier le voyage N°:{{$endofurl3}}</h1>
-          
+
 
             @elseif (Route::is('room1.show'))
             <h1>Chambre numero {{$room->id}}</h1>

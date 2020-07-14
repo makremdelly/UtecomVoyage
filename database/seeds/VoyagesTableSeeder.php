@@ -14,6 +14,8 @@ class VoyagesTableSeeder extends Seeder
      */
     public function run()
     {
+        factory(App\Models\Voyage::class, 20)->create();
+
         
         // voyage::create([
         //     'titre'              => 'tunis', 

@@ -176,6 +176,11 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         Askedio\SoftCascade\Providers\GenericServiceProvider::class,
         FarhanWazir\GoogleMaps\GMapsServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
+        willvincent\Rateable\RateableServiceProvider::class,
+
+
+
 
         /*
          * Package Service Providers...
@@ -243,6 +248,9 @@ return [
         'SWAL' => Softon\SweetAlert\Facades\SWAL::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'GMaps' => FarhanWazir\GoogleMaps\Facades\GMapsFacade::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+
+
 
     ],
 

@@ -31,8 +31,19 @@ class HotelController extends Controller
 	 */
 	public function index()
 	{
+		$services = Service::select(
+			[
+				'services.*',
+			]
+		)
+			->get();
+		$grouped = $services->groupBy('name')->toArray();
+		// dd($grouped);
+		return view('hotels')
+			->with([
+				'services'  => $grouped,
 
-		return view('hotels');
+			]);
 	}
 
 	public function uploadImage(Request $request)
@@ -46,6 +57,13 @@ class HotelController extends Controller
 			'address' => 'required'
 		]);
 
+	// $service = new Service;
+		// $service->name = $servic;
+		// // dd($service);
+
+		// $service->hotel_id = $hotel->id;
+
+		// $service->save();
 
 
 		// $imageName = time().'.'.request()->image->getClientOriginalExtension();
@@ -81,8 +99,8 @@ class HotelController extends Controller
 				->preservingOriginal() //middle method
 				->toMediaCollection(); //finishing method
 		}
-			SWAL::message('Bien', 'votre hotel a été ajouté avec succès', 'success', ['timer' => 4000]);
-			return redirect('hotels/' . $hotel->id);
+		SWAL::message('Bien', 'votre hotel a été ajouté avec succès', 'success', ['timer' => 4000]);
+		return redirect('hotels/' . $hotel->id);
 	}
 	public function getTrait()
 	{
@@ -114,12 +132,12 @@ class HotelController extends Controller
 			[
 				'reservations.*',
 				'payments.amount',
-				'users.name as user_name',//
-                'users.email as user_email',//
+				'users.name as user_name', //
+				'users.email as user_email', //
 			]
 		)
 			->join('reservations', 'payments.id', '=', 'reservations.payment_id')
-			->join('users', 'users.id', '=', 'reservations.user_id')//
+			->join('users', 'users.id', '=', 'reservations.user_id') //
 			->where('hotel_id', $hotel->id)
 			->get()->toArray();
 		return datatables($reservations)->toJson();
@@ -160,6 +178,7 @@ class HotelController extends Controller
 			$s = $user->toArray();
 			array_push($arr, $s);
 		}
+		// dd($arr);
 
 		//get all hotels
 		$allhotels = $this->getTrait();
@@ -242,15 +261,12 @@ class HotelController extends Controller
 	{
 		return view('addhotel');
 	}
-	
+
 	function voyage()
 	{
 		return view('voyage');
 	}
-	function autocars()
-	{
-		return view('autocars');
-	}
+	
 	function addprogramme(Voyage $voyage)
 	{
 		$r2 = parse_url(URL::current());

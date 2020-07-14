@@ -13,4 +13,8 @@ class Service extends Model
     {
         return $this->belongsTo('App\Models\Hotel');
     }
+    public function rooms()
+    {
+        return $this->belongsTo('App\Models\Room');
+    }
 }

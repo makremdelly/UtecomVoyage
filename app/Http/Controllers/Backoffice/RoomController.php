@@ -7,6 +7,7 @@ use App\Models\Room;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Service;
+use App\Models\Offer;
 use App\Models\Payment;
 use App\Models\Reservation;
 
@@ -28,9 +29,12 @@ class RoomController extends Controller
 			[
 				'rooms.*',
 				'hotels.name as hotel_name',
+				DB::raw('(CASE WHEN (COUNT(DISTINCT(reservations_has_rooms.reservation_id))<> 0 ) THEN COUNT(DISTINCT(reservations_has_rooms.reservation_id)) ELSE 0 END)  as reservations_count'),
 			]
 		)
 			->leftJoin('hotels', 'hotels.id', '=', 'rooms.hotel_id')
+			->leftJoin('reservations_has_rooms', 'rooms.id', '=', 'reservations_has_rooms.room_id')
+			->groupBy('rooms.id')
 			->get()->toArray();
 
 
@@ -61,12 +65,12 @@ class RoomController extends Controller
 				'hotels.stars',
 				'hotels.address',
 				// DB::raw('(CASE WHEN (COUNT(DISTINCT(rooms.id))<> 0 ) THEN COUNT(DISTINCT(rooms.id)) ELSE 0 END)  as rooms_count'),
-				// DB::raw('(CASE WHEN (COUNT(DISTINCT(reservations.id))<> 0 ) THEN COUNT(DISTINCT(reservations.id)) ELSE 0 END)  as reservations_count'),
+				DB::raw('(CASE WHEN (COUNT(DISTINCT(reservations_has_rooms.reservation_id))<> 0 ) THEN COUNT(DISTINCT(reservations_has_rooms.reservation_id)) ELSE 0 END)  as reservations_count'),
 			]
 		)
 			->leftJoin('hotels', 'hotels.id', '=', 'rooms.hotel_id')
-			// ->leftJoin('reservations', 'hotels.id', '=', 'reservations.hotel_id')
-			// ->groupBy('hotels.id')
+			->leftJoin('reservations_has_rooms', 'rooms.id', '=', 'reservations_has_rooms.room_id')
+			->groupBy('rooms.id')
 			->get()->toArray();
 		return $rooms;
 	}
@@ -74,40 +78,16 @@ class RoomController extends Controller
 	public function getreservations(Room $room)
 	{
 
-
 		$rooms_has_resa = DB::table('reservations_has_rooms')
-			
+
 			->join('reservations', 'reservations.id', '=', 'reservations_has_rooms.reservation_id')
 			->join('payments', 'payments.id', '=', 'reservations.payment_id')
 			->join('users', 'users.id', '=', 'reservations.user_id') //
-	
-			->select('reservation_id', 'payments.amount', 'users.name', 'users.email', 'reservations.arrival_date')
+
+			->select('reservation_id', 'payments.amount', 'users.name', 'users.email', 'reservations.arrival_date', 'reservations.departure_date')
 
 			->where('room_id', $room->id)
 			->get()->toArray();
-
-
-			// DB::table('users')
-            // ->join('contacts', 'users.id', '=', 'contacts.user_id')
-            // ->join('orders', 'users.id', '=', 'orders.user_id')
-            // ->select('users.id', 'contacts.phone', 'orders.price')
-            // ->get();
-
-
-
-			// $reservations = Reservation::select(
-			// 	[
-			// 		'reservations.*',
-			// 		'payments.amount',
-			// 		'users.name as user_name', //
-			// 		'users.email as user_email', //
-			// 	]
-			// )
-			// 	->join('payments', 'payments.id', '=', 'reservations.payment_id')
-			// 	->join('users', 'users.id', '=', 'reservations.user_id') //
-			// 	->where('id', $room->id)
-			// 	->get()->toArray();
-
 
 
 		return datatables($rooms_has_resa)->toJson();
@@ -120,8 +100,6 @@ class RoomController extends Controller
 		$allrooms = $this->getTrait();
 		//count rooms
 		$count = Room::all()->count();
-		//this room services
-		$serviceh = Service::where('hotel_id', $room->id)->get()->toArray();
 		//get index of current room in the array 
 		for ($i = 0; $i < $count; $i++) {
 			if ($allrooms[$i]['id'] == $room->id) {
@@ -133,9 +111,30 @@ class RoomController extends Controller
 		$newsItem = $room;
 		$newsItem->getMedia('images')->toArray();
 		$pics = $newsItem['media']->toArray();
+		//this room services
+		$servicer = Service::where('room_id', $room->id)->get()->toArray();
+		//this room offer
+		$offer = Offer::where('room_id', $room->id)->get()->toArray();
+		        // dd($offer);
 
+		// $offerR = Offer::select(
+		// 	[
+		// 		'offers.*',
+			
+		// 	]
+		// )
+		// 	->where('room_id', $room->id)
+		// 	->get()->toArray();
+		// dd($offerR);
 		//get current hotel object
 		$currentroomobject = $allrooms[$index];
+
+		// // get hotel owners
+		// $arr = array();
+		// foreach ($room->users as $user) {
+		// 	$s = $user->toArray();
+		// 	array_push($arr, $s);
+		// }
 
 
 		return view('roomshow')
@@ -143,7 +142,10 @@ class RoomController extends Controller
 				'room'     => $room,
 				'rest'      => $currentroomobject,
 				'pictures'  => $pics,
-				'service'   => $serviceh,
+				'service'   => $servicer,
+				'offers'   => $offer,
+				// 'owners'    => $arr
+
 
 			]);
 	}

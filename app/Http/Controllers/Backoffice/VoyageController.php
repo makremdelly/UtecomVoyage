@@ -34,7 +34,7 @@ class VoyageController extends Controller
 			'startDate' => 'required',
 			'endDate' => 'required',
 			'prix' => 'required',
-			'photo.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,jfif|max:2048',
+			// 'photo.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,jfif|max:2048',
 			'description' => 'required',
 		]);
 

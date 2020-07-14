@@ -15,9 +15,11 @@ class RolesPermissionsTableSeeder extends Seeder
     {
         # permissions
         Permission::create(['name' => 'acces-admin']);
-        Permission::create(['guard_name' => 'api', 'name' => 'acces-hotelier']);
+        Permission::create(['name' => 'acces-superadmin']);
+        Permission::create(['guard_name' => 'api', 'name' => 'acces-client']);
         # roles
         Role::create(['name' => 'Administrator'])->givePermissionTo('acces-admin');
-        Role::create(['guard_name' => 'api', 'name' => 'Hotelier'])->givePermissionTo('acces-hotelier');
+        Role::create(['name' => 'Super-administrator'])->givePermissionTo('acces-superadmin');
+        Role::create(['guard_name' => 'api', 'name' => 'Client'])->givePermissionTo('acces-client');
     }
 }

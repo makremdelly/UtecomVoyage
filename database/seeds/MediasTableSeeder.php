@@ -18,6 +18,7 @@ class MediasTableSeeder extends Seeder
         $url3 = 'https://t-ec.bstatic.com/images/hotel/max1280x900/111/111171246.jpg';
         $url4 = 'https://t-ec.bstatic.com/images/hotel/max1024x768/546/54686729.jpg';
         $url5 = 'https://cdn-wp.s3-eu-central-1.amazonaws.com/wp-content/uploads/sites/11/2018/10/pool-1-the-student-hotel-florence.jpg';
+        $url4 = 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRV02-u2p553SQx9MaQInJqm75rqjh6qcEXDA&usqp=CAU';
 
         App\Models\Hotel::find(1)
             ->addMediaFromUrl($url1) //starting method
@@ -53,6 +54,18 @@ class MediasTableSeeder extends Seeder
             ->toMediaCollection(); //finishing method
 
 
+        App\Models\Hotel::find(14)
+            ->addMediaFromUrl($url1) //starting method
+            ->preservingOriginal() //middle method
+            ->toMediaCollection(); //finishing method
+
+
+
+        App\Models\Hotel::find(2)
+            ->addMediaFromUrl($url1) //starting method
+            ->preservingOriginal() //middle method
+            ->toMediaCollection(); //finishing method
+
 
         //room
         App\Models\Room::find(12)
@@ -80,12 +93,26 @@ class MediasTableSeeder extends Seeder
             ->addMediaFromUrl($url1) //starting method
             ->preservingOriginal() //middle method
             ->toMediaCollection(); //finishing method
-            
-        App\Models\Room::find(13)
-        ->addMediaFromUrl( $url4) //starting method
-        ->preservingOriginal() //middle method
-        ->toMediaCollection(); //finishing method
 
+        App\Models\Room::find(13)
+            ->addMediaFromUrl($url4) //starting method
+            ->preservingOriginal() //middle method
+            ->toMediaCollection(); //finishing method
+
+        App\Models\Room::find(1)
+            ->addMediaFromUrl($url1) //starting method
+            ->preservingOriginal() //middle method
+            ->toMediaCollection(); //finishing method
+
+        App\Models\Room::find(1)
+            ->addMediaFromUrl($url2) //starting method
+            ->preservingOriginal() //middle method
+            ->toMediaCollection(); //finishing method
+
+            App\Models\Room::find(6)
+            ->addMediaFromUrl($url2) //starting method
+            ->preservingOriginal() //middle method
+            ->toMediaCollection(); //finishing method
 
     }
 }

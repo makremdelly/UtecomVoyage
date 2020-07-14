@@ -22,6 +22,7 @@ class CreateReservationsTable extends Migration {
 			$table->integer('hotel_id')->index('fk_reservations_hotel_idx');
 			$table->integer('payment_id')->index('fk_reservations_payment_idx');
 			$table->float('amount_a_payer');
+			$table->string('status');
 			$table->dateTime('arrival_date');
 			$table->dateTime('departure_date');
 			$table->timestamps();

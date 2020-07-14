@@ -21,13 +21,13 @@ Route::middleware(['web'])->group(function () {
     // Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
     // Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset.token');
     // Route::post('password/reset', 'ResetPasswordController@reset');
+    Route::get('auth/google', 'Auth\LoginController@redirectToGoogle');
+    Route::get('auth/google/callback', 'Auth\LoginController@handleGoogleCallback');
+
 
     Auth::routes(['register' => false]);
     Route::group(['middleware' => ['auth']], function () {
-        Route::resource('parametre', 'SettingController');
         Route::get('/dashboard', 'DashboardController@index')->name('get.dashboard');
-        Route::get('/parametre', 'SettingController@index')->name('get.setting');
-        Route::post('/parametre/{parametre}', 'SettingController@update');
         Route::get('/hotels', ['uses' => 'HotelController@index', 'as' => 'hotels.index']);
         Route::get('/hotels/datacollection', 'HotelController@getHotels')->name('get.collecteddata');
         Route::get('/hotels/{hotel}/reservationcollection', 'HotelController@getreservations')->name('get.collectres');
@@ -39,16 +39,16 @@ Route::middleware(['web'])->group(function () {
         Route::get('/paiements', 'SubscriptionController@index')->name('get.subscription');
         Route::get('/paiements/allsubscriptions', 'SubscriptionController@allsubscriptions')->name('get.subscriptions');
         Route::get('/history/{id}', 'SubscriptionController@show')->name('subscription.show');
-        Route::match(['put', 'patch'], '/paiements/activate/{id}', 'SubscriptionController@update')->name('subscription.update');//
+        Route::match(['put', 'patch'], '/paiements/activate/{id}', 'SubscriptionController@update')->name('subscription.update'); //
         Route::get('/paiements/sendreminder/{id}', 'SubscriptionController@sendReminder');
         // Route::get('/subscriptions/print/{id}', 'SubscriptionController@print');
         Route::get('/addhotel', 'HotelController@hotel')->name('add.show');
         Route::post('/addhotel', 'HotelController@uploadImage')->name('add.post.show');
         Route::get('/rooms', 'RoomController@index')->name('room.show');
-        Route::get('/voyages', 'HotelController@voyage')->name('voyage.show');// get voyage show
-        Route::get('/autocars', 'HotelController@autocars')->name('autocars.show');
+        Route::get('/voyages', 'HotelController@voyage')->name('voyage.show'); // get voyage show
+        Route::get('/autocars', 'AutocarController@index')->name('autocars.show');
         Route::get('/addVoyage', 'VoyageController@voyage')->name('addVoyage.show');
-        Route::get('/voyages/allvoyages', 'VoyageController@allvoyages')->name('get.voyage');// get all voyages
+        Route::get('/voyages/allvoyages', 'VoyageController@allvoyages')->name('get.voyage'); // get all voyages
         Route::delete('/voyage/destroy/{voyage}', 'VoyageController@destroy')->name('voyage.destroy');
         // Route::get('/voyage/edit/{id}', 'VoyageController@edit')->name('voyage.edit');
         // Route::get('/voyage/edit/{id}', 'VoyageController@showVoyage')->name('show.voyage');
@@ -82,12 +82,12 @@ Route::middleware(['web'])->group(function () {
         Route::post('/programme/add_data', 'ProgrammeController@add_data')->name('programme.add_data');
         Route::post('/programme/update_data', 'ProgrammeController@update_data')->name('programme.update_data');
         Route::post('/programme/delete_data', 'ProgrammeController@delete_data')->name('programme.delete_data');
-        
+
         Route::get('/voyage/fetch_data', 'VoyageController@fetch_data');
 
         Route::delete('/voyage/imagechecked', 'VoyageController@CheckImage')->name('CheckImage.delete');
 
-        
+
         // Route::get('/programme/{voyage}', 'HotelController@addprogramme')->name('programme'); //button
         // Route::get('/programme/fetch_data', 'ProgrammeController@fetch_data');  
         // Route::post('/programme/add_data', 'ProgrammeController@add_data')->name('programme.add_data');
@@ -95,16 +95,38 @@ Route::middleware(['web'])->group(function () {
         // Route::post('/programme/delete_data', 'ProgrammeController@delete_data')->name('programme.delete_data');
 
         Route::get('/paiements/{id}', 'SubscriptionController@getReservation')->name('res.get');
-        Route::get('/rooms/allrooms', 'RoomController@allrooms')->name('get.room');// get all rooms
+        Route::get('/rooms/allrooms', 'RoomController@allrooms')->name('get.room'); // get all rooms
         Route::delete('/rooms/destroy/{room}', 'RoomController@destroy')->name('room.destroy');
         Route::get('/room/{room}', 'RoomController@show')->name('room1.show');
         Route::get('/room/{room}/reservationcollection', 'RoomController@getreservations')->name('get.reservationRoom');
-        Route::get('/room/{room}/reservation/{payment}', 'ReservationController@show')->name('reservation.show');
+        // Route::get('/room/{room}/reservation/{id}', 'ReservationController@show')->name('reservation.show');
+        Route::get('/room/{room}/reservation/{id}', 'ReservationController@show')->name('reservation.show');
+
+
+        Route::get('reservation', 'StripePaymentController@stripe');
+        Route::post('reservation', 'StripePaymentController@stripePost')->name('stripe.post');
+
+
+
+        Route::get('chart', 'DashboardController@index');
+
+        Route::match(['put', 'patch'],'/reservations/activate/{id}', 'ReservationController@active')->name('reservation.active'); //
+        Route::match(['put', 'patch'],'/reservations/refuse/{id}', 'ReservationController@refuse')->name('reservation.refuse'); //
+
 
 
 
         // Route::get('googlemap', 'MapController@map');
         // Route::get('googlemap/direction', 'MapController@direction');
 
+    });
+
+    Route::group(['middleware' => ['auth', 'role:Super-administrator']], function () {
+        Route::resource('parametre', 'SettingController');
+        Route::get('/parametre', 'SettingController@index')->name('get.setting');
+        Route::post('/parametre/{parametre}', 'SettingController@update');
+        Route::get('/parametres/alladmins', 'SettingController@alladmins')->name('get.admins'); // get all voyages
+        Route::delete('/parametre/destroy/{user}', 'SettingController@destroy')->name('destroy.admin');
+        Route::post('/addadmin', 'SettingController@create')->name('add.admin');
     });
 });

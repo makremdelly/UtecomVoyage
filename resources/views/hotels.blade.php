@@ -9,7 +9,7 @@
         <div class="card-body">
           <!-- Start Add Model -->
           <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+          <div class="modal-dialog modal-lg">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLabel">Ajouter un hôtel </h5>
@@ -20,13 +20,13 @@
                 <form method="POST" action="{{ route('add.post.show') }}" id="signup-form" class="signup-form" enctype="multipart/form-data">
                   @csrf
                   <div class="modal-body">
-                    <div class="form-group">
-                      <label>Nom</label>
-                      <input type="text" class="form-control" name="name" />
+                  <div class="row">
+                      <div class="form-group col-md-6 col-12">                      <label>Nom</label>
+                      <input type="text" class="form-control" name="name" required autofocus />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6 col-12">
                       <label>Etoiles</label>
-                      <select class="form-control" id="star" name="star">
+                      <select class="form-control" id="star" name="star" required autofocus>
                         <option value="">Choisir</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -35,6 +35,9 @@
                         <option value="5">5</option>
                       </select>
                     </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-6 col-12">
                     <label>Téléphone</label>
                     <div class="input-group">
                       <div class="input-group-prepend">
@@ -42,8 +45,10 @@
                           <i class="fas fa-phone"></i>
                         </div>
                       </div>
-                      <input type="text" class="form-control phone-number" pattern="^\+?\s*(\d+\s?){8,}$" name="phone">
+                      <input type="text" class="form-control phone-number" pattern="^\+?\s*(\d+\s?){8,}$" name="phone" required autofocus>
                     </div>
+                    </div>
+
                     <!-- <div class="form-group">
                     <label class="form-label">Adresse</label>
                       <div class="input-group">
@@ -52,58 +57,36 @@
                             <i class="fas fa-map-marker-alt"></i>
                           </div>
                         </div> -->
-                        <!-- <input type="text" class="form-control" name="address" /> -->
-                        <!-- <input type="search" id="address" name="address" />
+                    <!-- <input type="text" class="form-control" name="address" /> -->
+                    <!-- <input type="search" id="address" name="address" />
                       </div>
                     </div> -->
-                    <div class="form-group">
+                    <div class="form-group col-md-6 col-12">
                       <label>Adresse</label>
-                      <input type="search" id="address" name="address" />
+                      <input type="search" id="address" name="address" required autofocus />
                     </div>
-                    <div class="form-group">
-                      <label class="form-label">Service</label>
-                      <div class="selectgroup selectgroup-pills">
-                        <label class="selectgroup-item">
-                          <input type="checkbox" name="designation" value="PARKING" class="selectgroup-input" checked="">
-                          <span class="selectgroup-button">PARKING</span>
-                        </label>
-                        <label class="selectgroup-item">
-                          <input type="checkbox" name="designation" value="WIFI" class="selectgroup-input">
-                          <span class="selectgroup-button">WIFI</span>
-                        </label>
-                        <label class="selectgroup-item">
-                          <input type="checkbox" name="designation" value="SALLE DE SPORT" class="selectgroup-input">
-                          <span class="selectgroup-button">SALLE DE SPORT</span>
-                        </label>
-                        <label class="selectgroup-item">
-                          <input type="checkbox" name="designation" value="ASCENSEUR" class="selectgroup-input">
-                          <span class="selectgroup-button">ASCENSEUR</span>
-                        </label>
-                        <label class="selectgroup-item">
-                          <input type="checkbox" name="designation" value="JARDIN" class="selectgroup-input">
-                          <span class="selectgroup-button">JARDIN</span>
-                        </label>
-                        <label class="selectgroup-item">
-                          <input type="checkbox" name="designation" value="Petit-déjeuner" class="selectgroup-input">
-                          <span class="selectgroup-button">Petit-déjeuner</span>
-                        </label>
-                        <label class="selectgroup-item">
-                          <input type="checkbox" name="designation" value="Bagagerie" class="selectgroup-input">
-                          <span class="selectgroup-button">Bagagerie</span>
-                        </label>
-                        <label class="selectgroup-item">
-                          <input type="checkbox" name="designation" value="Climatisation" class="selectgroup-input">
-                          <span class="selectgroup-button">Climatisation</span>
-                        </label>
-                      </div>
                     </div>
+
+                  
                     <div class="form-group">
                       <label>Galerie</label>
-                      <input type="file" name="image[]" multiple="multiple" class="form-control" id="picture">
+                      <input type="file" name="image[]" multiple="multiple" class="form-control" id="picture" required autofocus>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label class="form-label">Service</label>
+                      <form method="post" id="dynamic_form">
+                        @csrf
+                        <span id="result"></span>
+                        <table class="table">
+                          <tbody>
+                          </tbody>
+                        </table>
+                      </form>
                     </div>
                     <div class="form-group">
                       <label>Description de l'hotel</label>
-                      <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3"></textarea>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" required autofocus></textarea>
                     </div>
                   </div>
                   <div class="modal-footer">
@@ -143,6 +126,59 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script>
   $(document).ready(function() {
+
+
+
+
+
+
+
+
+
+    var count = 1;
+
+    dynamic_field(count);
+
+    function dynamic_field(number) {
+      html = '<tr>';
+      html += '<td><input type="text" name="name[]" class="form-control" /></td>';
+      html += '<td><input type="text" name="description[]" class="form-control" /></td>';
+      html += '<td>  <select class="form-control" name="icon" required><option value="fas fa-parking"><i class="fas fa-parking"></i></option><option value="fas fa-wifi"><i class="fas fa-wifi"></i></option><option value="fas fa-tree"><i class="fas fa-tree"></i></option></select></td>';
+
+
+      
+      if (number > 1) {
+        html += '<td><button type="button" name="remove" id="" class="btn btn-danger remove"><i class="fas fa-times"></i></button></td></tr>';
+        $('tbody').append(html);
+      } else {
+        html += '<td><button type="button" name="add" id="add" class="btn btn-success"><i class="fas fa-plus" ></i></button></td></tr>';
+        $('tbody').html(html);
+      }
+    }
+
+    $(document).on('click', '#add', function() {
+      count++;
+      dynamic_field(count);
+    });
+
+    $(document).on('click', '.remove', function() {
+      count--;
+      $(this).closest("tr").remove();
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // Setup - add a text input to each footer cell
     $('#example thead tr ').clone(true).appendTo('#example thead');
     $('#example thead tr:eq(0) th.mee ').each(function(i) {
@@ -322,10 +358,10 @@
   });
 </script>
 <script>
-var placesAutocomplete = places({
+  var placesAutocomplete = places({
     appId: 'plCZUMZQD4ER',
     apiKey: 'de73017c39b308492fe22873f2b059ad',
     container: document.querySelector('#address')
   });
-  </script>
+</script>
 @endsection

@@ -15,7 +15,8 @@ class CreatePaymentsTable extends Migration {
 		Schema::create('payments', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->string('amount', 10, 0);
+			$table->string('amount', 10, 0)->nullable();
+			$table->boolean('paid')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
 		});

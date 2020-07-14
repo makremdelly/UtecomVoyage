@@ -7,8 +7,8 @@ $factory->define(App\Models\Room::class, function (Faker $faker) {
     return [
         'name'          => $faker->name, 
         'availibility'  => $faker->numberBetween($min = 0, $max = 1),
-        // 'hotel_id'      => $faker->numberBetween($min = 1, $max = 20),
-        'hotel_id'      => $faker->unique()->numberBetween(1, App\Models\Hotel::count()),
+        'hotel_id'      => $faker->numberBetween($min = 1, $max = 20),
+        // 'hotel_id'      => $faker->unique()->numberBetween(1, App\Models\Hotel::count()),
         'vue'           => $faker->randomElement($array = array ('sur mer','vue 2','vue 3','vue 4','vue 5')),
         'total'         => $faker->numberBetween($min = 10, $max = 500),
         // 'price'         => $faker->randomFloat($nbMaxDecimals = 3, $min = 0, $max = 1000),

@@ -10,10 +10,10 @@
             <div class="card card-primary">
                     <!-- <div class="card-header">{{ __('Reset Password') }}</div> -->
                     <div class="card-header">
-                        <h4>Forgot Password</h4>
+                        <h4>Mot de passe oublié</h4>
                     </div>
                     <div class="card-body">
-                    <p class="text-muted">We will send a link to reset your password</p>
+                    <p class="text-muted">Nous vous enverrons un lien pour réinitialiser votre mot de passe</p>
                     @if (session('status'))
                     <div class="alert alert-success" role="alert">
                         {{ session('status') }}
@@ -24,7 +24,7 @@
                         @csrf
 
                         <div class="form-group">
-                            <label for="email">{{ __('E-Mail Address') }}</label>
+                            <label for="email">{{ __('Adresse e-mail') }}</label>
                             <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ $email ?? old('email') }}" required autofocus>
                             @if ($errors->has('email'))
                             <span class="invalid-feedback" role="alert">
@@ -36,13 +36,16 @@
 
 
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
-                                {{ __('Send Password Reset Link') }}
+                            <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4" style="font-size: 10px;">
+                                {{ __('Envoyer le lien de réinitialisation du mot de passe') }}
                             </button>
                         </div>
 
                     </form>
                 </div>
+            </div>
+            <div class="simple-footer">
+              Copyright &copy; UTECOM 2020
             </div>
         </div>
     </div>

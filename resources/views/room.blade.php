@@ -112,11 +112,12 @@
             <table id="rooms" class="table table-hover table-responsive-sm" style="width:100%">
               <thead>
                 <tr>
-                  <th class="mee" id="notmee" style="width:100px;">Disponibilité</th>
-                  <th class="mee" style="width:75px;">#</th>
+                  <th class="mee" style="width:100px;">Disponibilité</th>
+                  <th class="mee" style="width:30px;">#</th>
                   <th class="mee">Nom</th>
                   <th class="mee">Vue</th>
-                  <th class="mee">Type</th>
+                  <th class="mee" id="notmee" style="width:60px;">Type</th>
+                  <th class="mee" style="width:110px;">Total reservations</th>
                   <th class="mee">Hotel</th>
                   <th></th>
                 </tr>
@@ -149,16 +150,20 @@
 
     $('#rooms thead tr:eq(0) th#notmee.mee ').html(`<select class="form-control" id="dispo">
         <option value="">Tous</option>
-        <option value="0">Non réservé</option>
-        <option value="1">Réservé</option>
+        <option value="Single">Single</option>
+        <option value="Double">Double</option>
+        <option value="Triple">Triple</option>
+        <option value="Quad">Quad</option>
+        <option value="Queen">Queen</option>
+        <option value="King">King</option>
       </select>`);
-    $('#dispo').on('keyup change', function() {
+      $('#dispo').on('keyup change', function() {
       if (this.value == null) {
         table.clear();
       } else
-      if (table.column(2).search() !== this.value) {
+      if (table.column(4).search() !== this.value) {
         table
-          .column(2)
+          .column(4)
           .search(this.value)
           .draw();
       }
@@ -184,7 +189,7 @@
       },
 
       "columnDefs": [{
-        "targets": 6,
+        "targets": 7,
         "orderable": false,
         "searchable": false,
       }],
@@ -284,10 +289,35 @@
           data: 'vue',
           name: 'vue'
         },
-
         {
           data: 'type',
-          name: 'type'
+          name: 'type',
+          "render": function(data, type, row, meta) {
+            switch (row.type) {
+              case 'Single':
+                return ('<b data-toggle="tooltip" title="" data-original-title="Single"><i class="fas fa-user"></i></b>');
+                break;
+              case 'Double':
+                return ('<b data-toggle="tooltip" title="" data-original-title="Double"><i class="fas fa-user-friends"></i></b>');
+                break;
+              case 'Triple':
+                return ('<b data-toggle="tooltip" title="" data-original-title="Triple"><i class="fas fa-users"></i></b>');
+                break;
+              case 'Quad':
+                return ('<b data-toggle="tooltip" title="" data-original-title="Quad"><i class="fas fa-user-friends"></i><i class="fas fa-user-friends"></i></b>');
+                break;
+              case 'Queen':
+                return ('<b data-toggle="tooltip" title="" data-original-title="Queen"><i class="fas fa-chess-queen"></i></b>');
+                break;
+                case 'King':
+                return ('<b data-toggle="tooltip" title="" data-original-title="King"><i class="fas fa-chess-king"></i></b>');
+                break;
+            }
+          }
+        },
+        {
+          data: 'reservations_count',
+          name: 'reservations_count'
         },
         {
           data: 'hotel_name',

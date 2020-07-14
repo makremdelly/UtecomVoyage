@@ -26,7 +26,7 @@ class SubscriptionController extends Controller
                 'users.name as user_name',
                 'users.email as user_email',
                 'users.id as user_id',
-                'users.phone', 
+                'users.phone',
             ]
         )
             ->join('reservations', 'payments.id', '=', 'reservations.payment_id')
@@ -152,7 +152,7 @@ class SubscriptionController extends Controller
     {
         $res = $this->getReservation($user_id);
 
-        $histories =Reservation::select(
+        $histories = Reservation::select(
             [
                 'reservations.*',
                 'payments.amount',
@@ -206,29 +206,30 @@ class SubscriptionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $subscription = Subscription::find($id);
-        // $subscription->status = 'paye';
-        // $subscription->save();
         $amount = $request->amount_a_payer;
         // dd($amount);
+        // $res = Payment::select(
+        //     [
+        //         'payments.amount',
 
-        $res = Payment::select(
+        //     ]
+        // )
+        //     ->join('reservations', 'payments.id', '=', 'reservations.payment_id')
+        //     ->where('reservations.id', $id)
+        //     ->update(['amount' => $amount]);
+        $res = Reservation::select(
             [
+                'reservations.*',
                 'payments.amount',
-
             ]
         )
-            ->join('reservations', 'payments.id', '=', 'reservations.payment_id')
+            ->join('payments', 'payments.id', '=', 'reservations.payment_id')
             ->where('reservations.id', $id)
             ->update(['amount' => $amount]);
-
-
-        // $payment = Payment::find($res);
-
-        // $payment->amount = 'paye';
-        // // dd($amount);
-
-        // $payment->save();
+           
+        Reservation::where('id', $id)
+        ->where('status', 'En attente de paiement')
+        ->update(['status' => 'Acceptée']);
     }
 
     /**

@@ -15,6 +15,7 @@ class AddForeignKeysToHotelServicesTable extends Migration {
 		Schema::table('services', function(Blueprint $table)
 		{
 			$table->foreign('hotel_id', 'fk_services_hotels1')->references('id')->on('hotels')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('room_id', 'fk_services_rooms1')->references('id')->on('rooms')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 		});
 	}
 
@@ -29,6 +30,8 @@ class AddForeignKeysToHotelServicesTable extends Migration {
 		Schema::table('hotel_services', function(Blueprint $table)
 		{
 			$table->dropForeign('fk_hotel_services_hotels1');
+			$table->dropForeign('fk_services_rooms1');
+
 		});
 	}
 

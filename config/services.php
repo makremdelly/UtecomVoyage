@@ -44,4 +44,11 @@ return [
         ],
     ],
 
+
+    'google' => [
+        'client_id' => '1084107542898-uh56cfqfjg8dj19vb2vcnk1bv4j4h2bu.apps.googleusercontent.com',
+        'client_secret' => 'S5em_33jEwrIBJqG2BRNCfbD',
+        'redirect' => 'http://127.0.0.1:8000/auth/google/callback',
+    ],
+
 ];

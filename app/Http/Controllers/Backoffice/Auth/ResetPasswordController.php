@@ -28,7 +28,7 @@ class ResetPasswordController extends Controller
 
 
     public function redirectTo(){
-        if (auth()->user()->hasRole('Administrator')) {
+        if (auth()->user()->hasAnyRole(['Super-administrator', 'Administrator'])) {
             return '/dashboard';
         }else{
             \Session::flush();

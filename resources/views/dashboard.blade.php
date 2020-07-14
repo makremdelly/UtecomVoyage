@@ -12,7 +12,7 @@
         <div class="card-body">
           <div>
             <span style="font-size: large;color:#2a944d;">
-              <i class="fas fa-caret-up" style="font-size: large;"></i> 30000 €
+              <i class="fas fa-caret-up" style="font-size: large;"></i> 6523 €
             </span>
             <i class="fas fa-dollar-sign float-right" style="font-size:30px;"></i>
           </div>
@@ -48,7 +48,7 @@
         <div class="card-body">
           <div>
             <span style="font-size: large;color:#2a944d;">
-              <i class="fas fa-caret-up" style="font-size: large;"></i> 1200
+              <i class="fas fa-caret-up" style="font-size: large;"></i> 860
             </span>
             <i class="fas fa-eye float-right" style="font-size:30px;"></i>
           </div>
@@ -79,7 +79,7 @@
     <div class="col-lg-8">
       <div class="card">
         <div class="card-header">
-          <h4>Taux d'inscription durant : 23/05/2019-11/07/2019</h4>
+          <h4>Taux d'inscription durant : 19/05/2020-05/07/2020</h4>
         </div>
         <div class="card-body">
           <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
@@ -95,22 +95,22 @@
         <div class="statistic-details mt-sm-4">
           <div class="statistic-details-item">
             <span class="text-muted"><span class="text-primary"><i class="fas fa-caret-up"></i></span> 7%</span>
-            <div class="detail-value">€243</div>
+            <div class="detail-value">€325</div>
             <div class="detail-name">Gain d'aujourd'hui</div>
           </div>
           <div class="statistic-details-item">
             <span class="text-muted"><span class="text-danger"><i class="fas fa-caret-down"></i></span> 23%</span>
-            <div class="detail-value">€2,902</div>
+            <div class="detail-value">€3,812</div>
             <div class="detail-name">Le gain de cette semaine</div>
           </div>
           <div class="statistic-details-item">
             <span class="text-muted"><span class="text-primary"><i class="fas fa-caret-up"></i></span> 9%</span>
-            <div class="detail-value">€12,821</div>
+            <div class="detail-value">€15,325</div>
             <div class="detail-name">Le gain de ce mois</div>
           </div>
           <div class="statistic-details-item">
             <span class="text-muted"><span class="text-primary"><i class="fas fa-caret-up"></i></span> 19%</span>
-            <div class="detail-value">€92,142</div>
+            <div class="detail-value">€56,396</div>
             <div class="detail-name">Le gain de cette année</div>
           </div>
         </div>
@@ -124,13 +124,19 @@
         </div>
         <div class="card-body" id="top-5-scroll" tabindex="2" style="height: 315px; overflow: hidden; outline: none;">
           <ul class="list-unstyled list-unstyled-border">
+            <?php $count = count($pictures); ?>
+            @foreach($hotels as $hotel)
             <li class="media">
-              <img class="mr-3 rounded" width="55" src="../../../../img/avatar/avatar-1.png" alt="product">
+              @if ($count==0)
+              <img class="mr-3 rounded" width="55" src="../img/nohotel.jpg" alt="product">
+              @elseif($count>1)
+              <img class="mr-3 rounded" width="55" src="../storage/{{$hotel['id']}}/{{$pictures[0]['filename_media']}}" alt="product">
+              @endif
               <div class="media-body">
                 <div class="float-right">
-                  <div class="font-weight-600 text-muted text-small">86 Reservations</div>
+                  <div class="font-weight-600 text-muted text-small">{{$hotel['reservations_count']}} Reservations</div>
                 </div>
-                <div class="media-title">Hotel Marhaba</div>
+                <div class="media-title">{{$hotel['name']}}</div>
                 <div class="mt-1">
                   <div class="budget-price">
                     <div class="budget-price-square bg-primary" data-width="64%" style="width: 64%;"></div>
@@ -143,82 +149,7 @@
                 </div>
               </div>
             </li>
-            <li class="media">
-              <img class="mr-3 rounded" width="55" src="../../../../img/avatar/avatar-1.png" alt="product">
-              <div class="media-body">
-                <div class="float-right">
-                  <div class="font-weight-600 text-muted text-small">67 Reservations</div>
-                </div>
-                <div class="media-title">Hotel Dar El sada</div>
-                <div class="mt-1">
-                  <div class="budget-price">
-                    <div class="budget-price-square bg-primary" data-width="84%" style="width: 84%;"></div>
-                    <div class="budget-price-label">€107,133</div>
-                  </div>
-                  <div class="budget-price">
-                    <div class="budget-price-square bg-danger" data-width="60%" style="width: 60%;"></div>
-                    <div class="budget-price-label">€91,455</div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li class="media">
-              <img class="mr-3 rounded" width="55" src="../../../../img/avatar/avatar-1.png" alt="product">
-              <div class="media-body">
-                <div class="float-right">
-                  <div class="font-weight-600 text-muted text-small">63 Reservations</div>
-                </div>
-                <div class="media-title">Hotel test 2</div>
-                <div class="mt-1">
-                  <div class="budget-price">
-                    <div class="budget-price-square bg-primary" data-width="34%" style="width: 34%;"></div>
-                    <div class="budget-price-label">€3,717</div>
-                  </div>
-                  <div class="budget-price">
-                    <div class="budget-price-square bg-danger" data-width="28%" style="width: 28%;"></div>
-                    <div class="budget-price-label">€2,835</div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li class="media">
-              <img class="mr-3 rounded" width="55" src="../../../../img/avatar/avatar-1.png" alt="product">
-              <div class="media-body">
-                <div class="float-right">
-                  <div class="font-weight-600 text-muted text-small">28 Reservations</div>
-                </div>
-                <div class="media-title">Hotel phénix</div>
-                <div class="mt-1">
-                  <div class="budget-price">
-                    <div class="budget-price-square bg-primary" data-width="45%" style="width: 45%;"></div>
-                    <div class="budget-price-label">€13,972</div>
-                  </div>
-                  <div class="budget-price">
-                    <div class="budget-price-square bg-danger" data-width="30%" style="width: 30%;"></div>
-                    <div class="budget-price-label">€9,660</div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li class="media">
-              <img class="mr-3 rounded" width="55" src="../../../../img/avatar/avatar-1.png" alt="product">
-              <div class="media-body">
-                <div class="float-right">
-                  <div class="font-weight-600 text-muted text-small">19 Reservations</div>
-                </div>
-                <div class="media-title">Hotel beb bhar</div>
-                <div class="mt-1">
-                  <div class="budget-price">
-                    <div class="budget-price-square bg-primary" data-width="35%" style="width: 35%;"></div>
-                    <div class="budget-price-label">€7,391</div>
-                  </div>
-                  <div class="budget-price">
-                    <div class="budget-price-square bg-danger" data-width="28%" style="width: 28%;"></div>
-                    <div class="budget-price-label">€5,472</div>
-                  </div>
-                </div>
-              </div>
-            </li>
+            @endforeach
           </ul>
         </div>
         <div class="card-footer pt-3 d-flex justify-content-center">
@@ -253,8 +184,13 @@
               <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
             </div>
           </div>
-          <div id="chart" style="min-height: 365px;">
+          <div style="width: 100%;margin: 0 auto;">
+            {!! $chart->container() !!}
           </div>
+          <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script> -->
+          {!! $chart->script() !!}
+          <!-- <div id="chart" style="min-height: 365px;">
+          </div> -->
         </div>
       </div>
     </div>
