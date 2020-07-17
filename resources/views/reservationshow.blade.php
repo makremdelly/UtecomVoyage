@@ -39,7 +39,7 @@
             <div class="row">
               <div class="col-lg-12">
                 <div class="invoice-title">
-                  <h2 style="font-family: serif;">{{$hotel['0']['name']}}</h2>
+                  <h2 style="font-family: serif;">{{$reservation['0']['hotel_name']}}</h2>
                   <span>
 
                   </span>
@@ -49,10 +49,10 @@
                 <div class="row">
                   <div class="col-md-6">
                     <address>
-                      {{$hotel['0']['address']}}<br>
-                      {{$hotel['0']['country']}}<br>
-                      {{$hotel['0']['city']}},{{$hotel['0']['type']}} ,{{$hotel['0']['postcode']}}<br>
-                      {{$hotel['0']['phone']}}<br>
+                      {{$reservation['0']['hotel_address']}}<br>
+                      {{$reservation['0']['hotel_country']}}<br>
+                      {{$reservation['0']['hotel_city']}},{{$reservation['0']['hotel_type']}} ,{{$reservation['0']['hotel_postcode']}}<br>
+                      {{$reservation['0']['hotel_phone']}}<br>
                     </address>
                   </div>
                   <div class="col-md-6 text-md-right">

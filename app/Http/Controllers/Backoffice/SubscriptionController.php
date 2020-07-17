@@ -23,6 +23,7 @@ class SubscriptionController extends Controller
             [
                 'reservations.*',
                 'payments.amount',
+                'payments.paid',
                 'users.name as user_name',
                 'users.email as user_email',
                 'users.id as user_id',

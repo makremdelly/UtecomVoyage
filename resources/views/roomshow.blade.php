@@ -55,9 +55,11 @@
                 <div class="card-header">
                   <h4>
                     @foreach ($offers as $f)
-                    </del> <span class="invoice-detail-value text-danger"><del>${{$f['price']}}</del></span>&nbsp
                     @if($f['discount'] != null)
+                   <span class="invoice-detail-value text-danger"><del>${{$f['price']}}</del></span>&nbsp
                     <span class="invoice-detail-value">${{$f['discount']}}</span>
+                    @else
+                   <span class="invoice-detail-value">${{$f['price']}}</span>
                     @endif
                     @endforeach
                   </h4>

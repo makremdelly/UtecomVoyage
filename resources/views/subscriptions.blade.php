@@ -81,23 +81,22 @@
         }
       });
     });
-    // $('#subscriptions thead tr:eq(0) th#notmee.me ').html(`<select class="form-control" id="statut">
-    //     <option value="">Tous</option>
-    //     <option value ="paye" >Payé</option>
-    //     <option value="Non payé">Non payé</option>
-    //   </select>`);
-    // $('#statut').on('keyup change', function() {
-    //   if (this.value == null) {
-    //     table.clear();
-    //   } else
-    //   if (table.column(0).search() !== this.value) {
-    //     table
-    //       .column(0)
-    //       .search(this.value)
-    //       .draw();
-    //     console.log(this.value);
-    //   }
-    // });
+    $('#subscriptions thead tr:eq(0) th#notmee.me ').html(`<select class="form-control" id="paid">
+        <option value="">Tous</option>
+        <option value="payé">Payé</option>
+        <option value="non paye">Non payé</option>
+      </select>`);
+    $('#paid').on('keyup change', function() {
+      if (this.value == null) {
+        table.clear();
+      } else
+      if (table.column(0).search() !== this.value) {
+        table
+          .column(0)
+          .search(this.value)
+          .draw();
+      }
+    });
     var table = $('#subscriptions').DataTable({
       "language": {
         "lengthMenu": "Afficher _MENU_ élements",
@@ -506,15 +505,29 @@ Contacter sur +216 99 455 055
 
       columns: [
         // { data: 'id', name: 'id' },
-        {
-          data: 'amount',
-          name: 'amount',
-          "render": function(data, type, row, meta) {
+        // {
+        //   data: 'amount',
+        //   name: 'amount',
+        //   "render": function(data, type, row, meta) {
 
-            if (row.amount == null) {
-              return ('<div class="badge badge-danger">Non payé</div>');
-            } else {
-              return ('<div class="badge badge-success">Payé</div>');
+        //     if (row.paid == NULL) {
+        //       return ('<div class="badge badge-danger">Non payé</div>');
+        //     } else {
+        //       return ('<div class="badge badge-success">Payé</div>');
+        //     }
+        //   }
+        // },
+        {
+          data: 'paid',
+          name: 'paid',
+          "render": function(data, type, row, meta) {
+            switch (row.paid) {
+              case 'non paye':
+                return ('<div class="badge badge-danger">Non payé</div>');
+                break;
+              case 'payé':
+                return ('<div class="badge badge-success">Payé</div>');
+                break;
             }
           }
         },

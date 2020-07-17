@@ -79,16 +79,12 @@ class RoomController extends Controller
 	{
 
 		$rooms_has_resa = DB::table('reservations_has_rooms')
-
 			->join('reservations', 'reservations.id', '=', 'reservations_has_rooms.reservation_id')
 			->join('payments', 'payments.id', '=', 'reservations.payment_id')
 			->join('users', 'users.id', '=', 'reservations.user_id') //
-
 			->select('reservation_id', 'payments.amount', 'users.name', 'users.email', 'reservations.arrival_date', 'reservations.departure_date')
-
 			->where('room_id', $room->id)
 			->get()->toArray();
-
 
 		return datatables($rooms_has_resa)->toJson();
 	}

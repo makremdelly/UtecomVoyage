@@ -40,10 +40,14 @@ class DashboardController extends Controller
                 'hotels.name',
                 'hotels.stars',
                 'hotels.created_at',
-                DB::raw('(CASE WHEN (COUNT(DISTINCT(reservations.id))<> 0 ) THEN COUNT(DISTINCT(reservations.id)) ELSE 0 END)  as reservations_count'),
-            ]
+                DB::raw('(CASE WHEN (COUNT(DISTINCT(rooms.id))<> 0 ) THEN COUNT(DISTINCT(rooms.id)) ELSE 0 END)  as rooms_count'),
+                // DB::raw('(CASE WHEN (COUNT(DISTINCT(reservations.id))<> 0 ) THEN COUNT(DISTINCT(reservations.id)) ELSE 0 END)  as reservations_count'),
+                DB::raw('(CASE WHEN (COUNT(DISTINCT(reservations_has_rooms.reservation_id))<> 0 ) THEN COUNT(DISTINCT(reservations_has_rooms.reservation_id)) ELSE 0 END)  as reservations_count'),
+                ]
         )
-            ->leftJoin('reservations', 'hotels.id', '=', 'reservations.hotel_id')
+            // ->leftJoin('reservations', 'hotels.id', '=', 'reservations.hotel_id')
+            ->leftJoin('rooms', 'hotels.id', '=', 'rooms.hotel_id')
+            ->leftJoin('reservations_has_rooms', 'rooms.id', '=', 'reservations_has_rooms.room_id')
             ->groupby('hotels.id')->orderby('reservations_count', 'desc')->limit(5)->get()->toArray();
         // dd($hotel);
 

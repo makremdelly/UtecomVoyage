@@ -168,7 +168,7 @@
               <a href="{{ route('hotels.index') }}" class="nav-link"><i class="fas fa-hotel"></i><span>Hôtels</span></a>
             </li>
 
-            <li class="{{  (Route::is('room.show')) || (Route::is('room1.show')) ? 'active' : ''  }}">
+            <li class="{{  (Route::is('room.show')) || (Route::is('room1.show')) || (Route::is('reservationRoom.show')) ? 'active' : ''  }}">
               <a href="{{ route('room.show') }}" class="nav-link"><i class="fas fa-bed"></i><span>Chambres</span></a>
             </li>
 
@@ -186,7 +186,7 @@
                     <a href="{{ route('reservation.index') }}" class="nav-link"><i class="fas fa-check-double"></i><span>Réservations</span></a>
                     </li>  -->
 
-            <li class="dropdown">
+            <li class="dropdown {{ Route::is('reservation.index') || (Route::is('reservation.show') && ($res == "reservations")) ? 'active' : ''  }}">
               <a href="#" class="nav-link has-dropdown"><i class="fas fa-check-double"></i><span>Réservations</span></a>
               <ul class="dropdown-menu">
                 <li class="{{ Route::is('reservation.index') || (Route::is('reservation.show') && ($res == "reservations")) ? 'active' : ''  }}">
@@ -262,7 +262,7 @@
             @elseif (Route::is('hotel.show'))
             <h1>Hôtel numero {{$hotel->id}}</h1>
 
-            @elseif (Route::is('reservation.show'))
+            @elseif (Route::is('reservation.show') || Route::is('reservationRoom.show'))
             <?php
             $r = parse_url(URL::current());
             $endofurl = substr($r['path'], strrpos($r['path'], '/') + 1);

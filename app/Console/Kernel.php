@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\UpdateCommand::class,
+        Commands\PaidCommand::class,
     ];
 
     /**
@@ -32,6 +33,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('update:command')->everyMinute();
+        $schedule->command('paid:command')->everyMinute();
     }
 
     /**

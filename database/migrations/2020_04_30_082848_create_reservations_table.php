@@ -19,7 +19,7 @@ class CreateReservationsTable extends Migration {
 			// $table->string('user_email', 45);
 			// $table->string('phone');
 			$table->integer('user_id')->index('fk_reservations_user_idx');
-			$table->integer('hotel_id')->index('fk_reservations_hotel_idx');
+			// $table->integer('hotel_id')->index('fk_reservations_hotel_idx');
 			$table->integer('payment_id')->index('fk_reservations_payment_idx');
 			$table->float('amount_a_payer');
 			$table->string('status');

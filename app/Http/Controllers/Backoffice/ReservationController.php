@@ -26,24 +26,36 @@ class ReservationController extends Controller
         return view('reservations');
     }
 
+    // public function allreservations()
+    // {
+    //     $reservations = Payment::select(
+    //         [
+    // 'reservations.*',
+    // 'payments.amount',
+    // 'hotels.name as hotel_name',
+    // 'users.name as user_name',
+    // 'users.email as user_email',
+    // 'users.id as user_id',
+    // 'users.phone',
+    //     ]
+    // )
+    // ->join('reservations', 'payments.id', '=', 'reservations.payment_id')
+    // ->join('hotels', 'reservations.hotel_id', '=', 'hotels.id')
+    // ->join('users', 'users.id', '=', 'reservations.user_id')
+    // ->get()->toArray();
+    // dd($reservations);
+    // return datatables($reservations)->toJson();
+    // }
     public function allreservations()
     {
-        $reservations = Payment::select(
-            [
-                'reservations.*',
-                'payments.amount',
-                'hotels.name as hotel_name',
-                'users.name as user_name',
-                'users.email as user_email',
-                'users.id as user_id',
-                'users.phone',
-            ]
-        )
-            ->join('reservations', 'payments.id', '=', 'reservations.payment_id')
-            ->join('hotels', 'reservations.hotel_id', '=', 'hotels.id')
-            ->join('users', 'users.id', '=', 'reservations.user_id')
+        $reservations = DB::table('reservations_has_rooms')
+            ->join('reservations', 'reservations.id', '=', 'reservations_has_rooms.reservation_id')
+            ->join('rooms', 'rooms.id', '=', 'reservations_has_rooms.room_id')
+            ->join('hotels', 'hotels.id', '=', 'rooms.hotel_id')
+            ->join('payments', 'payments.id', '=', 'reservations.payment_id')
+            ->join('users', 'users.id', '=', 'reservations.user_id') //
+            ->select('reservations.*', 'reservation_id as res_id', 'payments.amount', 'users.name as user_name',  'users.phone', 'users.email as user_email', 'hotels.id as hotel_id', 'hotels.name as hotel_name')
             ->get()->toArray();
-        // dd($reservations);
         return datatables($reservations)->toJson();
     }
     /**
@@ -80,9 +92,7 @@ class ReservationController extends Controller
         $resid = substr($r['path'], strrpos($r['path'], '/') + 1);
         $url = explode('/', URL::current());
         // dd($url);
-
         $reservationobject = Reservation::find($resid);
-
         $arr = array();
         foreach ($reservationobject->rooms as $room) {
             $r = $room->toArray();
@@ -91,12 +101,25 @@ class ReservationController extends Controller
         }
         // dd($r);
         //  dd($t);
-        
-        $offer = Offer::select('discount','price')->where('room_id', $room->id)->get()->toArray();
+        $offer = Offer::select('discount', 'price')->where('room_id', $room->id)->get()->toArray();
         $discount = $offer['0']['discount'];
-		$price = $offer['0']['price'];
-		$remise = abs($price - $discount);
+        $price = $offer['0']['price'];
+        $remise = abs($price - $discount);
         //  dd($remise);
+        // $res = DB::table('reservations_has_rooms')
+        //     ->join('reservations', 'reservations.id', '=', 'reservations_has_rooms.reservation_id')
+        //     ->join('rooms', 'rooms.id', '=', 'reservations_has_rooms.room_id')
+        //     ->join('hotels', 'hotels.id', '=', 'rooms.hotel_id')
+        //     ->join('payments', 'payments.id', '=', 'reservations.payment_id')
+        //     ->join('users', 'users.id', '=', 'reservations.user_id') //
+        //     ->select('reservations.*', 'reservation_id as res_id', 'payments.amount', 'users.name as user_name', 'users.id as user_id', 'users.phone', 'users.email as user_email', 'rooms.id as room_id', 'hotels.name as hotel_name', 'hotels.id as hotel_id')
+        //     ->where('reservations.id', $resid)
+        //     ->get()->toArray();
+        //  dd($res);
+
+
+
+
         $res = Reservation::select(
             [
                 'reservations.*',
@@ -105,18 +128,30 @@ class ReservationController extends Controller
                 'users.email as user_email',
                 'users.id as user_id',
                 'users.phone',
+                'hotels.name as hotel_name',
+                'hotels.id as hotel_id',
+                'hotels.address as hotel_address',
+                'hotels.country as hotel_country',
+                'hotels.city as hotel_city',
+                'hotels.phone as hotel_phone',
+                'hotels.type as hotel_type',
+                'hotels.postcode as hotel_postcode',
+
                 // 'reservations_has_rooms.reservation_id',
                 // 'reservations_has_rooms.room_id'
             ]
         )
             ->join('payments', 'payments.id', '=', 'reservations.payment_id')
+            ->join('reservations_has_rooms', 'reservations_has_rooms.reservation_id', '=','reservations.id')
+            ->join('rooms', 'rooms.id', '=', 'reservations_has_rooms.room_id')
+            ->join('hotels', 'hotels.id', '=', 'rooms.hotel_id')
             ->join('users', 'users.id', '=', 'reservations.user_id')
             // ->leftJoin('reservations_has_rooms', 'reservations.id', '=', 'reservations_has_rooms.reservation_id')
             ->where('reservations.id', $resid)
             ->get()->toArray();
 
         //get current hotel 
-        $h = Hotel::where('id', $res[0]['hotel_id'])->get()->toArray();
+        // $h = Hotel::where('id', $res[0]['hotel_id'])->get()->toArray();
 
         // $rooms_has_resa = DB::table('reservations_has_rooms')
         // ->join('reservations', 'reservations.id', '=', 'reservations_has_rooms.reservation_id')
@@ -133,10 +168,10 @@ class ReservationController extends Controller
                 return view('reservationshow')
                     ->with([
                         'reservation'   => $res,
-                        'hotel'         => $h,
+                        // 'hotel'         => $h,
                         'rooms'         => $arr,
-                        'offers'        =>$offer,
-                        'remise'        =>$remise
+                        'offers'        => $offer,
+                        'remise'        => $remise
                     ]);
             } else {
                 abort(404);
@@ -146,10 +181,10 @@ class ReservationController extends Controller
                 return view('reservationshow')
                     ->with([
                         'reservation'   => $res,
-                        'hotel'         => $h,
+                        // 'hotel'         => $h,
                         'rooms'         => $arr,
-                        'offers'        =>$offer,
-                        'remise'        =>$remise
+                        'offers'        => $offer,
+                        'remise'        => $remise
                     ]);
             } else {
                 abort(404);
@@ -195,7 +230,7 @@ class ReservationController extends Controller
             ->where('reservations.id', $id)
             ->first()->toArray();
         // dd($reservtions);
-        if ($reservtions['amount'] == 'Non payé') {
+        if ($reservtions['amount'] == null) {
             $reservtions = Reservation::where('id', $reservtions['id'])->update(['status' => 'En attente de paiement']);
         } else {
             $reservtions = Reservation::where('id', $reservtions['id'])->update(['status' => 'Acceptée']);

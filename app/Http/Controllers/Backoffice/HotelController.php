@@ -111,11 +111,13 @@ class HotelController extends Controller
 				'hotels.stars',
 				'hotels.created_at',
 				DB::raw('(CASE WHEN (COUNT(DISTINCT(rooms.id))<> 0 ) THEN COUNT(DISTINCT(rooms.id)) ELSE 0 END)  as rooms_count'),
-				DB::raw('(CASE WHEN (COUNT(DISTINCT(reservations.id))<> 0 ) THEN COUNT(DISTINCT(reservations.id)) ELSE 0 END)  as reservations_count'),
-			]
+				// DB::raw('(CASE WHEN (COUNT(DISTINCT(reservations.id))<> 0 ) THEN COUNT(DISTINCT(reservations.id)) ELSE 0 END)  as reservations_count'),
+				DB::raw('(CASE WHEN (COUNT(DISTINCT(reservations_has_rooms.reservation_id))<> 0 ) THEN COUNT(DISTINCT(reservations_has_rooms.reservation_id)) ELSE 0 END)  as reservations_count'),
+				]
 		)
 			->leftJoin('rooms', 'hotels.id', '=', 'rooms.hotel_id')
-			->leftJoin('reservations', 'hotels.id', '=', 'reservations.hotel_id')
+			// ->leftJoin('reservations', 'hotels.id', '=', 'reservations.hotel_id')
+			->leftJoin('reservations_has_rooms', 'rooms.id', '=', 'reservations_has_rooms.room_id')
 			->groupBy('hotels.id')
 			->get()->toArray();
 		return $rooms;
@@ -126,22 +128,36 @@ class HotelController extends Controller
 		return datatables($this->getTrait())->toJson();
 	}
 
+	// public function getreservations(Hotel $hotel)
+	// {
+	// 	$reservations = Payment::select(
+	// 		[
+	// 			'reservations.*',
+	// 			'payments.amount',
+	// 			'users.name as user_name', //
+	// 			'users.email as user_email', //
+	// 		]
+	// 	)
+	// 		->join('reservations', 'payments.id', '=', 'reservations.payment_id')
+	// 		->join('users', 'users.id', '=', 'reservations.user_id') //
+	// 		->where('hotel_id', $hotel->id)
+	// 		->get()->toArray();
+	// 	return datatables($reservations)->toJson();
+	// }
 	public function getreservations(Hotel $hotel)
 	{
-		$reservations = Payment::select(
-			[
-				'reservations.*',
-				'payments.amount',
-				'users.name as user_name', //
-				'users.email as user_email', //
-			]
-		)
-			->join('reservations', 'payments.id', '=', 'reservations.payment_id')
+		$reservations = DB::table('reservations_has_rooms')
+			->join('reservations', 'reservations.id', '=', 'reservations_has_rooms.reservation_id')
+			->join('rooms', 'rooms.id', '=', 'reservations_has_rooms.room_id')
+			->join('hotels', 'hotels.id', '=', 'rooms.hotel_id')
+			->join('payments', 'payments.id', '=', 'reservations.payment_id')
 			->join('users', 'users.id', '=', 'reservations.user_id') //
-			->where('hotel_id', $hotel->id)
+			->select('reservations.*','reservation_id as res_id', 'payments.amount', 'users.name as user_name', 'users.email as user_email', 'reservations.arrival_date', 'reservations.departure_date','hotels.id as hotel_id')
+			->where('rooms.hotel_id', $hotel->id)
 			->get()->toArray();
 		return datatables($reservations)->toJson();
 	}
+
 	/**
 	 * Show the form for creating a new resource.
 	 *

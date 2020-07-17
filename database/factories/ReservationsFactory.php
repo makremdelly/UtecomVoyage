@@ -13,7 +13,7 @@ $factory->define(App\Models\Reservation::class, function (Faker $faker) {
         'status'  => $faker->randomElement($array = array ('En attente','Acceptée','Refusée')),
         'created_at'    => now(),
         'updated_at'    => now(),
-        'hotel_id'      => $faker->numberBetween($min = 1, $max = 20),
+        // 'hotel_id'      => $faker->numberBetween($min = 1, $max = 20),
         'payment_id'    => $faker->unique()->numberBetween(1, App\Models\Payment::count()),
         // 'phone'         => $faker->phoneNumber(),
         // 'arrival_date'  => now(),

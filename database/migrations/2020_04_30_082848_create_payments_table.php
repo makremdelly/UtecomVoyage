@@ -16,7 +16,7 @@ class CreatePaymentsTable extends Migration {
 		{
 			$table->integer('id', true);
 			$table->string('amount', 10, 0)->nullable();
-			$table->boolean('paid')->nullable();
+			$table->string('paid')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
 		});

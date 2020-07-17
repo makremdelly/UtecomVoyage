@@ -100,7 +100,7 @@ Route::middleware(['web'])->group(function () {
         Route::get('/room/{room}', 'RoomController@show')->name('room1.show');
         Route::get('/room/{room}/reservationcollection', 'RoomController@getreservations')->name('get.reservationRoom');
         // Route::get('/room/{room}/reservation/{id}', 'ReservationController@show')->name('reservation.show');
-        Route::get('/room/{room}/reservation/{id}', 'ReservationController@show')->name('reservation.show');
+        Route::get('/room/{room}/reservation/{id}', 'ReservationController@show')->name('reservationRoom.show');
 
 
         Route::get('reservation', 'StripePaymentController@stripe');
