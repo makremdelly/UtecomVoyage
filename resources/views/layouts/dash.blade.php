@@ -186,13 +186,15 @@
                     <a href="{{ route('reservation.index') }}" class="nav-link"><i class="fas fa-check-double"></i><span>Réservations</span></a>
                     </li>  -->
 
-            <li class="dropdown {{ Route::is('reservation.index') || (Route::is('reservation.show') && ($res == "reservations")) ? 'active' : ''  }}">
+            <li class="dropdown {{ Route::is('reservation.index') ||Route::is('reservation.voyage') || (Route::is('reservation.show') && ($res == "reservations")) ? 'active' : ''  }}">
               <a href="#" class="nav-link has-dropdown"><i class="fas fa-check-double"></i><span>Réservations</span></a>
               <ul class="dropdown-menu">
                 <li class="{{ Route::is('reservation.index') || (Route::is('reservation.show') && ($res == "reservations")) ? 'active' : ''  }}">
                   <a href="{{ route('reservation.index') }}" class="nav-link"><span>Réservations Hôtels</span></a>
                 </li>
-                <li><a class="nav-link" href="index.html">Réservations Voyages</a></li>
+                <li class="{{ Route::is('reservation.voyage') || (Route::is('reservation.show') && ($res == "reservations")) ? 'active' : ''  }}">
+                  <a href="{{ route('reservation.voyage') }}" class="nav-link"><span>Réservations Voyages</span></a>
+                </li>              
               </ul>
             </li>
 

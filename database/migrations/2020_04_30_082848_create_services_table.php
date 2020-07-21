@@ -18,8 +18,8 @@ class CreateServicesTable extends Migration {
 			$table->string('name');
 			$table->string('description');
 			$table->string('icon')->nullable();
-			$table->integer('hotel_id')->index('fk_services_hotels1_idx');
-			$table->integer('room_id')->index('fk_services_rooms1_idx');
+			$table->integer('hotel_id')->index('fk_services_hotels1_idx')->nullable();
+			$table->integer('room_id')->index('fk_services_rooms1_idx')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
 		});

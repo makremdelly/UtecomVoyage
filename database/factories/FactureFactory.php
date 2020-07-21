@@ -5,7 +5,7 @@
 use Faker\Generator as Faker;
 
 
-$factory->define(App\Models\History::class, function (Faker $faker) {
+$factory->define(App\Models\Facture::class, function (Faker $faker) {
     return [
         'user_id'        => $faker->unique()->numberBetween(1, App\Models\User::count()),
         'hotel_id'      => $faker->numberBetween($min = 1, $max = 20),

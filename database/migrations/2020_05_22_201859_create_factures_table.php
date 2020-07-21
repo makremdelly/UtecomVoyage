@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateHistoriesTable extends Migration
+class CreateFacturesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateHistoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('histories', function (Blueprint $table) {
+        Schema::create('factures', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id')->index('fk_histories_user_idx')->nullable();
             $table->integer('hotel_id')->index('fk_histories_hotel_idx')->nullable();
@@ -32,6 +32,6 @@ class CreateHistoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('histories');
+        Schema::dropIfExists('factures');
     }
 }

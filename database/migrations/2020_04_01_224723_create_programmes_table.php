@@ -15,11 +15,11 @@ class CreateProgrammesTable extends Migration
     {
         Schema::create('programmes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('Date')->nullable();
+            // $table->string('Date')->nullable();
             $table->longText('Programme')->nullable();
             $table->integer('voyage_id')->index('fk_programme_voyage_idx')->nullable();
             $table->timestamps();
-
+            $table->softDeletes();
         });
     }
 

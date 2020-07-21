@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\Subscription;
 
-class SubscriptionsTableSeeder extends Seeder
+class FacturesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +11,6 @@ class SubscriptionsTableSeeder extends Seeder
      */
     public function run()
     {
-        
+        //
     }
 }

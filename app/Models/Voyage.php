@@ -26,5 +26,8 @@ class Voyage extends Model implements HasMedia
     {
         return $this->hasOne('App\Models\Autocar');
     }
-
+    public function reservations()
+    {
+        return $this->belongsToMany('App\Models\Reservation','voyages_has_reservations','voyage_id','reservation_id');
+    }
 }

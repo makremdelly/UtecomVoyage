@@ -10,6 +10,8 @@ use App\Models\Service;
 use App\Models\Offer;
 use App\Models\Payment;
 use App\Models\Reservation;
+use Softon\SweetAlert\Facades\SWAL;
+
 
 use Spatie\MediaLibrary\Models\Media;
 
@@ -21,6 +23,74 @@ class RoomController extends Controller
 		return view('room');
 	}
 
+	public function store(Request $request)
+	{
+		request()->validate([
+			'image.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,jfif|max:2048',
+			'name' => 'required',
+			'vue' => 'required',
+			'description' => 'required',
+			'type' => 'required',
+			'hotel' => 'required',
+			'service' => 'required'
+		]);
+
+		// $imageName = time().'.'.request()->image->getClientOriginalExtension();
+		$name = request()->name;
+		$vue = request()->vue;
+		$description = request()->description;
+		$type = request()->type;
+		$hotel = request()->hotel;
+		$servicee = request()->service;
+
+		//upload image 
+		$room = new Room;
+		$room->name = $name;
+		$room->vue = $vue;
+		$room->description = $description;
+		$room->type = $type;
+		$room->hotel_id = $hotel;
+		$room->save();
+
+
+		$service = new Service;
+		$service->name = $servicee;
+		$service->room_id = $room->id;
+		if ($servic = 'WIFI') {
+			$service->description = 'Est maxime voluptatem et perferendis est soluta beatae fugiat. Aut voluptatibus dicta aut sed iure nisi. Perspiciatis nihil consectetur enim delectus.';
+			$service->icon = 'fas fa-wifi';
+		} elseif ($servic = 'ascenseur') {
+			$service->description = 'Sint ullam dolore ut velit quia error. Dolorem et impedit adipisci. Deleniti tenetur quae iusto sed. Et voluptatibus et ut saepe.';
+			$service->icon = 'fas fa-gamepad';
+		} elseif ($servic = 'Salle de Sport') {
+			$service->description = 'Quia eum velit deserunt labore. Tempore quasi impedit ullam ducimus recusandae ab. Aspernatur sapiente hic sed quaerat id neque ut ad. Ex dolorem perspiciatis adipisci iure corrupti explicabo aut.';
+			$service->icon = 'fas fa-swimmer';
+		} elseif ($servic = 'Parking') {
+			$service->description = 'Qui unde voluptas natus perspiciatis quia consequatur aut. Rerum explicabo et aut minus.';
+			$service->icon = 'fas fa-parking';
+		}
+		// dd($service);
+		$service->save();
+		$file = array();
+		$files = request()->file('image');
+		foreach ($files as $file) {
+			// get File name with extension 
+			$filenameWithExt = $file->getClientOriginalName();
+			// //get just the file name 
+			$filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+			// //get extension 
+			$extension = $file->getClientOriginalExtension();
+			// //create new filename
+			$filenameToStore = $filename . '_' . time() . '.' . $extension;
+			$file->storeAs('public/' . $room->id, $filenameToStore);
+			Room::find($room->id)
+				->addMediaFromUrl('storage/' . $room->id . '/' . $filenameToStore)
+				->preservingOriginal() //middle method
+				->toMediaCollection(); //finishing method
+		}
+		SWAL::message('Bien', 'votre hotel a été ajouté avec succès', 'success', ['timer' => 4000]);
+		return redirect('room/' . $room->id);
+	}
 	public function allrooms()
 	{
 		$arr = array();
@@ -75,6 +145,31 @@ class RoomController extends Controller
 		return $rooms;
 	}
 
+	public function getRoom($id)
+	{
+		$rooms = DB::table('rooms')
+			->where('id', '=', $id)
+			->get();
+		echo json_encode($rooms);
+		// return datatables($hotels)->toJson();
+	}
+
+	public function update(Request $request, $id)
+	{	
+		$rooms = Room::find($id);
+		$rooms = Room::where('id', '=', $id)->first(); // where id is method param from url or request object
+
+		//    $name = $request->input('nbplace');
+		$rooms->name = $request->input('name');
+		$rooms->vue = $request->input('vue');
+		$rooms->type = $request->input('type');
+		$rooms->hotel_id = $request->input('hotel');
+		$rooms->description = $request->input('description');
+		$rooms->save();
+		$service= Service::where('hotel_id', $id)->first();
+		$service->name = $request->input('service');
+	}
+
 	public function getreservations(Room $room)
 	{
 
@@ -111,12 +206,12 @@ class RoomController extends Controller
 		$servicer = Service::where('room_id', $room->id)->get()->toArray();
 		//this room offer
 		$offer = Offer::where('room_id', $room->id)->get()->toArray();
-		        // dd($offer);
+		// dd($offer);
 
 		// $offerR = Offer::select(
 		// 	[
 		// 		'offers.*',
-			
+
 		// 	]
 		// )
 		// 	->where('room_id', $room->id)
@@ -147,6 +242,7 @@ class RoomController extends Controller
 	}
 	public function destroy(Request $request, Room $room)
 	{
+		Service::where('room_id', $room->id)->delete();
 		$room->delete();
 	}
 }

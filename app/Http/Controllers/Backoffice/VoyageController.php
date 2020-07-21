@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Spatie\MediaLibrary\Models\Media;
 use App\Models\Autocar;
 use App\Models\Programme;
+use App\Models\Reservation;
 use Carbon\Carbon;
 use FarhanWazir\GoogleMaps\GMaps;
 use Spatie\MediaLibrary\MediaCollections\File;
@@ -24,7 +25,6 @@ class VoyageController extends Controller
 {
 	public function voyageAdd(Request $request)
 	{
-
 		request()->validate([
 			'type' => 'required',
 			'nbplace' => 'required',
@@ -49,14 +49,6 @@ class VoyageController extends Controller
 		$Autocar = request()->autocar;
 		$description = request()->description;
 
-
-
-		// $dom = new \DomDocument();
-		// $dom->loadHtml($descriptionn, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);    
-		// $description = $dom->saveHTML();
-
-
-
 		$voyage = new Voyage;
 		$voyage->type = $Type;
 		$voyage->NbPlace = $NbPlace;
@@ -68,10 +60,10 @@ class VoyageController extends Controller
 		$voyage->description = $description;
 		if (empty($Autocar)) {
 			$voyage->autocar_id = null;
-		}else{
+		} else {
 			$voyage->autocar_id = $Autocar;
 		}
-		
+
 		$voyage->prix = $Prix;
 		// $voyage->photo = $Photo;
 		$voyage->save();
@@ -115,12 +107,11 @@ class VoyageController extends Controller
 
 	public function getVoyage($id)
 	{
-
 		$voyages = DB::table('voyages')
 			->where('id', '=', $id)
 			->get();
-			echo json_encode($voyages);
-			// return datatables($voyages)->toJson();
+		echo json_encode($voyages);
+		// return datatables($voyages)->toJson();
 	}
 	public function allvoyages()
 	{
@@ -271,7 +262,7 @@ class VoyageController extends Controller
 
 	public function update(Request $request, $id)
 
-	{	
+	{
 		// request()->validate([
 		// 	'autocar' => 'required',
 		// ]);
@@ -301,7 +292,7 @@ class VoyageController extends Controller
 		// Autocar::where('id',$Autocar)->update(['status' => ' disponible']);
 
 
-		
+
 		//    return response()->json($name);
 
 	}
@@ -320,6 +311,32 @@ class VoyageController extends Controller
 	{
 		Programme::where('voyage_id', $voyage->id)->delete();
 		Autocar::where('id', $voyage->autocar_id)->update(['status' => 'disponiblé']);
+		// $r = Reservation::select('payment_id')->where('hotel_id', $hotel->id)->get()->toArray();
+		// $nb = count($r);
+		// for ($i = 0; $i < $nb; $i++) {
+		// 	Payment::find($r[$i]['payment_id'])->delete();
+		// }
+
+
+
+
+		$r = Reservation::select(
+            [
+				'reservations.*',
+				'reservations.id as res_id',
+				'voyages.*'
+            ]
+        )
+            ->join('voyages_has_reservations', 'voyages_has_reservations.reservation_id', '=','reservations.id')
+			->join('voyages', 'voyages.id', '=', 'voyages_has_reservations.voyage_id')
+			->where('voyages_has_reservations.voyage_id', $voyage->id)
+            ->get()->toArray();
+
+		$nb = count($r);
+		for ($i = 0; $i < $nb; $i++) {
+			Reservation::find($r[$i]['res_id'])->delete();
+		}
+
 		\Spatie\MediaLibrary\Models\Media::where('model_id', $voyage->id)->update(['deleted_at' => now()]);
 		$voyage->delete();
 	}

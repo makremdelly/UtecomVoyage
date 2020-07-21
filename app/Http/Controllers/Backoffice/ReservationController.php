@@ -26,6 +26,11 @@ class ReservationController extends Controller
         return view('reservations');
     }
 
+    public function index_voyage()
+    {
+        return view('reservation_voyages');
+    }
+
     // public function allreservations()
     // {
     //     $reservations = Payment::select(
@@ -55,6 +60,20 @@ class ReservationController extends Controller
             ->join('payments', 'payments.id', '=', 'reservations.payment_id')
             ->join('users', 'users.id', '=', 'reservations.user_id') //
             ->select('reservations.*', 'reservation_id as res_id', 'payments.amount', 'users.name as user_name',  'users.phone', 'users.email as user_email', 'hotels.id as hotel_id', 'hotels.name as hotel_name')
+            ->get()->toArray();
+        return datatables($reservations)->toJson();
+    }
+
+
+
+    public function allreservations_voyages()
+    {
+        $reservations = DB::table('voyages_has_reservations')
+            ->join('reservations', 'reservations.id', '=', 'voyages_has_reservations.reservation_id')
+            ->join('voyages', 'voyages.id', '=', 'voyages_has_reservations.voyage_id')
+            ->join('payments', 'payments.id', '=', 'reservations.payment_id')
+            ->join('users', 'users.id', '=', 'reservations.user_id') //
+            ->select('reservations.*', 'reservation_id as res_id', 'payments.amount', 'users.name as user_name',  'users.phone', 'users.email as user_email', 'voyages.id as voyage_id', 'voyages.type as voyage_type')
             ->get()->toArray();
         return datatables($reservations)->toJson();
     }
@@ -142,7 +161,7 @@ class ReservationController extends Controller
             ]
         )
             ->join('payments', 'payments.id', '=', 'reservations.payment_id')
-            ->join('reservations_has_rooms', 'reservations_has_rooms.reservation_id', '=','reservations.id')
+            ->join('reservations_has_rooms', 'reservations_has_rooms.reservation_id', '=', 'reservations.id')
             ->join('rooms', 'rooms.id', '=', 'reservations_has_rooms.room_id')
             ->join('hotels', 'hotels.id', '=', 'rooms.hotel_id')
             ->join('users', 'users.id', '=', 'reservations.user_id')
@@ -189,6 +208,21 @@ class ReservationController extends Controller
             } else {
                 abort(404);
             }
+        }
+        else if ($url[3] == 'voyages') {
+            if (($resid == $res[0]['id']) && ($hotelid == $res[0]['hotel_id'])) {
+                return view('reservationshow')
+                    ->with([
+                        'reservation'   => $res,
+                        // 'hotel'         => $h,
+                        'rooms'         => $arr,
+                        'offers'        => $offer,
+                        'remise'        => $remise
+                    ]);
+            } else {
+                abort(404);
+            }
+
         }
     }
 

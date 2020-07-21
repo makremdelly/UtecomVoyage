@@ -456,7 +456,7 @@
               <thead>
                 <tr>
                   <th class="me">id</th>
-                  <th class="me">Type</th>
+                  <th class="me" id="notmee">Type</th>
                   <th class="me">Ville de départ</th>
                   <th class="me">Destination</th>
                   <th class="me">Date de départ</th>
@@ -489,6 +489,31 @@
         }
       });
     });
+
+
+    $('#voyages thead tr:eq(0) th#notmee.me ').html(`<select class="form-control" id="types">
+        <option value="">Tous</option>
+        <option value ="Voyages organisés" >Voyages organisés</option>
+        <option value="carte">carte</option>
+        <option value="Circuit Sud">Circuit Sud</option>
+        <option value="Circuit Nord">Circuit Nord</option>
+        <option value="Croisière">Croisière</option>
+        <option value="séjour">séjour</option>
+        <option value="عمرة">عمرة</option>
+      </select>`);
+    $('#types').on('keyup change', function() {
+      if (this.value == null) {
+        table.clear();
+      } else
+      if (table.column(1).search() !== this.value) {
+        table
+          .column(1)
+          .search(this.value)
+          .draw();
+        console.log(this.value);
+      }
+    });
+
 
     var table = $('#voyages').DataTable({
       "language": {
@@ -677,10 +702,37 @@
           data: 'id',
           name: 'id'
         },
+
         {
           data: 'type',
-          name: 'type'
+          name: 'type',
+          "render": function(data, type, row, meta) {
+            switch (row.type) {
+              case 'Voyages organisés':
+                return ('Voyages organisés');
+                break;
+              case 'carte':
+                return ('carte');
+                break;
+                case 'Circuit Sud':
+                return ('Circuit Sud');
+                break;
+                case 'Circuit Nord':
+                return ('Circuit Nord');
+                break;
+                case 'Croisière':
+                return ('Croisière');
+                break;
+                case 'séjour':
+                return ('séjour');
+                break;
+                case 'عمرة':
+                return ('عمرة');
+                break;
+            }
+          }
         },
+
         {
           data: 'villeD',
           name: 'villeD'

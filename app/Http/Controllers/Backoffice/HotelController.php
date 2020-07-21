@@ -54,17 +54,9 @@ class HotelController extends Controller
 			'phone' => 'required',
 			'description' => 'required',
 			'star' => 'required',
-			'address' => 'required'
+			'address' => 'required',
+			'service' => 'required'
 		]);
-
-	// $service = new Service;
-		// $service->name = $servic;
-		// // dd($service);
-
-		// $service->hotel_id = $hotel->id;
-
-		// $service->save();
-
 
 		// $imageName = time().'.'.request()->image->getClientOriginalExtension();
 		$name = request()->name;
@@ -72,6 +64,7 @@ class HotelController extends Controller
 		$description = request()->description;
 		$st = request()->star;
 		$address = request()->address;
+		$servic = request()->service;
 
 		//upload image 
 		$hotel = new Hotel;
@@ -82,6 +75,25 @@ class HotelController extends Controller
 		$hotel->address = $address;
 		$hotel->save();
 
+
+		$service = new Service;
+		$service->name = $servic;
+		$service->hotel_id = $hotel->id;
+		if ($servic = 'WIFI') {
+			$service->description = 'Est maxime voluptatem et perferendis est soluta beatae fugiat. Aut voluptatibus dicta aut sed iure nisi. Perspiciatis nihil consectetur enim delectus.';
+			$service->icon = 'fas fa-wifi';
+		} elseif ($servic = 'ascenseur') {
+			$service->description = 'Sint ullam dolore ut velit quia error. Dolorem et impedit adipisci. Deleniti tenetur quae iusto sed. Et voluptatibus et ut saepe.';
+			$service->icon = 'fas fa-gamepad';
+		} elseif ($servic = 'Salle de Sport') {
+			$service->description = 'Quia eum velit deserunt labore. Tempore quasi impedit ullam ducimus recusandae ab. Aspernatur sapiente hic sed quaerat id neque ut ad. Ex dolorem perspiciatis adipisci iure corrupti explicabo aut.';
+			$service->icon = 'fas fa-swimmer';
+		} elseif ($servic = 'Parking') {
+			$service->description = 'Qui unde voluptas natus perspiciatis quia consequatur aut. Rerum explicabo et aut minus.';
+			$service->icon = 'fas fa-parking';
+		}
+		// dd($service);
+		$service->save();
 		$file = array();
 		$files = request()->file('image');
 		foreach ($files as $file) {
@@ -113,7 +125,7 @@ class HotelController extends Controller
 				DB::raw('(CASE WHEN (COUNT(DISTINCT(rooms.id))<> 0 ) THEN COUNT(DISTINCT(rooms.id)) ELSE 0 END)  as rooms_count'),
 				// DB::raw('(CASE WHEN (COUNT(DISTINCT(reservations.id))<> 0 ) THEN COUNT(DISTINCT(reservations.id)) ELSE 0 END)  as reservations_count'),
 				DB::raw('(CASE WHEN (COUNT(DISTINCT(reservations_has_rooms.reservation_id))<> 0 ) THEN COUNT(DISTINCT(reservations_has_rooms.reservation_id)) ELSE 0 END)  as reservations_count'),
-				]
+			]
 		)
 			->leftJoin('rooms', 'hotels.id', '=', 'rooms.hotel_id')
 			// ->leftJoin('reservations', 'hotels.id', '=', 'reservations.hotel_id')
@@ -152,7 +164,7 @@ class HotelController extends Controller
 			->join('hotels', 'hotels.id', '=', 'rooms.hotel_id')
 			->join('payments', 'payments.id', '=', 'reservations.payment_id')
 			->join('users', 'users.id', '=', 'reservations.user_id') //
-			->select('reservations.*','reservation_id as res_id', 'payments.amount', 'users.name as user_name', 'users.email as user_email', 'reservations.arrival_date', 'reservations.departure_date','hotels.id as hotel_id')
+			->select('reservations.*', 'reservation_id as res_id', 'payments.amount', 'users.name as user_name', 'users.email as user_email', 'reservations.arrival_date', 'reservations.departure_date', 'hotels.id as hotel_id')
 			->where('rooms.hotel_id', $hotel->id)
 			->get()->toArray();
 		return datatables($reservations)->toJson();
@@ -167,7 +179,30 @@ class HotelController extends Controller
 	{
 		//
 	}
+	public function getHotel($id)
+	{
+		$hotels = DB::table('hotels')
+			->where('id', '=', $id)
+			->get();
+			echo json_encode($hotels);
+			// return datatables($hotels)->toJson();
+	}
 
+	public function update(Request $request, $id)
+	{	
+		$hotels = Hotel::find($id);
+		$hotels = Hotel::where('id', '=', $id)->first(); // where id is method param from url or request object
+
+		//    $name = $request->input('nbplace');
+		$hotels->name = $request->input('name');
+		$hotels->stars = $request->input('star');
+		$hotels->phone = $request->input('phone');
+		$hotels->address = $request->input('address1');
+		$hotels->description = $request->input('exampleFormControlTextarea1');
+		$hotels->save();
+		$service= Service::where('hotel_id', $id)->first();
+		$service->name = $request->input('service');
+	}
 	/**
 	 * Store a newly created resource in storage.
 	 *
@@ -247,10 +282,7 @@ class HotelController extends Controller
 	 * @param  \App\Hotel  $hotel
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, Hotel $hotel)
-	{
-		//
-	}
+
 
 	/**
 	 * Remove the specified resource from storage.
@@ -265,12 +297,27 @@ class HotelController extends Controller
 		//     $user->delete();   
 		// }
 		Room::where('hotel_id', $hotel->id)->delete();
+		Service::where('hotel_id', $hotel->id)->delete();
 		\Spatie\MediaLibrary\Models\Media::where('model_id', $hotel->id)->update(['deleted_at' => now()]);
-		$r = Reservation::select('payment_id')->where('hotel_id', $hotel->id)->get()->toArray();
-		$nb = count($r);
-		for ($i = 0; $i < $nb; $i++) {
-			Payment::find($r[$i]['payment_id'])->delete();
-		}
+		// $r = Reservation::select('payment_id')->where('hotel_id', $hotel->id)->get()->toArray();
+		// $nb = count($r);
+		// for ($i = 0; $i < $nb; $i++) {
+		// 	Payment::find($r[$i]['payment_id'])->delete();
+		// }
+		// $r = DB::table('reservations_has_rooms')
+		// 	->join('reservations', 'reservations.id', '=', 'reservations_has_rooms.reservation_id')
+		// 	->join('rooms', 'rooms.id', '=', 'reservations_has_rooms.room_id')
+		// 	->join('hotels', 'hotels.id', '=', 'rooms.hotel_id')
+		// 	->join('payments', 'payments.id', '=', 'reservations.payment_id')
+		// 	->select('reservations.*','reservations.payment_id', 'reservation_id as res_id', 'payments.amount', 'reservations.arrival_date', 'reservations.departure_date', 'hotels.id as hotel_id')
+		// 	->where('rooms.hotel_id', $hotel->id)
+		// 	->get()->toArray();
+
+		// $nb = count($r);
+		// for ($i = 0; $i < $nb; $i++) {
+		// 	Payment::find($r[$i]['payment_id'])->delete();
+		// }
+
 		$hotel->delete();
 	}
 	function hotel()
@@ -282,7 +329,7 @@ class HotelController extends Controller
 	{
 		return view('voyage');
 	}
-	
+
 	function addprogramme(Voyage $voyage)
 	{
 		$r2 = parse_url(URL::current());

@@ -188,7 +188,7 @@
                   <br>
                   <div style="word-spacing: 5px;line-height: 22pt;">
                     <h1 style="margin:0;font-family: monospace; font-size:large	; color: dark;"> À propos </h1>
-                    {{$voyage->description}}
+                    {!! $voyage['description'] !!}
                   </div>
                   <br>
 

@@ -24,6 +24,7 @@ class CreateRoomsTable extends Migration {
 			$table->longText('description')->nullable();
 			$table->boolean('availibility')->nullable();
 			$table->integer('hotel_id')->index('fk_rooms_hotel_idx');
+			$table->double('prixBase', 10, 0)->nullable();
 			$table->timestamps();
 			$table->softDeletes();
 		});

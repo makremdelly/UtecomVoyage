@@ -128,9 +128,9 @@
             @foreach($hotels as $hotel)
             <li class="media">
               @if ($count==0)
-              <img class="mr-3 rounded" width="55" src="../img/nohotel.jpg" alt="product">
+              <img class="mr-3 rounded" width="55" src="../img/nohotel.jpg" alt="alt">
               @elseif($count>1)
-              <img class="mr-3 rounded" width="55" src="../storage/{{$hotel['id']}}/{{$pictures[0]['filename_media']}}" alt="product">
+              <img class="mr-3 rounded" width="55" src="../storage/{{$hotel['id']}}/{{$pictures[0]['filename_media']}}" alt="alt">
               @endif
               <div class="media-body">
                 <div class="float-right">
@@ -205,7 +205,7 @@
       datasets: [{
         label: "Population (millions)",
         backgroundColor: ["#3e95cd", "#8e5ea2"],
-        data: [2478, 5267]
+        data: [450, 320]
       }]
     },
     options: {

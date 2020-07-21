@@ -15,7 +15,7 @@ class UpdateHotelsTable extends Migration
     {
         Schema::table('hotels', function (Blueprint $table) {
             $table->string('country')->nullable();
-            $table->string('administrative')->nullable();
+            // $table->string('administrative')->nullable();
             $table->string('city')->nullable();
             $table->string('postcode')->nullable();
             $table->string('type')->nullable();

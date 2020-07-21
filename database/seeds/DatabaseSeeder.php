@@ -19,10 +19,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ReservationsTableSeeder::class);
         $this->call(MediasTableSeeder::class);
         $this->call(ServicesTableSeeder::class);
-        $this->call(HistoriesTableSeeder::class);
         $this->call(SubscriptionsTableSeeder::class);
         $this->call(VoyagesTableSeeder::class);
         $this->call(AutocarsTableSeeder::class);
+        $this->call(FacturesTableSeeder::class);
 
     }
 }

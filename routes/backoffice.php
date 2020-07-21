@@ -113,7 +113,14 @@ Route::middleware(['web'])->group(function () {
         Route::match(['put', 'patch'],'/reservations/activate/{id}', 'ReservationController@active')->name('reservation.active'); //
         Route::match(['put', 'patch'],'/reservations/refuse/{id}', 'ReservationController@refuse')->name('reservation.refuse'); //
 
+        Route::get('/reservations/voyages', 'ReservationController@index_voyage')->name('reservation.voyage');
+        Route::get('/reservations/voyages/allreservations', 'ReservationController@allreservations_voyages')->name('get.resers_voyages');
 
+        Route::get('/hotel/{id}', 'HotelController@getHotel')->name('hotel.get');
+        Route::post('hotel/update/{id}', 'HotelController@update')->name('hotel.update');
+        Route::post('/addroom', 'RoomController@store')->name('room.store');
+        Route::get('/room/{id}', 'RoomController@getRoom')->name('room.get');
+        Route::post('room/update/{id}', 'RoomController@update')->name('room.update');
 
 
         // Route::get('googlemap', 'MapController@map');

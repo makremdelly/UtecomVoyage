@@ -9,89 +9,71 @@
         <div class="card-body">
           <!-- Start Add Model -->
           <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Ajouter un hôtel </h5>
+                  <h5 class="modal-title" id="exampleModalLabel">Ajouter une chambre </h5>
                   <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
                   <a data-dismiss="modal" class=" btn btn-icon btn-light" aria-label="Close"><i class="fas fa-times"></i></a>
                   <!-- <span aria-hidden="true">&times;</span> -->
                 </div>
-                <form method="POST" action="{{ route('add.post.show') }}" id="signup-form" class="signup-form" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('room.store') }}" id="signup-form" class="signup-form" enctype="multipart/form-data">
                   @csrf
                   <div class="modal-body">
-                    <div class="form-group">
-                      <label>Nom</label>
-                      <input type="text" class="form-control" name="name" />
-                    </div>
-                    <div class="form-group">
-                      <label>Etoiles</label>
-                      <select class="form-control" id="star" name="star">
-                        <option value="">Choisir</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                      </select>
-                    </div>
-                    <label>Téléphone</label>
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <div class="input-group-text">
-                          <i class="fas fa-phone"></i>
-                        </div>
+                    <div class="row">
+                      <div class="form-group col-md-6 col-12"> <label>Nom</label>
+                        <input type="text" class="form-control" name="name" required autofocus />
                       </div>
-                      <input type="text" class="form-control phone-number" pattern="^\+?\s*(\d+\s?){8,}$" name="phone">
-                    </div>
-                    <div class="form-group">
-                      <label>Adresse</label>
-                      <input type="search" id="address" name="address" />
-                    </div>
-                    <div class="form-group">
-                      <label class="form-label">Service</label>
-                      <div class="selectgroup selectgroup-pills">
-                        <label class="selectgroup-item">
-                          <input type="checkbox" name="designation" value="PARKING" class="selectgroup-input" checked="">
-                          <span class="selectgroup-button">PARKING</span>
-                        </label>
-                        <label class="selectgroup-item">
-                          <input type="checkbox" name="designation" value="WIFI" class="selectgroup-input">
-                          <span class="selectgroup-button">WIFI</span>
-                        </label>
-                        <label class="selectgroup-item">
-                          <input type="checkbox" name="designation" value="SALLE DE SPORT" class="selectgroup-input">
-                          <span class="selectgroup-button">SALLE DE SPORT</span>
-                        </label>
-                        <label class="selectgroup-item">
-                          <input type="checkbox" name="designation" value="ASCENSEUR" class="selectgroup-input">
-                          <span class="selectgroup-button">ASCENSEUR</span>
-                        </label>
-                        <label class="selectgroup-item">
-                          <input type="checkbox" name="designation" value="JARDIN" class="selectgroup-input">
-                          <span class="selectgroup-button">JARDIN</span>
-                        </label>
-                        <label class="selectgroup-item">
-                          <input type="checkbox" name="designation" value="Petit-déjeuner" class="selectgroup-input">
-                          <span class="selectgroup-button">Petit-déjeuner</span>
-                        </label>
-                        <label class="selectgroup-item">
-                          <input type="checkbox" name="designation" value="Bagagerie" class="selectgroup-input">
-                          <span class="selectgroup-button">Bagagerie</span>
-                        </label>
-                        <label class="selectgroup-item">
-                          <input type="checkbox" name="designation" value="Climatisation" class="selectgroup-input">
-                          <span class="selectgroup-button">Climatisation</span>
-                        </label>
+                      <div class="form-group col-md-6 col-12">
+                        <label>Vue</label>
+                        <input type="text" class="form-control" name="vue" required autofocus />
                       </div>
                     </div>
-                    <div class="form-group">
-                      <label>Galerie</label>
-                      <input type="file" name="image[]" multiple="multiple" class="form-control" id="picture">
+                    <div class="row">
+                      <div class="form-group col-md-6 col-12">
+                        <label>Type</label>
+                        <select class="form-control" name="type" required autofocus>
+                          <option value="">Tous</option>
+                          <option value="Single">Single</option>
+                          <option value="Double">Double</option>
+                          <option value="Triple">Triple</option>
+                          <option value="Quad">Quad</option>
+                          <option value="Queen">Queen</option>
+                          <option value="King">King</option>
+                        </select>
+                      </div>
+                      <div class="form-group col-md-6 col-12">
+                        <label>Hotel</label>
+                        <select type="text" class="form-control" name="hotel">
+                          <option value='0'>Tous les hotels</option>
+                          @php
+                          $hotels = \App\Models\Hotel::all();
+                          @endphp
+                          @foreach ($hotels as $hotel)
+                          <option value="{{$hotel->id}}">{{$hotel->name}}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-6 col-12"> <label>Galerie</label>
+                        <input type="file" name="image[]" multiple="multiple" class="form-control" id="picture" required autofocus>
+                      </div>
+                      <div class="form-group col-md-6 col-12">
+                        <label>Service</label>
+                        <select class="form-control" name="service" id="service" required autofocus>
+                          <option value="">Choisir</option>
+                          <option value="WIFI">WIFI</option>
+                          <option value="ascenseur">ascenseur</option>
+                          <option value="Salle de Sport">Salle de Sport</option>
+                          <option value="Parking">Parking</option>
+                          <option value="jardin">jardin</option>
+                        </select>
+                      </div>
                     </div>
                     <div class="form-group">
                       <label>Description de l'hotel</label>
-                      <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3"></textarea>
+                      <textarea class="form-control" name="description" rows="3" required autofocus></textarea>
                     </div>
                   </div>
                   <div class="modal-footer">
@@ -103,7 +85,89 @@
             </div>
           </div>
           <!-- End Add Model -->
-  
+
+
+          <!-- Start edit Model -->
+          <div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Ajouter une chambre </h5>
+                  <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
+                  <a data-dismiss="modal" class=" btn btn-icon btn-light" aria-label="Close"><i class="fas fa-times"></i></a>
+                  <!-- <span aria-hidden="true">&times;</span> -->
+                </div>
+                <form method="post" id="editForm" class="signup-form" enctype="multipart/form-data">
+                  <div class="modal-body">
+                    <div class="row">
+                      <div class="form-group col-md-6 col-12"> <label>Nom</label>
+                        <input type="text" class="form-control" name="name" id="name" required autofocus />
+                      </div>
+                      <div class="form-group col-md-6 col-12">
+                        <label>Vue</label>
+                        <input type="text" class="form-control" name="vue" id="vue" required autofocus />
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-6 col-12">
+                        <label>Type</label>
+                        <select class="form-control" name="type" id="type" required autofocus>
+                          <option value="">Tous</option>
+                          <option value="Single">Single</option>
+                          <option value="Double">Double</option>
+                          <option value="Triple">Triple</option>
+                          <option value="Quad">Quad</option>
+                          <option value="Queen">Queen</option>
+                          <option value="King">King</option>
+                        </select>
+                      </div>
+                      <div class="form-group col-md-6 col-12">
+                        <label>Hotel</label>
+                        <select type="text" class="form-control" name="hotel" id="hotel" required autofocus>
+                          <option value='0'>Tous les hotels</option>
+                          @php
+                          $hotels = \App\Models\Hotel::all();
+                          @endphp
+                          @foreach ($hotels as $hotel)
+                          <option value="{{$hotel->id}}">{{$hotel->name}}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-6 col-12"> <label>Galerie</label>
+                        <input type="file" name="image[]" multiple="multiple" class="form-control" id="picture" required autofocus>
+                      </div>
+                      <div class="form-group col-md-6 col-12">
+                        <label>Service</label>
+                        <select class="form-control" name="service" id="service" required autofocus>
+                          <option value="">Choisir</option>
+                          <option value="WIFI">WIFI</option>
+                          <option value="ascenseur">ascenseur</option>
+                          <option value="Salle de Sport">Salle de Sport</option>
+                          <option value="Parking">Parking</option>
+                          <option value="jardin">jardin</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Description de l'hotel</label>
+                      <textarea class="form-control" name="description" id="description" rows="3" required autofocus></textarea>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <input type="hidden" name="roomId" id="roomId">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- End edit Model -->
+
+
+
           <div class="table-responsive">
             <div align="right">
               <div class="buttons"><b data-toggle="tooltip" data-original-title="Cliquez ici pour ajouter un hôtel"><button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-plus" style="font-size: smaller;"></i></button></b></div>
@@ -157,7 +221,7 @@
         <option value="Queen">Queen</option>
         <option value="King">King</option>
       </select>`);
-      $('#dispo').on('keyup change', function() {
+    $('#dispo').on('keyup change', function() {
       if (this.value == null) {
         table.clear();
       } else
@@ -248,6 +312,77 @@
               }
             });
         })
+
+
+        // Update Data
+
+        $.ajaxSetup({
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+          });
+
+        function getRoom(id) {
+          $.ajax({
+            url: 'http://utecom.test/room/' + id,
+            method: 'GET',
+            success: function(data) {
+              console.log(' typpeof ', typeof data)
+              data = JSON.parse(data);
+              console.log(' typpeof2 ', typeof data)
+              $("#roomId").val(data[0].id);
+              $("#name").val(data[0].name);
+              $("#vue").val(data[0].vue);
+              $("#type").val(data[0].type).change();
+              $("#hotel").val(data[0].hotel_id).change();
+              $("#service").val(data[0].name).change();
+              $("#description").val(data[0].description);
+            }
+          });
+        }
+
+        $('button[href="#myModal"]').on('click', function() {
+          console.log("clicked");
+          var id = $(this).val();
+          getRoom(id);
+        });
+        $('#editForm').on('submit', function(e) {
+          e.preventDefault();
+
+          var id = $('#roomId').val();
+          console.log($('#editForm').serialize());
+          $.ajax({
+            type: "POST",
+            url: "/room/update/" + id,
+            data: $('#editForm').serialize(),
+
+            success: function(response) {
+              console.log()
+              console.log(response);
+              $('#myModal').modal('hide'); //close model
+              setTimeout(function() {
+                window.location = window.location
+              }, 3000);
+              let text2 = "Bien ,votre changement a été effectuée avec succès"
+              swal({
+                title: "Termié",
+                icon: "success",
+                text: text2,
+                timer: 4000,
+                buttons: false,
+                closeOnEsc: false,
+                closeOnClickOutside: false,
+              });
+
+            },
+            error: function(error, status) {
+              console.log(error);
+              console.log(status);
+            }
+          });
+        });
+
+
       },
       serverSide: true,
       processing: true,
@@ -269,7 +404,7 @@
             if (row.disponibility) {
               // return ('<span class="disponibility">non disponible</span>');
               return ('<div class="badge badge-danger">Réservé</div>');
-            }else{
+            } else {
               // return ('<span class="disponibility"> disponible</span>');
               return ('<div class="badge badge-success">Non réservé</div>');
             }
@@ -309,7 +444,7 @@
               case 'Queen':
                 return ('<b data-toggle="tooltip" title="" data-original-title="Queen"><i class="fas fa-chess-queen"></i></b>');
                 break;
-                case 'King':
+              case 'King':
                 return ('<b data-toggle="tooltip" title="" data-original-title="King"><i class="fas fa-chess-king"></i></b>');
                 break;
             }
@@ -325,18 +460,13 @@
         },
         {
           "render": function(data, type, row, meta) {
-            return ('<div class="btn-group"><a href="/room/' + row.id + '" class="btn btn-icon icon-left btn-primary"><i class="fas fa-eye"></i>Voir</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><form method="post" action="/rooms/destroy/' + row.id + '">{{ method_field('DELETE') }}<input type="hidden" name="_token" value="{{ csrf_token() }}"><div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><button class="dropdown-item btn btn-icon icon-left btn-danger delete-row" style="width:100px;position: inherit;left: 51px;" type="submit" value="' + row.id + '"><i class="far fa-trash-alt"></i> Supprimer</button></div></form></div>');
+            // return ('<div class="btn-group"><a href="/room/' + row.id + '" class="btn btn-icon icon-left btn-primary"><i class="fas fa-eye"></i>Voir</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><form method="post" action="/rooms/destroy/' + row.id + '">{{ method_field('DELETE ') }}<input type="hidden" name="_token" value="{{ csrf_token() }}"><div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><button class="dropdown-item btn btn-icon icon-left btn-danger delete-row" style="width:100px;position: inherit;left: 51px;" type="submit" value="' + row.id + '"><i class="far fa-trash-alt"></i> Supprimer</button></div></form></div>');
+            return ('<div class="btn-group"><a href="/room/' + row.id + '" class="btn btn-icon icon-left btn-primary"><i class="fas fa-eye"></i>Voir</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button> <div class="dropdown-menu"  x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><div class="btn-group-vertical" style="width:100px;position: inherit;left: 51px;" role="group" aria-label="Basic example"><button href="#myModal" data-toggle="modal" class="dropdown-item btn btn-icon icon-left btn-info " id="' + row.id + '" value="' + row.id + '" ><i class="far fa-edit"></i> Modifier</button><button class="dropdown-item btn btn-icon icon-left btn-danger delete-row"  type="submit" value="' + row.id + '"><i class="far fa-trash-alt"></i> Supprimer</button></div></div></div></div>');
+
           },
         }
       ],
     });
-  });
-</script>
-<script>
-  var placesAutocomplete = places({
-    appId: 'plCZUMZQD4ER',
-    apiKey: 'de73017c39b308492fe22873f2b059ad',
-    container: document.querySelector('#address')
   });
 </script>
 @endsection

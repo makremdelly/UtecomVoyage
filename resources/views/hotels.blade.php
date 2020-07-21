@@ -9,7 +9,7 @@
         <div class="card-body">
           <!-- Start Add Model -->
           <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-lg">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLabel">Ajouter un hôtel </h5>
@@ -20,73 +20,62 @@
                 <form method="POST" action="{{ route('add.post.show') }}" id="signup-form" class="signup-form" enctype="multipart/form-data">
                   @csrf
                   <div class="modal-body">
-                  <div class="row">
-                      <div class="form-group col-md-6 col-12">                      <label>Nom</label>
-                      <input type="text" class="form-control" name="name" required autofocus />
-                    </div>
-                    <div class="form-group col-md-6 col-12">
-                      <label>Etoiles</label>
-                      <select class="form-control" id="star" name="star" required autofocus>
-                        <option value="">Choisir</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                      </select>
-                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-6 col-12"> <label>Nom</label>
+                        <input type="text" class="form-control" name="name" required autofocus />
+                      </div>
+                      <div class="form-group col-md-6 col-12">
+                        <label>Etoiles</label>
+                        <select class="form-control" name="star" required autofocus>
+                          <option value="">Choisir</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                        </select>
+                      </div>
                     </div>
                     <div class="row">
                       <div class="form-group col-md-6 col-12">
-                    <label>Téléphone</label>
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <div class="input-group-text">
-                          <i class="fas fa-phone"></i>
+                        <label>Téléphone</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <i class="fas fa-phone"></i>
+                            </div>
+                          </div>
+                          <input type="text" class="form-control phone-number" pattern="^\+?\s*(\d+\s?){8,}$" name="phone" required autofocus>
                         </div>
                       </div>
-                      <input type="text" class="form-control phone-number" pattern="^\+?\s*(\d+\s?){8,}$" name="phone" required autofocus>
-                    </div>
-                    </div>
 
-                    <!-- <div class="form-group">
-                    <label class="form-label">Adresse</label>
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <div class="input-group-text">
-                            <i class="fas fa-map-marker-alt"></i>
-                          </div>
-                        </div> -->
-                    <!-- <input type="text" class="form-control" name="address" /> -->
-                    <!-- <input type="search" id="address" name="address" />
+                      <div class="form-group col-md-6 col-12">
+                        <label>Adresse</label>
+                        <input type="search" id="address" name="address" required autofocus />
                       </div>
-                    </div> -->
-                    <div class="form-group col-md-6 col-12">
-                      <label>Adresse</label>
-                      <input type="search" id="address" name="address" required autofocus />
-                    </div>
                     </div>
 
-                  
-                    <div class="form-group">
-                      <label>Galerie</label>
-                      <input type="file" name="image[]" multiple="multiple" class="form-control" id="picture" required autofocus>
+                    <div class="row">
+                      <div class="form-group col-md-6 col-12"> <label>Galerie</label>
+                        <input type="file" name="image[]" multiple="multiple" class="form-control" id="picture" required autofocus>
+                      </div>
+                      <div class="form-group col-md-6 col-12">
+                        <label>Service</label>
+                        <select class="form-control" name="service" id="service" required autofocus>
+                          <option value="">Choisir</option>
+                          <option value="WIFI">WIFI</option>
+                          <option value="ascenseur">ascenseur</option>
+                          <option value="Salle de Sport">Salle de Sport</option>
+                          <option value="Parking">Parking</option>
+                          <option value="jardin">jardin</option>
+                        </select>
+                      </div>
                     </div>
-                    
-                    <div class="form-group">
-                      <label class="form-label">Service</label>
-                      <form method="post" id="dynamic_form">
-                        @csrf
-                        <span id="result"></span>
-                        <table class="table">
-                          <tbody>
-                          </tbody>
-                        </table>
-                      </form>
-                    </div>
+
+
                     <div class="form-group">
                       <label>Description de l'hotel</label>
-                      <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" required autofocus></textarea>
+                      <textarea class="form-control" name="description" rows="3" required autofocus></textarea>
                     </div>
                   </div>
                   <div class="modal-footer">
@@ -98,6 +87,91 @@
             </div>
           </div>
           <!-- End Add Model -->
+
+
+          <!-- Start Edit Model -->
+          <div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Modifier un hotel</h5>
+                  <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
+                  <a data-dismiss="modal" class=" btn btn-icon btn-light" aria-label="Close"><i class="fas fa-times"></i></a>
+                  <!-- <span aria-hidden="true">&times;</span> -->
+                  </button>
+                </div>
+                <form method="post" id="editForm" class="signup-form" enctype="multipart/form-data">
+                  <div class="modal-body">
+
+                    <div class="row">
+                      <div class="form-group col-md-6 col-12"> <label>Nom</label>
+                        <input type="text" class="form-control" name="name" id="name" required autofocus />
+                      </div>
+                      <div class="form-group col-md-6 col-12">
+                        <label>Etoiles</label>
+                        <select class="form-control" id="star" name="star" required autofocus>
+                          <option value="">Choisir</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-6 col-12">
+                        <label>Téléphone</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <i class="fas fa-phone"></i>
+                            </div>
+                          </div>
+                          <input type="text" class="form-control phone-number" pattern="^\+?\s*(\d+\s?){8,}$" name="phone" id="phone" required autofocus>
+                        </div>
+                      </div>
+                      <div class="form-group col-md-6 col-12">
+                        <label>Adresse</label>
+                        <input type="search" id="address1" name="address" required autofocus />
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-6 col-12"> <label>Galerie</label>
+                        <input type="file" name="image[]" multiple="multiple" class="form-control" id="picture" required autofocus>
+                      </div>
+                      <div class="form-group col-md-6 col-12">
+                        <label>Service</label>
+                        <select class="form-control" name="service" id="service" required autofocus>
+                          <option value="">Choisir</option>
+                          <option value="WIFI">WIFI</option>
+                          <option value="ascenseur">ascenseur</option>
+                          <option value="Salle de Sport">Salle de Sport</option>
+                          <option value="Parking">Parking</option>
+                          <option value="jardin">jardin</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Description de l'hotel</label>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" required autofocus></textarea>
+                    </div>
+                  </div>
+
+                  <div class="modal-footer">
+                    <input type="hidden" name="hotelId" id="hotelId">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary">Modifier</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- End Edit Model -->
+
+
+
+
           <div class="table-responsive">
             <div align="right">
               <div class="buttons"><b data-toggle="tooltip" data-original-title="Cliquez ici pour ajouter un hôtel"><button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-plus" style="font-size: smaller;"></i></button></b></div>
@@ -126,58 +200,6 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script>
   $(document).ready(function() {
-
-
-
-
-
-
-
-
-
-    var count = 1;
-
-    dynamic_field(count);
-
-    function dynamic_field(number) {
-      html = '<tr>';
-      html += '<td><input type="text" name="name[]" class="form-control" /></td>';
-      html += '<td><input type="text" name="description[]" class="form-control" /></td>';
-      html += '<td>  <select class="form-control" name="icon" required><option value="fas fa-parking"><i class="fas fa-parking"></i></option><option value="fas fa-wifi"><i class="fas fa-wifi"></i></option><option value="fas fa-tree"><i class="fas fa-tree"></i></option></select></td>';
-
-
-      
-      if (number > 1) {
-        html += '<td><button type="button" name="remove" id="" class="btn btn-danger remove"><i class="fas fa-times"></i></button></td></tr>';
-        $('tbody').append(html);
-      } else {
-        html += '<td><button type="button" name="add" id="add" class="btn btn-success"><i class="fas fa-plus" ></i></button></td></tr>';
-        $('tbody').html(html);
-      }
-    }
-
-    $(document).on('click', '#add', function() {
-      count++;
-      dynamic_field(count);
-    });
-
-    $(document).on('click', '.remove', function() {
-      count--;
-      $(this).closest("tr").remove();
-    });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     // Setup - add a text input to each footer cell
     $('#example thead tr ').clone(true).appendTo('#example thead');
@@ -291,7 +313,78 @@
               }
             });
         })
+
+
+
+        // Update Data
+
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+
+        function getHotel(id) {
+          $.ajax({
+            url: 'http://utecom.test/hotel/' + id,
+            method: 'GET',
+            success: function(data) {
+              console.log(' typpeof ', typeof data)
+              data = JSON.parse(data);
+              console.log(' typpeof2 ', typeof data)
+              $("#hotelId").val(data[0].id);
+              $("#name").val(data[0].name);
+              $("#star").val(data[0].stars).change();
+              $("#phone").val(data[0].phone);
+              $("#address1").val(data[0].address);
+              $("#service").val(data[0].name).change();
+              $("#exampleFormControlTextarea1").val(data[0].description);
+            }
+          });
+        }
+
+        $('button[href="#myModal"]').on('click', function() {
+          console.log("clicked");
+          var id = $(this).val();
+          getHotel(id);
+        });
+        $('#editForm').on('submit', function(e) {
+          e.preventDefault();
+
+          var id = $('#hotelId').val();
+          console.log($('#editForm').serialize());
+          $.ajax({
+            type: "POST",
+            url: "/voyage/update/" + id,
+            data: $('#editForm').serialize(),
+
+            success: function(response) {
+              console.log()
+              console.log(response);
+              $('#myModal').modal('hide'); //close model
+              setTimeout(function() {
+                window.location = window.location
+              }, 3000);
+              let text2 = "Bien ,votre changement a été effectuée avec succès"
+              swal({
+                title: "Termié",
+                icon: "success",
+                text: text2,
+                timer: 4000,
+                buttons: false,
+                closeOnEsc: false,
+                closeOnClickOutside: false,
+              });
+
+            },
+            error: function(error, status) {
+              console.log(error);
+              console.log(status);
+            }
+          });
+        });
       },
+
       serverSide: true,
       processing: true,
       "ajax": {
@@ -350,7 +443,9 @@
         },
         {
           "render": function(data, type, row, meta) {
-            return ('<div class="btn-group"><a href="/hotels/' + row.id + '" class="btn btn-icon icon-left btn-primary"><i class="fas fa-eye"></i>Voir</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><form method="post" action="/hotels/destroy/' + row.id + '">{{ method_field('DELETE ') }}<input type="hidden" name="_token" value="{{ csrf_token() }}"><div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><button class="dropdown-item btn btn-icon icon-left btn-danger delete-row" style="width:100px;position: inherit;left: 51px;" type="submit" value="' + row.id + '"><i class="far fa-trash-alt"></i> Supprimer</button></div></form></div>');
+            // return ('<div class="btn-group"><a href="/hotels/' + row.id + '" class="btn btn-icon icon-left btn-primary"><i class="fas fa-eye"></i>Voir</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><form method="post" action="/hotels/destroy/' + row.id + '">{{ method_field('DELETE ') }}<input type="hidden" name="_token" value="{{ csrf_token() }}"><div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><button class="dropdown-item btn btn-icon icon-left btn-danger delete-row" style="width:100px;position: inherit;left: 51px;" type="submit" value="' + row.id + '"><i class="far fa-trash-alt"></i> Supprimer</button></div></form></div>');
+            // return ('<div class="btn-group"><a href="/hotels/' + row.id + '" class="btn btn-icon icon-left btn-primary"><i class="fas fa-eye"></i>Voir</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button> <div class="dropdown-menu"  x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><div class="btn-group-vertical" style="width:100px;position: inherit;left: 51px;" role="group" aria-label="Basic example"><button href="#myModal" data-toggle="modal" class="dropdown-item btn btn-icon icon-left btn-info " id="' + row.id + '" value="' + row.id + '" ><i class="far fa-edit"></i> Modifier</button><form method="post" action="/hotels/destroy/' + row.id + '">{{ method_field('DELETE ') }}<input type="hidden" name="_token" value="{{ csrf_token() }}"><button class="dropdown-item btn btn-icon icon-left btn-danger delete-row" type="submit" value="' + row.id + '"><i class="far fa-trash-alt"></i> Supprimer</button></form></div></div></div></div>');
+            return ('<div class="btn-group"><a href="/hotels/' + row.id + '" class="btn btn-icon icon-left btn-primary"><i class="fas fa-eye"></i>Voir</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button> <div class="dropdown-menu"  x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><div class="btn-group-vertical" style="width:100px;position: inherit;left: 51px;" role="group" aria-label="Basic example"><button href="#myModal" data-toggle="modal" class="dropdown-item btn btn-icon icon-left btn-info " id="' + row.id + '" value="' + row.id + '" ><i class="far fa-edit"></i> Modifier</button><button class="dropdown-item btn btn-icon icon-left btn-danger delete-row"  type="submit" value="' + row.id + '"><i class="far fa-trash-alt"></i> Supprimer</button></div></div></div></div>');
           },
         }
       ],
@@ -362,6 +457,11 @@
     appId: 'plCZUMZQD4ER',
     apiKey: 'de73017c39b308492fe22873f2b059ad',
     container: document.querySelector('#address')
+  });
+  var placesAutocomplete = places({
+    appId: 'plCZUMZQD4ER',
+    apiKey: 'de73017c39b308492fe22873f2b059ad',
+    container: document.querySelector('#address1')
   });
 </script>
 @endsection

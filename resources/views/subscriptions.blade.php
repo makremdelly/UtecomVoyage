@@ -11,7 +11,7 @@
             <table id="subscriptions" class="table table-hover table-responsive-sm" style="width:100%">
               <thead>
                 <tr>
-                  <!-- <th class="me" style="width: 40px;">#</th> -->
+                  <th class="me" style="width: 40px;">#</th>
                   <th class="me" id="notmee" style="width:100 px;">Status</th>
                   <th class="me" style="width: 40px;">#</th>
                   <th class="me">Client</th>
@@ -81,12 +81,12 @@
         }
       });
     });
-    $('#subscriptions thead tr:eq(0) th#notmee.me ').html(`<select class="form-control" id="paid">
+    $('#subscriptions thead tr:eq(0) th#notmee.me ').html(`<select class="form-control" id="statut">
         <option value="">Tous</option>
-        <option value="payé">Payé</option>
+        <option value ="payé" >Payé</option>
         <option value="non paye">Non payé</option>
       </select>`);
-    $('#paid').on('keyup change', function() {
+    $('#statut').on('keyup change', function() {
       if (this.value == null) {
         table.clear();
       } else
@@ -95,6 +95,7 @@
           .column(0)
           .search(this.value)
           .draw();
+        console.log(this.value);
       }
     });
     var table = $('#subscriptions').DataTable({
@@ -505,19 +506,8 @@ Contacter sur +216 99 455 055
 
       columns: [
         // { data: 'id', name: 'id' },
-        // {
-        //   data: 'amount',
-        //   name: 'amount',
-        //   "render": function(data, type, row, meta) {
-
-        //     if (row.paid == NULL) {
-        //       return ('<div class="badge badge-danger">Non payé</div>');
-        //     } else {
-        //       return ('<div class="badge badge-success">Payé</div>');
-        //     }
-        //   }
-        // },
         {
+          "visible": false,
           data: 'paid',
           name: 'paid',
           "render": function(data, type, row, meta) {
@@ -532,11 +522,23 @@ Contacter sur +216 99 455 055
           }
         },
         {
+          data: 'amount',
+          name: 'amount',
+          "render": function(data, type, row, meta) {
+
+            if (row.amount == null) {
+              return ('<div class="badge badge-danger">Non payé</div>');
+            } else {
+              return ('<div class="badge badge-success">Payé</div>');
+            }
+          }
+        },
+        {
           data: 'id',
           name: 'id',
           "render": function(data, type, row, meta) {
-                return ('<div class="text-primary" style="font-family: monospace;font-size: large;">Réf00'+ row.id +'</div>');
-            }
+            return ('<div class="text-primary" style="font-family: monospace;font-size: large;">Réf00' + row.id + '</div>');
+          }
         },
         {
           data: 'user_name',
@@ -561,10 +563,10 @@ Contacter sur +216 99 455 055
 
             if (row.amount == null) {
               // return ('<div class="badge badge-danger">Non payé</div>')
-              return ('<div class="btn-group"><a href="/history/' + row.user_id + '" class="btn btn-icon icon-left btn-outline-primary">Détail</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu"  x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><div class="btn-group-vertical" style="width:96px;position: inherit;left: 56px;" role="group" aria-label="Basic example"><button href="#myModal" class="dropdown-item btn btn-icon icon-left btn-success" data-toggle="modal" data-target=".bd-example-modal-lg" value="' + row.id + '"><i class="far fa-check-circle"></i> Activer</button><button class="dropdown-item btn btn-icon icon-left btn-warning brappelle"  value="' + row.id + ',' + row.user_email + '|' + row.user_name + '" ><i class="fas fa-stopwatch"></i> Rappel</button></div></div></div>');
+              return ('<div class="btn-group"><a href="/history/' + row.user_id + '" class="btn btn-icon icon-left btn-outline-primary">Historique</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu"  x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><div class="btn-group-vertical" style="width:124px;position: inherit;left: 30px;" role="group" aria-label="Basic example"><button href="#myModal" class="dropdown-item btn btn-icon icon-left btn-success" data-toggle="modal" data-target=".bd-example-modal-lg" value="' + row.id + '"><i class="far fa-check-circle"></i> Activer</button><button class="dropdown-item btn btn-icon icon-left btn-warning brappelle"  value="' + row.id + ',' + row.user_email + '|' + row.user_name + '" ><i class="fas fa-stopwatch"></i> Rappel</button></div></div></div>');
             } else {
               // return ('<div class="btn-group"><a href="/history/' + row.user_id + '" class="btn btn-icon icon-left btn-outline-primary"><i class="fas fa-eye"></i>Voir</a><button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; top: 0px; left: 0px; will-change: transform; padding: 0px; width:0;"><button href="#modal" class="dropdown-item btn btn-icon icon-left btn-info" style="width:100px;position: inherit;left: 51px;" type="submit" style="cursor:grab;" value="' + row.id + '"><i class="fas fa-edit"></i> Éditer</button></div>');
-              return('<a href="/history/' + row.user_id + '" class="btn btn-icon icon-left btn-outline-primary" style="width:96px;position: inherit;left: 53px;" value="'+row.id+'">Détail</a>');
+              return ('<a href="/history/' + row.user_id + '" class="btn btn-icon icon-left btn-outline-primary" style="width:120px;position: inherit;left: 53px;" value="' + row.id + '">Historique</a>');
             }
           }
         },

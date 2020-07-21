@@ -152,6 +152,7 @@ class SubscriptionController extends Controller
     public function show(Request $request, $user_id)
     {
         $res = $this->getReservation($user_id);
+        // dd($res);
 
         $histories = Reservation::select(
             [
@@ -164,7 +165,9 @@ class SubscriptionController extends Controller
             ]
         )
             ->where('users.id', $user_id)
-            ->leftJoin('hotels', 'hotels.id', '=', 'reservations.hotel_id')
+            ->join('reservations_has_rooms', 'reservations_has_rooms.reservation_id', '=', 'reservations.id')
+            ->join('rooms', 'rooms.id', '=', 'reservations_has_rooms.room_id')
+            ->join('hotels', 'hotels.id', '=', 'rooms.hotel_id')
             ->join('users', 'users.id', '=', 'reservations.user_id')
             ->join('payments', 'payments.id', '=', 'reservations.payment_id')
             ->get()->toArray();
@@ -227,10 +230,10 @@ class SubscriptionController extends Controller
             ->join('payments', 'payments.id', '=', 'reservations.payment_id')
             ->where('reservations.id', $id)
             ->update(['amount' => $amount]);
-           
+
         Reservation::where('id', $id)
-        ->where('status', 'En attente de paiement')
-        ->update(['status' => 'Acceptée']);
+            ->where('status', 'En attente de paiement')
+            ->update(['status' => 'Acceptée']);
     }
 
     /**
